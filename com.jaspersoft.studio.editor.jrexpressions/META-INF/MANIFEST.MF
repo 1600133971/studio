@@ -14,7 +14,7 @@ Require-Bundle: com.jaspersoft.studio;bundle-version="6.20.6";visibility:=reexpo
  org.eclipse.emf.ecore,
  org.eclipse.emf.common,
  org.antlr.runtime
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: com.jaspersoft.studio.editor.jrexpressions,
  com.jaspersoft.studio.editor.jrexpressions.formatting,
  com.jaspersoft.studio.editor.jrexpressions.functions,

@@ -7,7 +7,7 @@ Bundle-Version: 6.20.6.final
 Bundle-Activator: com.jaspersoft.studio.svimporter.activator.Activator
 Bundle-Localization: plugin
 Bundle-Vendor: Cloud Software Group, Inc.
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: patch-library.jar,
  .
