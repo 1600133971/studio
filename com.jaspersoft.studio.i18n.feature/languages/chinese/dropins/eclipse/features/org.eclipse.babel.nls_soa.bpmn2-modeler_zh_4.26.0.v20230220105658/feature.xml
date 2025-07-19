@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<feature
+	id="org.eclipse.babel.nls_soa.bpmn2-modeler_zh"
+	label="Babel Language Pack for soa.bpmn2-modeler in Chinese (Simplified) (20.95%)"
+	image="eclipse_update_120.jpg"
+	provider-name="%providerName"
+	version="4.26.0.v20230220105658">
+	<copyright>
+		%copyright
+	</copyright>
+	<license url="%licenseURL">
+		%license
+	</license>
+	<description>Babel Language Pack for soa.bpmn2-modeler in Chinese (Simplified)</description>
+	<plugin fragment="true" id="org.eclipse.bpmn2.modeler.core.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="6867" install-size="6867" />
+	<plugin fragment="true" id="org.eclipse.bpmn2.modeler.examples.customtask.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1469" install-size="1469" />
+	<plugin fragment="true" id="org.eclipse.bpmn2.modeler.examples.datatypes.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1500" install-size="1500" />
+	<plugin fragment="true" id="org.eclipse.bpmn2.modeler.examples.dynamic.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1463" install-size="1463" />
+	<plugin fragment="true" id="org.eclipse.bpmn2.modeler.examples.modelreader.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1466" install-size="1466" />
+	<plugin fragment="true" id="org.eclipse.bpmn2.modeler.help.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1453" install-size="1453" />
+	<plugin fragment="true" id="org.eclipse.bpmn2.modeler.runtime.jboss.jbpm.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="6834" install-size="6834" />
+	<plugin fragment="true" id="org.eclipse.bpmn2.modeler.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="15044" install-size="15044" />
+</feature>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<feature
+	id="org.eclipse.babel.nls_technology.jgit_zh"
+	label="Babel Language Pack for technology.jgit in Chinese (Simplified) (3.75%)"
+	image="eclipse_update_120.jpg"
+	provider-name="%providerName"
+	version="4.26.0.v20230220105658">
+	<copyright>
+		%copyright
+	</copyright>
+	<license url="%licenseURL">
+		%license
+	</license>
+	<description>Babel Language Pack for technology.jgit in Chinese (Simplified)</description>
+	<plugin fragment="true" id="org.eclipse.jgit.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2532" install-size="2532" />
+	<plugin fragment="true" id="org.eclipse.jgit.pgm.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2662" install-size="2662" />
+	<plugin fragment="true" id="org.eclipse.jgit.ssh.apache.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2349" install-size="2349" />
+	<plugin fragment="true" id="org.eclipse.jgit.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2024" install-size="2024" />
+</feature>

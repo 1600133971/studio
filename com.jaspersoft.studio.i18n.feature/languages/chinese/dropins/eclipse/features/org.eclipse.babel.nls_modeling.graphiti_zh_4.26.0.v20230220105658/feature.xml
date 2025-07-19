@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<feature
+	id="org.eclipse.babel.nls_modeling.graphiti_zh"
+	label="Babel Language Pack for modeling.graphiti in Chinese (Simplified) (23.49%)"
+	image="eclipse_update_120.jpg"
+	provider-name="%providerName"
+	version="4.26.0.v20230220105658">
+	<copyright>
+		%copyright
+	</copyright>
+	<license url="%licenseURL">
+		%license
+	</license>
+	<description>Babel Language Pack for modeling.graphiti in Chinese (Simplified)</description>
+	<plugin fragment="true" id="org.eclipse.graphiti.examples.chess.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1504" install-size="1504" />
+	<plugin fragment="true" id="org.eclipse.graphiti.examples.common.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2226" install-size="2226" />
+	<plugin fragment="true" id="org.eclipse.graphiti.examples.composite.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1491" install-size="1491" />
+	<plugin fragment="true" id="org.eclipse.graphiti.examples.filesystem.mm.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1506" install-size="1506" />
+	<plugin fragment="true" id="org.eclipse.graphiti.examples.filesystem.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1507" install-size="1507" />
+	<plugin fragment="true" id="org.eclipse.graphiti.examples.tutorial.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2202" install-size="2202" />
+	<plugin fragment="true" id="org.eclipse.graphiti.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2209" install-size="2209" />
+	<plugin fragment="true" id="org.eclipse.graphiti.pattern.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1494" install-size="1494" />
+	<plugin fragment="true" id="org.eclipse.graphiti.tools.newprojectwizard.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2823" install-size="2823" />
+	<plugin fragment="true" id="org.eclipse.graphiti.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2977" install-size="2977" />
+</feature>

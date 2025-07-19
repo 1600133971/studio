@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<feature
+	id="org.eclipse.babel.nls_tools.cdt_zh"
+	label="Babel Language Pack for tools.cdt in Chinese (Simplified) (65.64%)"
+	image="eclipse_update_120.jpg"
+	provider-name="%providerName"
+	version="4.26.0.v20230220105658">
+	<copyright>
+		%copyright
+	</copyright>
+	<license url="%licenseURL">
+		%license
+	</license>
+	<description>Babel Language Pack for tools.cdt in Chinese (Simplified)</description>
+	<plugin fragment="true" id="org.eclipse.cdt.autotools.core.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="7919" install-size="7919" />
+	<plugin fragment="true" id="org.eclipse.cdt.autotools.docs.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1455" install-size="1455" />
+	<plugin fragment="true" id="org.eclipse.cdt.autotools.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="20350" install-size="20350" />
+	<plugin fragment="true" id="org.eclipse.cdt.build.crossgcc.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2850" install-size="2850" />
+	<plugin fragment="true" id="org.eclipse.cdt.build.gcc.core.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2731" install-size="2731" />
+	<plugin fragment="true" id="org.eclipse.cdt.build.gcc.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="3164" install-size="3164" />
+	<plugin fragment="true" id="org.eclipse.cdt.cmake.core.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2978" install-size="2978" />
+	<plugin fragment="true" id="org.eclipse.cdt.cmake.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="3119" install-size="3119" />
+	<plugin fragment="true" id="org.eclipse.cdt.codan.checkers.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="3065" install-size="3065" />
+	<plugin fragment="true" id="org.eclipse.cdt.codan.checkers.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="3608" install-size="3608" />
+	<plugin fragment="true" id="org.eclipse.cdt.codan.core.cxx.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="3803" install-size="3803" />
+	<plugin fragment="true" id="org.eclipse.cdt.codan.core.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="3839" install-size="3839" />
+	<plugin fragment="true" id="org.eclipse.cdt.codan.examples.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2912" install-size="2912" />
+	<plugin fragment="true" id="org.eclipse.cdt.codan.ui.cxx.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2829" install-size="2829" />
+	<plugin fragment="true" id="org.eclipse.cdt.codan.ui.example.cfgview.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1462" install-size="1462" />
+	<plugin fragment="true" id="org.eclipse.cdt.codan.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="3501" install-size="3501" />
+	<plugin fragment="true" id="org.eclipse.cdt.core.autotools.core.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1564" install-size="1564" />
+	<plugin fragment="true" id="org.eclipse.cdt.core.autotools.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2895" install-size="2895" />
+	<plugin fragment="true" id="org.eclipse.cdt.core.linux.aarch64.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1526" install-size="1526" />
+	<plugin fragment="true" id="org.eclipse.cdt.core.linux.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1533" install-size="1533" />
+	<plugin fragment="true" id="org.eclipse.cdt.core.linux.ppc64le.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1528" install-size="1528" />
+	<plugin fragment="true" id="org.eclipse.cdt.core.linux.x86_64.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1565" install-size="1565" />
+	<plugin fragment="true" id="org.eclipse.cdt.core.macosx.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1543" install-size="1543" />
+	<plugin fragment="true" id="org.eclipse.cdt.core.native.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2900" install-size="2900" />
+	<plugin fragment="true" id="org.eclipse.cdt.core.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="25086" install-size="25086" />
+	<plugin fragment="true" id="org.eclipse.cdt.core.win32.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1536" install-size="1536" />
+	<plugin fragment="true" id="org.eclipse.cdt.core.win32.x86_64.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1569" install-size="1569" />
+	<plugin fragment="true" id="org.eclipse.cdt.debug.application.doc.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1507" install-size="1507" />
+	<plugin fragment="true" id="org.eclipse.cdt.debug.application.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="3425" install-size="3425" />
+	<plugin fragment="true" id="org.eclipse.cdt.debug.core.memory.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1682" install-size="1682" />
+	<plugin fragment="true" id="org.eclipse.cdt.debug.core.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="7140" install-size="7140" />
+	<plugin fragment="true" id="org.eclipse.cdt.debug.gdbjtag.core.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2661" install-size="2661" />
+	<plugin fragment="true" id="org.eclipse.cdt.debug.gdbjtag.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1454" install-size="1454" />
+	<plugin fragment="true" id="org.eclipse.cdt.debug.gdbjtag.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="3371" install-size="3371" />
+	<plugin fragment="true" id="org.eclipse.cdt.debug.ui.memory.floatingpoint.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2764" install-size="2764" />
+	<plugin fragment="true" id="org.eclipse.cdt.debug.ui.memory.memorybrowser.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2807" install-size="2807" />
+	<plugin fragment="true" id="org.eclipse.cdt.debug.ui.memory.search.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2828" install-size="2828" />
+	<plugin fragment="true" id="org.eclipse.cdt.debug.ui.memory.traditional.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2954" install-size="2954" />
+	<plugin fragment="true" id="org.eclipse.cdt.debug.ui.memory.transport.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2725" install-size="2725" />
+	<plugin fragment="true" id="org.eclipse.cdt.debug.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="18637" install-size="18637" />
+	<plugin fragment="true" id="org.eclipse.cdt.doc.isv.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1500" install-size="1500" />
+	<plugin fragment="true" id="org.eclipse.cdt.doc.user.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2502" install-size="2502" />
+	<plugin fragment="true" id="org.eclipse.cdt.docker.launcher.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="4031" install-size="4031" />
+	<plugin fragment="true" id="org.eclipse.cdt.dsf.gdb.multicorevisualizer.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1920" install-size="1920" />
+	<plugin fragment="true" id="org.eclipse.cdt.dsf.gdb.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="7312" install-size="7312" />
+	<plugin fragment="true" id="org.eclipse.cdt.dsf.gdb.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="13129" install-size="13129" />
+	<plugin fragment="true" id="org.eclipse.cdt.dsf.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1447" install-size="1447" />
+	<plugin fragment="true" id="org.eclipse.cdt.dsf.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="14552" install-size="14552" />
+	<plugin fragment="true" id="org.eclipse.cdt.examples.dsf.gdb.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2844" install-size="2844" />
+	<plugin fragment="true" id="org.eclipse.cdt.examples.dsf.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1454" install-size="1454" />
+	<plugin fragment="true" id="org.eclipse.cdt.examples.dsf.pda.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1456" install-size="1456" />
+	<plugin fragment="true" id="org.eclipse.cdt.examples.dsf.pda.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2836" install-size="2836" />
+	<plugin fragment="true" id="org.eclipse.cdt.flatpak.launcher.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2904" install-size="2904" />
+	<plugin fragment="true" id="org.eclipse.cdt.gdb.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1448" install-size="1448" />
+	<plugin fragment="true" id="org.eclipse.cdt.gdb.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1486" install-size="1486" />
+	<plugin fragment="true" id="org.eclipse.cdt.jsoncdb.arm.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1453" install-size="1453" />
+	<plugin fragment="true" id="org.eclipse.cdt.jsoncdb.core.doc.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1456" install-size="1456" />
+	<plugin fragment="true" id="org.eclipse.cdt.jsoncdb.core.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2330" install-size="2330" />
+	<plugin fragment="true" id="org.eclipse.cdt.jsoncdb.core.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1683" install-size="1683" />
+	<plugin fragment="true" id="org.eclipse.cdt.jsoncdb.hpenonstop.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1459" install-size="1459" />
+	<plugin fragment="true" id="org.eclipse.cdt.jsoncdb.intel.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1453" install-size="1453" />
+	<plugin fragment="true" id="org.eclipse.cdt.jsoncdb.microsoft.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1458" install-size="1458" />
+	<plugin fragment="true" id="org.eclipse.cdt.jsoncdb.nvidia.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1454" install-size="1454" />
+	<plugin fragment="true" id="org.eclipse.cdt.launch.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="5543" install-size="5543" />
+	<plugin fragment="true" id="org.eclipse.cdt.launch.remote.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2749" install-size="2749" />
+	<plugin fragment="true" id="org.eclipse.cdt.launch.serial.core.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1455" install-size="1455" />
+	<plugin fragment="true" id="org.eclipse.cdt.launch.serial.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2705" install-size="2705" />
+	<plugin fragment="true" id="org.eclipse.cdt.llvm.dsf.lldb.core.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1458" install-size="1458" />
+	<plugin fragment="true" id="org.eclipse.cdt.llvm.dsf.lldb.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2878" install-size="2878" />
+	<plugin fragment="true" id="org.eclipse.cdt.make.core.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="6249" install-size="6249" />
+	<plugin fragment="true" id="org.eclipse.cdt.make.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="11472" install-size="11472" />
+	<plugin fragment="true" id="org.eclipse.cdt.managedbuilder.core.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="15663" install-size="15663" />
+	<plugin fragment="true" id="org.eclipse.cdt.managedbuilder.gnu.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="6825" install-size="6825" />
+	<plugin fragment="true" id="org.eclipse.cdt.managedbuilder.headlessbuilderapp.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2685" install-size="2685" />
+	<plugin fragment="true" id="org.eclipse.cdt.managedbuilder.llvm.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="3818" install-size="3818" />
+	<plugin fragment="true" id="org.eclipse.cdt.managedbuilder.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="9614" install-size="9614" />
+	<plugin fragment="true" id="org.eclipse.cdt.meson.core.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2881" install-size="2881" />
+	<plugin fragment="true" id="org.eclipse.cdt.meson.docs.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1451" install-size="1451" />
+	<plugin fragment="true" id="org.eclipse.cdt.meson.ui.editor.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1680" install-size="1680" />
+	<plugin fragment="true" id="org.eclipse.cdt.meson.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="4135" install-size="4135" />
+	<plugin fragment="true" id="org.eclipse.cdt.msw.build.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1492" install-size="1492" />
+	<plugin fragment="true" id="org.eclipse.cdt.native.serial.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1476" install-size="1476" />
+	<plugin fragment="true" id="org.eclipse.cdt.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1726" install-size="1726" />
+	<plugin fragment="true" id="org.eclipse.cdt.platform.branding.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1492" install-size="1492" />
+	<plugin fragment="true" id="org.eclipse.cdt.remote.core.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2672" install-size="2672" />
+	<plugin fragment="true" id="org.eclipse.cdt.sdk.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1448" install-size="1448" />
+	<plugin fragment="true" id="org.eclipse.cdt.tests.dsf.gdb.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1453" install-size="1453" />
+	<plugin fragment="true" id="org.eclipse.cdt.tests.dsf.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1450" install-size="1450" />
+	<plugin fragment="true" id="org.eclipse.cdt.testsrunner.boost.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2545" install-size="2545" />
+	<plugin fragment="true" id="org.eclipse.cdt.testsrunner.gtest.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2550" install-size="2550" />
+	<plugin fragment="true" id="org.eclipse.cdt.testsrunner.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="5247" install-size="5247" />
+	<plugin fragment="true" id="org.eclipse.cdt.testsrunner.qttest.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2575" install-size="2575" />
+	<plugin fragment="true" id="org.eclipse.cdt.testsrunner.tap.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2534" install-size="2534" />
+	<plugin fragment="true" id="org.eclipse.cdt.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="87471" install-size="87471" />
+	<plugin fragment="true" id="org.eclipse.cdt.unittest.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="3232" install-size="3232" />
+	<plugin fragment="true" id="org.eclipse.cdt.util.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1501" install-size="1501" />
+	<plugin fragment="true" id="org.eclipse.cdt.visualizer.core.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1454" install-size="1454" />
+	<plugin fragment="true" id="org.eclipse.cdt.visualizer.examples.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1458" install-size="1458" />
+	<plugin fragment="true" id="org.eclipse.cdt.visualizer.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1453" install-size="1453" />
+	<plugin fragment="true" id="org.eclipse.launchbar.core.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2534" install-size="2534" />
+	<plugin fragment="true" id="org.eclipse.launchbar.remote.core.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2535" install-size="2535" />
+	<plugin fragment="true" id="org.eclipse.launchbar.remote.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1454" install-size="1454" />
+	<plugin fragment="true" id="org.eclipse.launchbar.ui.controls.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2760" install-size="2760" />
+	<plugin fragment="true" id="org.eclipse.launchbar.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2605" install-size="2605" />
+	<plugin fragment="true" id="org.eclipse.remote.console.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2735" install-size="2735" />
+	<plugin fragment="true" id="org.eclipse.remote.core.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2501" install-size="2501" />
+	<plugin fragment="true" id="org.eclipse.remote.jsch.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2614" install-size="2614" />
+	<plugin fragment="true" id="org.eclipse.remote.proxy.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2624" install-size="2624" />
+	<plugin fragment="true" id="org.eclipse.remote.telnet.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2325" install-size="2325" />
+	<plugin fragment="true" id="org.eclipse.remote.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="3396" install-size="3396" />
+	<plugin fragment="true" id="org.eclipse.tm.terminal.connector.cdtserial.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1495" install-size="1495" />
+	<plugin fragment="true" id="org.eclipse.tm.terminal.connector.local.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1522" install-size="1522" />
+	<plugin fragment="true" id="org.eclipse.tm.terminal.connector.process.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2678" install-size="2678" />
+	<plugin fragment="true" id="org.eclipse.tm.terminal.connector.remote.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2680" install-size="2680" />
+	<plugin fragment="true" id="org.eclipse.tm.terminal.connector.ssh.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="3627" install-size="3627" />
+	<plugin fragment="true" id="org.eclipse.tm.terminal.connector.telnet.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2706" install-size="2706" />
+	<plugin fragment="true" id="org.eclipse.tm.terminal.control.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="3517" install-size="3517" />
+	<plugin fragment="true" id="org.eclipse.tm.terminal.view.core.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1455" install-size="1455" />
+	<plugin fragment="true" id="org.eclipse.tm.terminal.view.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="3455" install-size="3455" />
+	<plugin fragment="true" id="org.eclipse.tools.templates.core.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1494" install-size="1494" />
+	<plugin fragment="true" id="org.eclipse.tools.templates.freemarker.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1463" install-size="1463" />
+	<plugin fragment="true" id="org.eclipse.tools.templates.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2489" install-size="2489" />
+</feature>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<feature
+	id="org.eclipse.babel.nls_tools.mat_zh"
+	label="Babel Language Pack for tools.mat in Chinese (Simplified) (9.39%)"
+	image="eclipse_update_120.jpg"
+	provider-name="%providerName"
+	version="4.26.0.v20230220105658">
+	<copyright>
+		%copyright
+	</copyright>
+	<license url="%licenseURL">
+		%license
+	</license>
+	<description>Babel Language Pack for tools.mat in Chinese (Simplified)</description>
+	<plugin fragment="true" id="org.eclipse.mat.api.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="4614" install-size="4614" />
+	<plugin fragment="true" id="org.eclipse.mat.chart.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2340" install-size="2340" />
+	<plugin fragment="true" id="org.eclipse.mat.chart.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2446" install-size="2446" />
+	<plugin fragment="true" id="org.eclipse.mat.dtfj.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2292" install-size="2292" />
+	<plugin fragment="true" id="org.eclipse.mat.hprof.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1467" install-size="1467" />
+	<plugin fragment="true" id="org.eclipse.mat.ibmdumps.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1469" install-size="1469" />
+	<plugin fragment="true" id="org.eclipse.mat.jdt.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2164" install-size="2164" />
+	<plugin fragment="true" id="org.eclipse.mat.jruby.resolver.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2332" install-size="2332" />
+	<plugin fragment="true" id="org.eclipse.mat.parser.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2345" install-size="2345" />
+	<plugin fragment="true" id="org.eclipse.mat.report.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2605" install-size="2605" />
+	<plugin fragment="true" id="org.eclipse.mat.ui.capabilities.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1472" install-size="1472" />
+	<plugin fragment="true" id="org.eclipse.mat.ui.help.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="1719" install-size="1719" />
+	<plugin fragment="true" id="org.eclipse.mat.ui.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="4153" install-size="4153" />
+	<plugin fragment="true" id="org.eclipse.mat.ui.rcp.nl_zh" unpack="false" version="4.26.0.v20230220105658" download-size="2505" install-size="2505" />
+</feature>
