@@ -1,0 +1,38 @@
+/*******************************************************************************
+ * Copyright © 2010-2023. Cloud Software Group, Inc. All rights reserved.
+ *******************************************************************************/
+package com.jaspersoft.studio.data.sql.ui.gef.command;
+
+import com.jaspersoft.studio.data.sql.model.query.from.MFromTable;
+
+public class EditTableJoinCommand extends ACommand {
+	private MFromTable tbl;
+	private String oldAlias;
+	private String alias;
+	private String oldKey;
+	private String key;
+
+	public EditTableJoinCommand(MFromTable tbl, String alias, String key) {
+		this.tbl = tbl;
+		this.alias = alias;
+		this.key = key;
+	}
+
+	@Override
+	public void execute() {
+		super.execute();
+		oldAlias = tbl.getAlias();
+		oldKey = tbl.getAliasKeyword();
+
+		tbl.setAlias(alias);
+		tbl.setAliasKeyword(key);
+	}
+
+	@Override
+	public void undo() {
+		super.undo();
+
+		tbl.setAlias(oldAlias);
+		tbl.setAliasKeyword(oldKey);
+	}
+}

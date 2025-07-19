@@ -1,0 +1,206 @@
+/* Define common variables */
+:root {
+  --bubble-alignment: flex-end;
+  --assistant-bubble-alignment: flex-start;
+  --main-font: 'Sans', sans-serif;
+  --mono-font: 'Monospace', monospace;
+  --default-font-size: 0px;  /* NOTE: BrowserScriptGenerator.substituteFontSizes() will override this setting */
+  --small-font-size: 0px;    /* NOTE: BrowserScriptGenerator.substituteFontSizes() will override this setting */
+  --text-color: #fff;  
+  --body-bg-color: #000;
+  --user-bubble-bg-color: #222;
+  --assistant-bubble-bg-color: #444;
+  --notification-bubble-bg-color: #225;
+  --error-bubble-bg-color: #522;
+  --button-bg-color: #333;
+  --button-hover-bg-color: #444;
+  --button-active-bg-color: #333;
+  --button-border-color: #111;
+  --button-height: 26px;
+  --button-font-size: 12px;
+  --button-border-radius: 1px;
+  --button-padding-x: 12px;
+  --button-padding-y: 2px;
+  --button-icon-size: 16px;
+  --button-icon-padding: 28px;
+  --button-icon-position: 6px;
+  --button-shadow: 0 1px 1px rgba(0,0,0,0.2), inset 0 1px rgba(255,255,255,0.1);
+  --button-active-shadow: 0 1px 1px rgba(0,0,0,0.1), inset 0 1px 1px rgba(0,0,0,0.2);
+  --broswer-selection-bg-color: rgba(96, 96, 96, 0.8);  /* Gray with 80% opacity */
+  --selected-shadow-color: #00f;
+  --blockquote-text-color: #bbb;
+  --blockquote-nested-text-color: #999;
+  --blockquote-line-color: #333;
+  --selected-shadow-blur-radius: 15px;
+  --default-margin: 0.5rem;
+  --top-margin: 1rem;
+  --bottom-margin: 0;
+  --padding: 1rem;
+  --small-padding: 0.5rem;
+  --bubble-radius: 0.5rem;
+  --line-height: 150%;
+  --code-block-tab-size: 4;		/* To match Eclipse (TODO: add a preference property change listener) */
+}
+
+/* Controls the appearance of selected text in the browser widget */
+::selection {
+  background-color: var(--broswer-selection-bg-color);
+}
+
+/* Define common styles */
+.chat-bubble {
+  flex-direction: column;
+  align-self: var(--bubble-alignment);
+  font-family: var(--main-font);
+  font-size: var(--default-font-size);
+  color: var(--text-color);  
+  line-height: var(--line-height);
+  margin: var(--default-margin);
+  margin-top: var(--top-margin);
+  margin-bottom: var(--bottom-margin);
+  padding: var(--padding);
+  border-radius: var(--bubble-radius);
+}
+
+/* Define user bubble styles */
+.chat-bubble.user {
+  background-color: var(--user-bubble-bg-color);
+}
+
+/* Define assistant bubble styles */
+.chat-bubble.assistant {
+  align-self: var(--assistant-bubble-alignment);
+  background-color: var(--assistant-bubble-bg-color);
+}
+
+/* Define notification and error bubble common styles */
+.chat-bubble.notification,
+.chat-bubble.error {
+  font-family: var(--mono-font);
+  font-size: var(--small-font-size);
+  padding-top: var(--small-padding);
+  padding-bottom: var(--small-padding);
+}
+
+/* Define notification bubble styles */
+.chat-bubble.notification {
+  background-color: var(--notification-bubble-bg-color);
+}
+
+/* Define error bubble styles */
+.chat-bubble.error {
+  background-color: var(--error-bubble-bg-color);
+}
+
+/* Define selected bubble styles */
+.chat-bubble.selected {
+  box-shadow: inset 0 0 var(--selected-shadow-blur-radius) var(--selected-shadow-color);
+}
+
+/* Define last bubble styles */
+.chat-bubble.user:last-child,
+.chat-bubble.assistant:last-child,
+.chat-bubble.notification:last-child,
+.chat-bubble.error:last-child  {
+	margin-bottom: var(--top-margin);	/* To have same gap all around */
+}
+
+/* Define code block styles */
+.chat-bubble.user pre,
+.chat-bubble.assistant pre {
+	background-color: var(--body-bg-color);
+}
+
+/* Hide scrollbar for code blocks */
+.chat-bubble pre::-webkit-scrollbar {
+  display: none;
+}
+
+.code-button {
+    background-position: var(--button-icon-position) center;
+    background-repeat: no-repeat;
+    background-size: var(--button-icon-size) var(--button-icon-size);
+    padding: var(--button-padding-y) var(--button-padding-x) 
+            var(--button-padding-y) var(--button-icon-padding);
+    background-color: var(--button-bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--button-border-color);
+    cursor: pointer;
+    box-shadow: var(--button-shadow);
+    border-radius: var(--button-border-radius);
+    margin-right: 4px;
+    margin-top: 0.5rem;
+    font-size: var(--button-font-size);
+    line-height: 1.5;
+    height: var(--button-height);
+    display: inline-flex;
+    align-items: center;
+}
+
+.code-button:hover {
+    background-color: var(--button-hover-bg-color);
+}
+
+.code-button:active {
+    background-color: var(--button-active-bg-color);
+    box-shadow: var(--button-active-shadow);
+}
+
+body {
+  background-color: var(--body-bg-color);
+}
+
+code {
+  font-family: var(--mono-font);
+  font-weight: bold;
+  tab-size: var(--code-block-tab-size);
+}
+
+pre code {
+  font-weight: inherit;
+}
+
+summary {
+  font-weight: bold;
+  font-size: calc(var(--default-font-size) + 2px);
+}
+
+blockquote {
+  color: var(--blockquote-text-color);
+  margin: 0.5em 0;
+  padding: 0 1em;
+  border-left: 0.25em solid var(--blockquote-line-color);
+}
+
+blockquote blockquote {
+  color: var(--blockquote-nested-text-color);
+  margin-left: 0em;
+}
+
+.thinking {
+  background-color: var(--user-bubble-bg-color);
+  border-radius: var(--bubble-radius);
+  padding: var(--small-padding);
+}
+
+.thinking summary {
+  color: var(--text-color);
+  opacity: 0.8;
+  cursor: pointer;
+  padding: 0 var(--small-padding);
+  margin-left: calc(-1 * var(--default-margin));
+}
+
+.thinking details {
+  margin-left: var(--default-margin);
+}
+
+.thinking summary:hover {
+  opacity: 1;
+}
+
+/* The default margins are too large */
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: 0;
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<drivers>
+  <driver id="-1">
+    <name>JDBC ODBC Bridge</name>
+    <driver-class>sun.jdbc.odbc.JdbcOdbcDriver</driver-class> 
+    <url>jdbc:odbc:&lt;alias&gt;</url>
+    <jars/>
+  </driver>
+  <driver id="-2">
+    <name>Oracle OCI Driver</name>
+    <url>jdbc:oracle:oci8:@&lt;database_name&gt;</url>
+    <jars/>
+  </driver>
+  <driver id="-4">
+    <name>Oracle Thin Driver</name>
+    <url>jdbc:oracle:thin:@&lt;server&gt;:1521:&lt;database_name&gt;</url>
+    <jars/>
+  </driver>
+  <driver id="-6">
+    <name>MySQL Driver</name>
+    <url>jdbc:mysql://&lt;hostname&gt;[&lt;:3306&gt;]/&lt;dbname&gt;</url>
+    <jars/>
+  </driver>
+
+  </drivers>
