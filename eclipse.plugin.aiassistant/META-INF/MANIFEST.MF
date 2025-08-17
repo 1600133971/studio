@@ -4,6 +4,7 @@ Bundle-Name: AI Assistant
 Bundle-SymbolicName: eclipse.plugin.aiassistant;singleton:=true
 Bundle-Vendor: Juk Armstrong (based on 'AssistAI' by Wojciech Gradkowski)
 Bundle-Version: 6.20.6.final
+Bundle-Localization: plugin
 Bundle-Activator: eclipse.plugin.aiassistant.Activator
 Bundle-ClassPath: .,
  dependencies/jackson-annotations_2.16.0.jar,

@@ -7,7 +7,7 @@
   --default-font-size: 0px;  /* NOTE: BrowserScriptGenerator.substituteFontSizes() will override this setting */
   --small-font-size: 0px;    /* NOTE: BrowserScriptGenerator.substituteFontSizes() will override this setting */
   --text-color: #fff;  
-  --body-bg-color: #000;
+  --body-bg-color: #f0f0f0;
   --user-bubble-bg-color: #222;
   --assistant-bubble-bg-color: #444;
   --notification-bubble-bg-color: #225;

@@ -14,7 +14,7 @@
     point="org.eclipse.ui.views">
     <category
       id="eclipse.plugin.aiassistant"
-      name="AI Assistant">
+      name="%AIAssistant">
     </category>
     <view
       allowMultiple="false"
@@ -22,7 +22,7 @@
       class="eclipse.plugin.aiassistant.view.MainView"
       icon="icons/Robot.png"
       id="eclipse.plugin.aiassistant.view.MainView"
-      name="AI Assistant">
+      name="%AIAssistant">
     </view>
   </extension>
   <extension
@@ -110,20 +110,20 @@
            locationURI="popup:#AbstractTextEditorContext?after=additions">
         <menu
               icon="icons/Robot.png"
-              label="AI Assistant">
+              label="%AIAssistant">
            <command
                  commandId="eclipse.plugin.aiassistant.AddMessage"
                  icon="icons/Add.png"
-                 label="Add To Message"
+                 label="%AddToMessage"
                  style="push"
-                 tooltip="Add the Selected Code or Document as a Message">
+                 tooltip="%AddToMessageTooltip">
            </command>
            <command
                  commandId="eclipse.plugin.aiassistant.AddContext"
                  icon="icons/Add.png"
-                 label="Add As Context"
+                 label="%AddAsContext"
                  style="push"
-                 tooltip="Add the Selected Code or Document as Context">
+                 tooltip="%AddAsContextTooltip">
            </command>
            <separator
                  name="eclipse.plugin.aiassistant.separator1"
@@ -132,51 +132,51 @@
            <command
                  commandId="eclipse.plugin.aiassistant.Discuss"
                  icon="icons/Discuss.png"
-                 label="Discuss"
+                 label="%Discuss"
                  style="push"
-                 tooltip="Discuss the Code">
+                 tooltip="%DiscussTooltip">
            </command>
            <command
                  commandId="eclipse.plugin.aiassistant.Explain"
                  icon="icons/Explain.png"
-                 label="Explain"
+                 label="%Explain"
                  style="push"
-                 tooltip="Explain the Code">
+                 tooltip="%ExplainTooltip">
            </command>
            <command
                  commandId="eclipse.plugin.aiassistant.CodeReview"
                  icon="icons/CodeReview.png"
-                 label="Code Review"
+                 label="%CodeReview"
                  style="push"
-                 tooltip="Suggest Improvements to the Code">
+                 tooltip="%CodeReviewTooltip">
            </command>
            <command
                  commandId="eclipse.plugin.aiassistant.BestPractices"
                  icon="icons/BestPractices.png"
-                 label="Best Practices"
+                 label="%BestPractices"
                  style="push"
-                 tooltip="Check for Adherence to Best Practices">
+                 tooltip="%BestPracticesTooltip">
            </command>
            <command
                  commandId="eclipse.plugin.aiassistant.Robustify"
                  icon="icons/Robustify.png"
-                 label="Robustify"
+                 label="%Robustify"
                  style="push"
-                 tooltip="Suggest Ways to Improve Error Handling">
+                 tooltip="%RobustifyTooltip">
            </command>
            <command
                  commandId="eclipse.plugin.aiassistant.Optimize"
                  icon="icons/Optimize.png"
-                 label="Optimize"
+                 label="%Optimize"
                  style="push"
-                 tooltip="Suggest Ways to Optimize the Code">
+                 tooltip="%OptimizeTooltip">
            </command>
            <command
                  commandId="eclipse.plugin.aiassistant.Debug"
                  icon="icons/Debug.png"
-                 label="Debug"
+                 label="%Debug"
                  style="push"
-                 tooltip="Try to Find Bugs in the Code">
+                 tooltip="%DebugTooltip">
            </command>
            <separator
                  name="eclipse.plugin.aiassistant.separator2"
@@ -185,30 +185,30 @@
            <command
                  commandId="eclipse.plugin.aiassistant.CodeGeneration"
                  icon="icons/CodeGeneration.png"
-                 label="Code Generation"
+                 label="%CodeGeneration"
                  style="push"
-                 tooltip="Generate Boilerplate Code">
+                 tooltip="%CodeGenerationTooltip">
            </command>
            <command
                  commandId="eclipse.plugin.aiassistant.CodeCompletion"
                  icon="icons/CodeCompletion.png"
-                 label="Code Completion"
+                 label="%CodeCompletion"
                  style="push"
-                 tooltip="Fill in the Missing Code">
+                 tooltip="%CodeCompletionTooltip">
            </command>
            <command
                  commandId="eclipse.plugin.aiassistant.WriteComments"
                  icon="icons/WriteComments.png"
-                 label="Write Comments"
+                 label="%WriteComments"
                  style="push"
-                 tooltip="Document the Code">
+                 tooltip="%WriteCommentsTooltip">
            </command>
            <command
                  commandId="eclipse.plugin.aiassistant.Refactor"
                  icon="icons/Refactor.png"
-                 label="Refactor"
+                 label="%Refactor"
                  style="push"
-                 tooltip="Refactor the Code">
+                 tooltip="%RefactorTooltip">
            </command>
            <separator
                  name="eclipse.plugin.aiassistant.separator3"
@@ -217,9 +217,9 @@
            <command
                  commandId="eclipse.plugin.aiassistant.FixWarnings"
                  icon="icons/FixWarnings.png"
-                 label="Fix Warnings"
+                 label="%FixWarnings"
                  style="push"
-                 tooltip="Try to Fix Compiler Warnings">
+                 tooltip="%FixWarningsTooltip">
               <visibleWhen
                     checkEnabled="false">
                  <test
@@ -230,9 +230,9 @@
            <command
                  commandId="eclipse.plugin.aiassistant.FixErrors"
                  icon="icons/FixErrors.png"
-                 label="Fix Errors"
+                 label="%FixErrors"
                  style="push"
-                 tooltip="Try to Fix Compiler Errors">
+                 tooltip="%FixErrorsTooltip">
               <visibleWhen
                     checkEnabled="false">
                  <test
@@ -254,11 +254,11 @@
     <page
       class="eclipse.plugin.aiassistant.preferences.PreferencePage"
       id="eclipse.plugin.aiassistant.preferences.PreferencePage"
-      name="AI Assistant">
+      name="%AIAssistant">
     </page>
     <page
       id="eclipse.plugin.aiassistant.preferences.PromptTemplatesPreferencePage"
-      name="Prompt Templates"
+      name="%PromptTemplates"
       category="eclipse.plugin.aiassistant.preferences.PreferencePage"
       class="eclipse.plugin.aiassistant.preferences.PromptTemplatesPreferencePage">
     </page>       

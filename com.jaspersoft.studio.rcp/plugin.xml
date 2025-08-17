@@ -141,6 +141,17 @@
                      value="it_IT">
                </parameter>
             </command>
+            <command
+                  commandId="com.jaspersoft.studio.switchlanguage.command"
+                  icon="icons/language/cn.png"
+                  id="com.jaspersoft.studio.switchlanguage.menus.chinese"
+                  label="%command.switchlanguage.chinese.label"
+                  style="toggle">
+               <parameter
+                     name="com.jaspersoft.studio.switchlanguage.locale"
+                     value="zh_ZH">
+               </parameter>
+            </command>
          </menu>
       </menuContribution>
    	<menuContribution
