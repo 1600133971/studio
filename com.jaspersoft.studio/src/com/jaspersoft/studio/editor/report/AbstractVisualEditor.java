@@ -409,8 +409,8 @@ public abstract class AbstractVisualEditor extends J2DGraphicalEditorWithFlyoutP
 		Boolean isSnapToGeometry = jrContext
 				.getPropertyBoolean(RulersGridPreferencePage.P_PAGE_RULERGRID_SNAPTOGEOMETRY, true);
 
-		int gspaceX = jrContext.getPropertyInteger(RulersGridPreferencePage.P_PAGE_RULERGRID_GRIDSPACEX, 10);
-		int gspaceY = jrContext.getPropertyInteger(RulersGridPreferencePage.P_PAGE_RULERGRID_GRIDSPACEY, 10);
+		int gspaceX = jrContext.getPropertyInteger(RulersGridPreferencePage.P_PAGE_RULERGRID_GRIDSPACEX, RulersGridPreferencePage.DEFAULT_GRIDSIZEX);
+		int gspaceY = jrContext.getPropertyInteger(RulersGridPreferencePage.P_PAGE_RULERGRID_GRIDSPACEY, RulersGridPreferencePage.DEFAULT_GRIDSIZEY);
 
 		graphicalViewer.setProperty(SnapToGrid.PROPERTY_GRID_ENABLED, isSnapToGrid);
 		graphicalViewer.setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE, isGridVisible);

@@ -9,15 +9,24 @@ import java.util.List;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.ui.IEditorPart;
 
+import com.jaspersoft.studio.editor.JrxmlEditor;
 import com.jaspersoft.studio.editor.report.AbstractVisualEditor;
+import com.jaspersoft.studio.editor.report.ReportContainer;
+import com.jaspersoft.studio.utils.SelectionHelper;
 
 public class TFContainer extends Composite {
 	private StackLayout stackLayout;
@@ -35,6 +44,34 @@ public class TFContainer extends Composite {
 
 		toolBar = new ToolBar(this, SWT.HORIZONTAL | SWT.FLAT | SWT.RIGHT);
 		toolBar.setLayoutData(new GridData(SWT.FILL,SWT.CENTER,true,false));
+		
+		// 创建上下文菜单, 添加菜单项
+		final Menu contextMenu = new Menu(toolBar);
+		MenuItem menuItem1 = new MenuItem(contextMenu, SWT.PUSH);
+		menuItem1.setText("close all but Main Report");
+		menuItem1.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				IEditorPart currentEditor = SelectionHelper.getActiveJRXMLEditor();
+				if (currentEditor instanceof JrxmlEditor){
+					JrxmlEditor editor = (JrxmlEditor) currentEditor;
+					ReportContainer currentContainer =  editor.getReportContainer();
+					currentContainer.updateVisualView();
+				}
+			}
+		});
+		
+		// 添加鼠标监听器来检测右键点击
+		toolBar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDown(MouseEvent e) {
+				// 检查是否是右键点击
+				if (e.button == 3) {
+					// 显示上下文菜单
+					contextMenu.setVisible(true);
+				}
+			}
+		});
 		
 		additionalToolbar = new ToolBar(this, SWT.HORIZONTAL | SWT.FLAT | SWT.RIGHT);
 		GridData additionalToolbarGD = new GridData(SWT.RIGHT, SWT.CENTER, true, false);

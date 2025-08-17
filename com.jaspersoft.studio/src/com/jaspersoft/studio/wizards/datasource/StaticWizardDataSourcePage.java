@@ -38,6 +38,7 @@ import com.jaspersoft.studio.data.storage.ADataAdapterStorage;
 import com.jaspersoft.studio.data.ui.SimpleQueryWizardDataEditorComposite;
 import com.jaspersoft.studio.messages.Messages;
 import com.jaspersoft.studio.model.datasource.MDatasources;
+import com.jaspersoft.studio.templates.JrxmlTemplateBundle;
 import com.jaspersoft.studio.utils.jasper.JasperReportsConfiguration;
 import com.jaspersoft.studio.utils.jobs.ProgressMonitorCheckerThread;
 import com.jaspersoft.studio.wizards.ContextHelpIDs;
@@ -349,7 +350,15 @@ public class StaticWizardDataSourcePage extends JSSWizardRunnablePage {
 					lang = langs[0];
 			}
 			getSettings().put(DATASET_QUERY_LANGUAGE, lang);
-			getSettings().put(DATASET_QUERY_TEXT, activeEditor.getQueryString());
+			
+			// 从模板中获取主Dataset中的queryString信息，如果界面没有填写queryString，则用模板中的queryString替代
+			String queryString = "";
+			JrxmlTemplateBundle tb = (JrxmlTemplateBundle)getSettings().get("template");
+			if (tb != null) {
+				queryString = tb.getJasperDesign().getMainDesignDataset().getQuery().getText();
+			}
+			getSettings().put(DATASET_QUERY_TEXT, activeEditor.getQueryString().isEmpty() ? queryString : activeEditor.getQueryString());
+			
 			if (activeEditor instanceof SimpleQueryWizardDataEditorComposite)
 				getSettings().put(DATASET_PROPERTIES,
 						((SimpleQueryWizardDataEditorComposite) activeEditor).getDataset().getPropertiesMap());

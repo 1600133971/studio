@@ -49,7 +49,7 @@ public class SizeGridAction extends AResourcePreferenceAction {
 
 			toolkit.createLabel(mform.getForm().getBody(), Messages.SizeGridAction_spacing_x + ":"); //$NON-NLS-1$
 			final Spinner width = new Spinner(mform.getForm().getBody(), SWT.BORDER);
-			width.setValues(w, 0, Integer.MAX_VALUE, 0, 1, 10);
+			width.setValues(w, 0, Integer.MAX_VALUE, 0, 1, RulersGridPreferencePage.DEFAULT_GRIDSIZEX);
 			width.setToolTipText(Messages.SizeGridAction_grid_space_width_tool_tip);
 			width.addSelectionListener(new SelectionAdapter() {
 				@Override
@@ -61,7 +61,7 @@ public class SizeGridAction extends AResourcePreferenceAction {
 			toolkit.createLabel(mform.getForm().getBody(), Messages.SizeGridAction_spacing_y + ":"); //$NON-NLS-1$
 
 			final Spinner height = new Spinner(mform.getForm().getBody(), SWT.BORDER);
-			height.setValues(h, 0, Integer.MAX_VALUE, 0, 1, 10);
+			height.setValues(h, 0, Integer.MAX_VALUE, 0, 1, RulersGridPreferencePage.DEFAULT_GRIDSIZEY);
 			height.setToolTipText(Messages.SizeGridAction_grid_space_height_tool_tip);
 			height.addSelectionListener(new SelectionAdapter() {
 				@Override

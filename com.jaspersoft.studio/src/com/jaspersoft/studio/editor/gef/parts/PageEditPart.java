@@ -176,8 +176,8 @@ public class PageEditPart extends AJDEditPart implements PropertyChangeListener 
 			GridPainter grid = ((APageFigure) getFigure()).getGrid();
 			grid.setOrigin((Point) getViewer().getProperty(SnapToGrid.PROPERTY_GRID_ORIGIN));
 
-			int x = jConfig.getPropertyInteger(RulersGridPreferencePage.P_PAGE_RULERGRID_GRIDSPACEX, 10);
-			int y = jConfig.getPropertyInteger(RulersGridPreferencePage.P_PAGE_RULERGRID_GRIDSPACEY, 10);
+			int x = jConfig.getPropertyInteger(RulersGridPreferencePage.P_PAGE_RULERGRID_GRIDSPACEX, RulersGridPreferencePage.DEFAULT_GRIDSIZEX);
+			int y = jConfig.getPropertyInteger(RulersGridPreferencePage.P_PAGE_RULERGRID_GRIDSPACEY, RulersGridPreferencePage.DEFAULT_GRIDSIZEY);
 
 			grid.setSpacing(new Dimension(x, y));
 			grid.setVisible(visible);

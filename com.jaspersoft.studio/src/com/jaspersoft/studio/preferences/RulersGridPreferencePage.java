@@ -26,6 +26,8 @@ import com.jaspersoft.studio.preferences.util.FieldEditorOverlayPage;
 public class RulersGridPreferencePage extends FieldEditorOverlayPage {
 
 	public static final String DEFAULT_GRIDCOLOR = "192,192,192"; //$NON-NLS-1$
+	public static final int DEFAULT_GRIDSIZEX = 5; //$NON-NLS-1$
+	public static final int DEFAULT_GRIDSIZEY = 5; //$NON-NLS-1$
 	public static final String P_PAGE_RULERGRID_SHOWRULER = "pageRulerGrid_SHOWRULER"; //$NON-NLS-1$
 	public static final String P_PAGE_RULERGRID_SNAPTOGUIDES = "pageRulerGrid_SNAPTOGUIDES"; //$NON-NLS-1$
 	public static final String P_PAGE_RULERGRID_SHOWGRID = "pageRulerGrid_SHOWGRID"; //$NON-NLS-1$
@@ -93,8 +95,8 @@ public class RulersGridPreferencePage extends FieldEditorOverlayPage {
 		store.setDefault(P_PAGE_RULERGRID_SHOWGRID, new Boolean(true));
 		store.setDefault(P_PAGE_RULERGRID_SNAPTOGRID, new Boolean(true));
 		store.setDefault(P_PAGE_RULERGRID_SNAPTOGEOMETRY, new Boolean(true));
-		store.setDefault(P_PAGE_RULERGRID_GRIDSPACEX, new Integer(10));
-		store.setDefault(P_PAGE_RULERGRID_GRIDSPACEY, new Integer(10));
+		store.setDefault(P_PAGE_RULERGRID_GRIDSPACEX, new Integer(DEFAULT_GRIDSIZEX));
+		store.setDefault(P_PAGE_RULERGRID_GRIDSPACEY, new Integer(DEFAULT_GRIDSIZEY));
 		store.setDefault(P_PAGE_GRID_COLOR, DEFAULT_GRIDCOLOR); //$NON-NLS-1$
 		store.setDefault(P_RULER_MEASURE, String.valueOf(RulerProvider.UNIT_INCHES));
 	}

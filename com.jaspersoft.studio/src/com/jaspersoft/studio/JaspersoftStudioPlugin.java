@@ -239,7 +239,7 @@ public class JaspersoftStudioPlugin extends AbstractJRUIPlugin {
 		}
 		// Start the usage statistics plugin, among the other operations it will
 		// check for new versions
-		getUsageManager().start();
+		// songtao delete getUsageManager().start();
 
 		// Sanity checks for Java Compiling settings:
 		// possible issues when bundling a JDK 1.8 in 3.8.2 platform

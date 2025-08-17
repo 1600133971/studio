@@ -46,14 +46,17 @@ public final class Constants {
 	public static final String API_MODEL_DATA_FILENAME = "model_prices_and_context_window.json";
 
 	// API base URL and endpoints.
-	public static final String DEFAULT_MODEL_NAME = "gpt-4-turbo";
-	public static final String DEFAULT_API_URL = "https://api.openai.com/v1";
+	public static final String DEFAULT_MODEL_NAME = "deepseek-chat";
+	public static final String DEFAULT_API_URL = "https://api.deepseek.com/v1";
 	public static final String DEFAULT_API_KEY = "<YOUR KEY HERE>";
 	public static final String MODEL_LIST_API_URL = "/models";
 	public static final String CHAT_COMPLETION_API_URL = "/chat/completions";
 
 	// Default bookmarked settings, showing 5 of the most common OpenAI compatible end-points.
 	public static final List<BookmarkedApiSettings> DEFAULT_BOOKMARKED_API_SETTINGS = new ArrayList<>(Arrays.asList(
+			new BookmarkedApiSettings("deepseek-chat", "https://api.deepseek.com/v1", "<YOUR API KEY>", 0.0, true, true),
+			new BookmarkedApiSettings("deepseek-reasoner", "https://api.deepseek.com/v1", "<YOUR API KEY>", 0.0, true, true),
+			new BookmarkedApiSettings("gpt-4-turbo", "https://api.openai.com/v1", "<YOUR API KEY>", 0.0, true, true),
 			new BookmarkedApiSettings("gpt-4.1", "https://api.openai.com/v1", "<YOUR API KEY>", 0.0, true, true),
 			new BookmarkedApiSettings("openai/o1", "https://openrouter.ai/api/v1", "<YOUR API KEY>", 0.0, true, false),
 			new BookmarkedApiSettings("<LLAMA.CPP MODEL NAME>", "http://localhost:8080/v1", "none", 0.0, true, true),

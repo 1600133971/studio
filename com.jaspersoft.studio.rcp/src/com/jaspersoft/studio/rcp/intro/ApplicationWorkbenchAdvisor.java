@@ -330,7 +330,7 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 	public void preStartup() {
 		super.preStartup();
 		IDE.registerAdapters();
-		setRepositories();
+		//songtao delete setRepositories();
 	}
 	
 	@Override
