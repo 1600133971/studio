@@ -1,6 +1,9 @@
 package eclipse.plugin.aiassistant.preferences;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.Base64;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 
@@ -26,15 +29,17 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		setDefaultStreamingUpdateInterval();
 		setDefaultChatFontSize();
 		setDefaultNotificationFontSize();
+		setDefaultUserInputFontSize();
 		setDefaultDisableTooltips();
 		setDefaultCurrentModelName();
 		setDefaultCurrentApiUrl();
 		setDefaultCurrentApiKey();
-		setDefaultCurrentTemperature();
-		setDefaultCurrentUseSystemMessage();
+		setDefaultCurrentJsonOverrides();
 		setDefaultCurrentUseStreaming();
+		setDefaultCurrentUseSystemMessage();
+		setDefaultCurrentUseDeveloperMessage();
 		setDefaultBookmarkedApiSettings();
-		setDefaultChatConversation();
+		setDefaultChatConversations();
 		setDefaultUserMessageHistory();
 		loadAndSetDefaultPrompts();
 	}
@@ -72,6 +77,13 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 	}
 
 	/**
+	 * Sets the default font size for user input elements.
+	 */
+	private void setDefaultUserInputFontSize() {
+		Preferences.getDefault().setDefault(PreferenceConstants.USER_INPUT_FONT_SIZE, Constants.DEFAULT_USER_INPUT_FONT_SIZE);
+	}
+
+	/**
 	 * Sets whether tooltips should be disabled across the application.
 	 */
 	private void setDefaultDisableTooltips() {
@@ -100,10 +112,18 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 	}
 
 	/**
-	 * Sets the default currently selected temperature setting in the preference store.
+	 * Sets the default JSON overrides setting in the preference store.
 	 */
-	private void setDefaultCurrentTemperature() {
-		Preferences.getDefault().setDefault(PreferenceConstants.CURRENT_TEMPERATURE, Constants.DEFAULT_TEMPERATURE);
+	private void setDefaultCurrentJsonOverrides() {
+		Preferences.getDefault().setDefault(PreferenceConstants.CURRENT_JSON_OVERRIDES,
+				Constants.DEFAULT_JSON_OVERRIDES);
+	}
+
+	/**
+	 * Sets the default currently selected streaming flag setting in the preference store.
+	 */
+	private void setDefaultCurrentUseStreaming() {
+		Preferences.getDefault().setDefault(PreferenceConstants.CURRENT_USE_STREAMING, Constants.DEFAULT_USE_STREAMING);
 	}
 
 	/**
@@ -115,10 +135,11 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 	}
 
 	/**
-	 * Sets the default currently selected streaming flag setting in the preference store.
+	 * Sets the default currently selected developer message flag setting in the preference store.
 	 */
-	private void setDefaultCurrentUseStreaming() {
-		Preferences.getDefault().setDefault(PreferenceConstants.CURRENT_USE_STREAMING, Constants.DEFAULT_USE_STREAMING);
+	private void setDefaultCurrentUseDeveloperMessage() {
+		Preferences.getDefault().setDefault(PreferenceConstants.CURRENT_USE_DEVELOPER_MESSAGE,
+				Constants.DEFAULT_USE_DEVELOPER_MESSAGE);
 	}
 
 	/**
@@ -126,22 +147,26 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 	 */
 	private void setDefaultBookmarkedApiSettings() {
 		try {
-			String serializedSettings = Preferences.serializeBookmarkedApiSettings(Constants.DEFAULT_BOOKMARKED_API_SETTINGS);
-			Preferences.getDefault().setDefault(PreferenceConstants.BOOKMARKED_API_SETTINGS, serializedSettings);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			try (ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+				oos.writeObject(Constants.DEFAULT_BOOKMARKED_API_SETTINGS);
+			}
+			String serializedData = Base64.getEncoder().encodeToString(baos.toByteArray());
+			Preferences.getDefault().setDefault(PreferenceConstants.BOOKMARKED_API_SETTINGS, serializedData);
 		} catch (IOException e) {
 			Logger.warning("Failed to set default bookmarked API settings: " + e.getMessage());
 		}
 	}
 
 	/**
-	 * Sets the default value for the chat conversation in the preferences.
-	 * This method initializes the chat conversation setting to an empty string,
+	 * Sets the default value for the chat conversations in the preferences.
+	 * This method initializes the chat conversations setting to an empty string,
 	 * which might be used to represent no initial conversation history.
 	 *
 	 * @see Preferences#setDefault(String, String)
 	 */
-	private void setDefaultChatConversation() {
-		Preferences.getDefault().setDefault(PreferenceConstants.CHAT_CONVERSATION, "");
+	private void setDefaultChatConversations() {
+		Preferences.getDefault().setDefault(PreferenceConstants.CHAT_CONVERSATIONS, "");
 	}
 
 	/**

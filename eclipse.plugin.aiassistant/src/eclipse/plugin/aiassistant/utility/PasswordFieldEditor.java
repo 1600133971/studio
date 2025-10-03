@@ -13,6 +13,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
+import eclipse.plugin.aiassistant.messages.Messages;
+
 /**
  * A field editor for password type preferences that masks input with bullet characters.
  *
@@ -143,7 +145,7 @@ public class PasswordFieldEditor extends StringFieldEditor {
 			getTextControl().setToolTipText(text);
 		}
 		if (showPasswordButton != null) {
-			showPasswordButton.setToolTipText("Show or hide password");
+			showPasswordButton.setToolTipText(Messages.Showorhidepassword);
 		}
 	}
 
@@ -273,7 +275,7 @@ public class PasswordFieldEditor extends StringFieldEditor {
 				.getSystemColor(!isEmpty ? SWT.COLOR_WIDGET_FOREGROUND : SWT.COLOR_WIDGET_DISABLED_FOREGROUND));
 
 		// Button text reflects the underlying state flag (showPassword), not the effective visibility
-		showPasswordButton.setText(showPassword ? "Hide" : "Show");
+		showPasswordButton.setText(showPassword ? Messages.Hide : Messages.Show);
 
 		// Determine the effective display state based on the flag and emptiness
 		boolean isEffectivelyVisible = showPassword || isEmpty;

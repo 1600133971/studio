@@ -5,7 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -95,6 +94,15 @@ public final class Preferences {
 	}
 
 	/**
+	 * Returns the user input font size.
+	 *
+	 * @return The user input font size.
+	 */
+	public static Integer getUserInputFontSize() {
+		return preferenceStore.getInt(PreferenceConstants.USER_INPUT_FONT_SIZE);
+	}
+
+	/**
 	 * This method retrieves a boolean value from the preference store indicating
 	 * whether to disable tooltips.
 	 *
@@ -132,21 +140,12 @@ public final class Preferences {
 	}
 
 	/**
-	 * Returns the currently selected temperature from the preference store.
+	 * Returns the currently selected JSON overrides from the preference store.
 	 *
-	 * @return The temperature value.
+	 * @return The JSON overrides string.
 	 */
-	public static Double getCurrentTemperature() {
-		return preferenceStore.getDouble(PreferenceConstants.CURRENT_TEMPERATURE);
-	}
-
-	/**
-	 * Returns the currently selected system message flag from the preference store.
-	 *
-	 * @return The message flag value.
-	 */
-	public static Boolean getCurrentUseSystemMessage() {
-		return preferenceStore.getBoolean(PreferenceConstants.CURRENT_USE_SYSTEM_MESSAGE);
+	public static String getCurrentJsonOverrides() {
+		return preferenceStore.getString(PreferenceConstants.CURRENT_JSON_OVERRIDES);
 	}
 
 	/**
@@ -159,31 +158,48 @@ public final class Preferences {
 	}
 
 	/**
-	 * Serializes a list of BookmarkedApiSettings to a Base64 encoded string.
+	 * Returns the currently selected system message flag from the preference store.
 	 *
-	 * @param bookmarkedApiSettings The list of settings to serialize
-	 * @return Base64 encoded string representation
-	 * @throws IOException If serialization fails
+	 * @return The message flag value.
 	 */
-	public static String serializeBookmarkedApiSettings(List<BookmarkedApiSettings> bookmarkedApiSettings) throws IOException {
+	public static Boolean getCurrentUseSystemMessage() {
+		return preferenceStore.getBoolean(PreferenceConstants.CURRENT_USE_SYSTEM_MESSAGE);
+	}
+
+	/**
+	 * Returns the currently selected developer message flag from the preference store.
+	 *
+	 * @return The developer message flag value.
+	 */
+	public static Boolean getCurrentUseDeveloperMessage() {
+		return preferenceStore.getBoolean(PreferenceConstants.CURRENT_USE_DEVELOPER_MESSAGE);
+	}
+
+	/**
+	 * Saves the current state of the bookmarked API settings to the preference store.
+	 *
+	 * @param bookmarkedApiSettings The list of settings to be saved.
+	 * @throws IOException If an error occurs during the serialization process.
+	 */
+	public static void saveBookmarkedApiSettings(List<BookmarkedApiSettings> bookmarkedApiSettings) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try (ObjectOutputStream oos = new ObjectOutputStream(baos)) {
 			oos.writeObject(bookmarkedApiSettings);
 		}
-		return Base64.getEncoder().encodeToString(baos.toByteArray());
+		String serializedData = Base64.getEncoder().encodeToString(baos.toByteArray());
+		preferenceStore.setValue(PreferenceConstants.BOOKMARKED_API_SETTINGS, serializedData);
 	}
 
 	/**
-	 * Deserializes a Base64 encoded string back to a list of BookmarkedApiSettings.
+	 * Loads a set of bookmarked API settings from the preference store.
 	 *
-	 * @param serializedData Base64 encoded string to deserialize
-	 * @return The deserialized list of BookmarkedApiSettings
-	 * @throws IOException If deserialization fails
-	 * @throws ClassNotFoundException If the BookmarkedApiSettings class cannot be found
+	 * @return The deserialized list of BookmarkedApiSettings.
+	 * @throws IOException If an error occurs during the deserialization process.
+	 * @throws ClassNotFoundException If the class of a serialized object cannot be found.
 	 */
 	@SuppressWarnings("unchecked")
-	public static List<BookmarkedApiSettings> deserializeBookmarkedApiSettings(String serializedData)
-			throws IOException, ClassNotFoundException {
+	public static List<BookmarkedApiSettings> loadBookmarkedApiSettings() throws IOException, ClassNotFoundException {
+		String serializedData = preferenceStore.getString(PreferenceConstants.BOOKMARKED_API_SETTINGS);
 		if (serializedData == null || serializedData.isEmpty()) {
 			return new ArrayList<>();
 		}
@@ -195,48 +211,41 @@ public final class Preferences {
 	}
 
 	/**
-	 * Saves the current state of the bookmarked API settings to the preference store.
+	 * Saves the current state of multiple ChatConversations to the preference store.
 	 *
-	 * @param bookmarkedApiSettings The list of settings to be saved.
+	 * @param conversations The list of ChatConversation objects to be saved.
 	 * @throws IOException If an error occurs during the serialization process.
 	 */
-	public static void saveBookmarkedApiSettings(List<BookmarkedApiSettings> bookmarkedApiSettings) throws IOException {
-		String serializedData = serializeBookmarkedApiSettings(bookmarkedApiSettings);
-		preferenceStore.setValue(PreferenceConstants.BOOKMARKED_API_SETTINGS, serializedData);
+	public static void saveChatConversations(List<ChatConversation> conversations) throws IOException {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try (ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+			oos.writeObject(conversations);
+		}
+		String serializedData = Base64.getEncoder().encodeToString(baos.toByteArray());
+		preferenceStore.setValue(PreferenceConstants.CHAT_CONVERSATIONS, serializedData);
 	}
 
 	/**
-	 * Loads a set of bookmarked API settings from the preference store.
+	 * Loads multiple ChatConversations from the preference store.
 	 *
-	 * @return The deserialized list of BookmarkedApiSettings.
+	 * @return The list of deserialized ChatConversation objects.
 	 * @throws IOException If an error occurs during the deserialization process.
 	 * @throws ClassNotFoundException If the class of a serialized object cannot be found.
 	 */
-	public static List<BookmarkedApiSettings> loadBookmarkedApiSettings() throws IOException, ClassNotFoundException {
-		String serializedData = preferenceStore.getString(PreferenceConstants.BOOKMARKED_API_SETTINGS);
-		return deserializeBookmarkedApiSettings(serializedData);
-	}
+	@SuppressWarnings("unchecked")
+	public static List<ChatConversation> loadChatConversations() throws IOException, ClassNotFoundException {
+		String serializedData = preferenceStore.getString(PreferenceConstants.CHAT_CONVERSATIONS);
+		if (serializedData == null || serializedData.isEmpty()) {
+			// Return single empty conversation as default
+			List<ChatConversation> defaultConversations = new ArrayList<>();
+			defaultConversations.add(new ChatConversation());
+			return defaultConversations;
+		}
 
-	/**
-	 * Saves the current state of a ChatConversation to the preference store.
-	 *
-	 * @param conversation The ChatConversation object to be saved.
-	 * @throws IOException If an error occurs during the serialization process.
-	 */
-	public static void saveChatConversation(ChatConversation conversation) throws IOException {
-		String serializedData = conversation.serialize();
-		preferenceStore.setValue(PreferenceConstants.CHAT_CONVERSATION, serializedData);
-	}
-
-	/**
-	 * Loads a ChatConversation from the preference store.
-	 *
-	 * @return The deserialized ChatConversation object.
-	 * @throws IOException If an error occurs during the deserialization process.
-	 */
-	public static ChatConversation loadChatConversation() throws IOException {
-		String serializedData = preferenceStore.getString(PreferenceConstants.CHAT_CONVERSATION);
-		return ChatConversation.deserialize(serializedData);
+		byte[] data = Base64.getDecoder().decode(serializedData);
+		try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data))) {
+			return (List<ChatConversation>) ois.readObject();
+		}
 	}
 
 	/**
@@ -246,7 +255,11 @@ public final class Preferences {
 	 * @throws IOException If an error occurs during the serialization process.
 	 */
 	public static void saveUserMessageHistory(UserMessageHistory history) throws IOException {
-		String serializedData = history.serialize();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try (ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+			oos.writeObject(history);
+		}
+		String serializedData = Base64.getEncoder().encodeToString(baos.toByteArray());
 		preferenceStore.setValue(PreferenceConstants.USER_MESSAGE_HISTORY, serializedData);
 	}
 
@@ -255,10 +268,20 @@ public final class Preferences {
 	 *
 	 * @return The deserialized UserMessageHistory object.
 	 * @throws IOException If an error occurs during the deserialization process.
+	 * @throws ClassNotFoundException If the class of a serialized object cannot be found.
 	 */
-	public static UserMessageHistory loadUserMessageHistory() throws IOException {
+	public static UserMessageHistory loadUserMessageHistory() throws IOException, ClassNotFoundException {
 		String serializedData = preferenceStore.getString(PreferenceConstants.USER_MESSAGE_HISTORY);
-		return UserMessageHistory.deserialize(serializedData);
+		if (serializedData == null || serializedData.isEmpty()) {
+			return new UserMessageHistory();
+		}
+
+		byte[] data = Base64.getDecoder().decode(serializedData.replaceAll("[^A-Za-z0-9+/=]", ""));
+		try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data))) {
+			UserMessageHistory history = (UserMessageHistory) ois.readObject();
+			history.resetPosition(); // Set currentIndex to point to the last message
+			return history;
+		}
 	}
 
 }

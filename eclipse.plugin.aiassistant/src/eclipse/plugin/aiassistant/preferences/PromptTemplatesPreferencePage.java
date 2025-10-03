@@ -17,6 +17,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+import eclipse.plugin.aiassistant.messages.Messages;
+
 /**
  * This class represents a preference page for the prompt templates.
  */
@@ -34,7 +36,7 @@ public class PromptTemplatesPreferencePage extends PreferencePage implements IWo
      */
 	public PromptTemplatesPreferencePage() {
 		setPreferenceStore(Preferences.getDefault());
-		setDescription("View or edit the prompt templates.");
+		setDescription(Messages.Vieworedittheprompttemplates);
 		preferencePresenter = new PromptTemplatesPreferencePresenter();
 	}
 

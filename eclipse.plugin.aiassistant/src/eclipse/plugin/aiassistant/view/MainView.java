@@ -1,18 +1,26 @@
 package eclipse.plugin.aiassistant.view;
 
-import org.eclipse.swt.widgets.Composite;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabFolder2Adapter;
+import org.eclipse.swt.custom.CTabFolderEvent;
+import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.part.ViewPart;
 
 import eclipse.plugin.aiassistant.Constants;
+import eclipse.plugin.aiassistant.chat.ChatConversation;
 import eclipse.plugin.aiassistant.utility.Eclipse;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.SashForm;
 
 /**
  * MainView is responsible for displaying the AI assistant's chat interface
@@ -28,25 +36,42 @@ public class MainView extends ViewPart {
 
 	private SashForm sashForm;
 	private Composite mainContainer;
-	private ChatConversationArea chatMessageArea;
+	private CTabFolder tabFolder;
+	private TabButtonBarArea tabButtonBarArea;
+	private List<ChatConversationArea> chatAreas;
 	private UserInputArea userInputArea;
 	private ButtonBarArea buttonBarArea;
 
+	private Image tabIcon;
+
+	// Index of the only tab that should remain accessible when UI is disabled, or -1 when all tabs are enabled.
+	private int disableAllTabsBut = -1;
+
 	/**
 	 * Initializes the view components and sets up the presenter.
-	 * 
+	 *
 	 * @param parent The parent composite on which this view is built.
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
-		mainPresenter = new MainPresenter();
+		mainPresenter = new MainPresenter(this);
 		sashForm = new SashForm(parent, SWT.VERTICAL);
 		mainContainer = createMainContainer(sashForm);
-		chatMessageArea = new ChatConversationArea(mainPresenter, mainContainer);
+
+		// Create tab folder directly in main container
+		tabIcon = Eclipse.loadIcon("Conversation.png");
+		tabFolder = createTabFolder(mainContainer);
+		tabButtonBarArea = new TabButtonBarArea(mainPresenter, tabFolder);
+		tabFolder.setTopRight(tabButtonBarArea.getButtonContainer()); // Place button container in tab folder header
+		tabFolder.setUnselectedCloseVisible(true); // Show close button when hover over an unselected tabs.
+		chatAreas = new ArrayList<>();
+
+		setupTabListeners();
+
 		userInputArea = new UserInputArea(mainPresenter, mainContainer);
 		buttonBarArea = new ButtonBarArea(mainPresenter, mainContainer);
 		setInputEnabled(true); // Will turn off stop and set everything else on.
-		mainPresenter.loadStateFromPreferenceStore(); // Runs asynchronously on UI thread.
+		mainPresenter.loadStateFromPreferenceStore();
 	}
 
 	/**
@@ -55,13 +80,16 @@ public class MainView extends ViewPart {
 	@Override
 	public void dispose() {
 		super.dispose();
+		if (tabIcon != null && !tabIcon.isDisposed()) {
+			tabIcon.dispose();
+		}
 		mainPresenter.saveStateToPreferenceStore(); // Runs synchronously on UI thread.
 	}
 
 	/**
 	 * Provides access to the MainPresenter which handles the logic for user
 	 * interactions.
-	 * 
+	 *
 	 * @return The MainPresenter instance managing this view.
 	 */
 	public MainPresenter getMainPresenter() {
@@ -78,7 +106,7 @@ public class MainView extends ViewPart {
 
 	/**
 	 * Checks if the main SashForm component is disposed.
-	 * 
+	 *
 	 * @return true if the SashForm is disposed, otherwise false.
 	 */
 	public boolean isDisposed() {
@@ -86,17 +114,39 @@ public class MainView extends ViewPart {
 	}
 
 	/**
-	 * Retrieves the ChatMessageArea component.
-	 * 
-	 * @return The ChatMessageArea component used for displaying messages.
+	 * Retrieves the currently active ChatConversationArea component.
+	 *
+	 * @return The current ChatConversationArea component used for displaying messages.
+	 * @throws IllegalStateException if no chat areas exist
 	 */
-	public ChatConversationArea getChatMessageArea() {
-		return chatMessageArea;
+	public ChatConversationArea getCurrentChatArea() {
+		if (chatAreas.isEmpty()) {
+			throw new IllegalStateException("No chat areas available");
+		}
+		int selectedIndex = tabFolder.getSelectionIndex();
+		if (selectedIndex < 0 || selectedIndex >= chatAreas.size()) {
+			throw new IndexOutOfBoundsException("Tab index " + selectedIndex + " is out of bounds (size: " + chatAreas.size() + ")");
+		}
+		return chatAreas.get(selectedIndex);
+	}
+
+	/**
+	 * Retrieves the ChatConversationArea component at the specified tab index.
+	 *
+	 * @param index The index of the chat area to retrieve
+	 * @return The ChatConversationArea at the specified index
+	 * @throws IndexOutOfBoundsException if the index is out of bounds
+	 */
+	public ChatConversationArea getChatAreaAt(int tabIndex) {
+		if (tabIndex < 0 || tabIndex >= chatAreas.size()) {
+			throw new IndexOutOfBoundsException("Tab index " + tabIndex + " is out of bounds (size: " + chatAreas.size() + ")");
+		}
+		return chatAreas.get(tabIndex);
 	}
 
 	/**
 	 * Retrieves the UserInputArea component.
-	 * 
+	 *
 	 * @return The UserInputArea component used for user input.
 	 */
 	public UserInputArea getUserInputArea() {
@@ -104,25 +154,138 @@ public class MainView extends ViewPart {
 	}
 
 	/**
-	 * Enables or disables user interaction components based on the specified flag.
-	 * 
-	 * @param enabled true to enable interaction, false to disable it.
+	 * Creates a new tab using the provided conversation's title.
+	 *
+	 * @param conversation the conversation to create a tab for
+	 */
+	public void createNewTab(ChatConversation conversation) {
+		String tabName = conversation.getTitle();
+
+		CTabItem tabItem = new CTabItem(tabFolder, SWT.CLOSE);
+		tabItem.setText(tabName);
+
+		// Set the conversation icon
+		tabItem.setImage(tabIcon);
+
+		// Create a container for the chat area within the tab
+		Composite tabContentContainer = new Composite(tabFolder, SWT.NONE);
+		tabContentContainer.setLayout(Eclipse.createGridLayout(1, false, 0, 0, 0, 0));
+
+		// Create the chat conversation area
+		ChatConversationArea chatArea = new ChatConversationArea(mainPresenter, tabContentContainer);
+		chatAreas.add(chatArea);
+
+		tabItem.setControl(tabContentContainer);
+		tabFolder.setSelection(tabItem);
+	}
+
+	/**
+	 * Removes a tab and its associated chat area at the specified index.
+	 *
+	 * @param tabIndex the index of the tab to remove
+	 */
+	public void removeTab(int tabIndex) {
+		if (tabIndex >= 0 && tabIndex < chatAreas.size()) {
+			// Dispose the chat area
+			chatAreas.get(tabIndex).getBrowser().dispose();
+			chatAreas.remove(tabIndex);
+
+			// Remove the tab item
+			tabFolder.getItem(tabIndex).dispose();
+		}
+	}
+
+	/**
+	 * Selects the tab at the specified index.
+	 *
+	 * @param tabIndex the index of the tab to select
+	 */
+	public void selectTab(int tabIndex) {
+		if (tabIndex >= 0 && tabIndex < tabFolder.getItemCount()) {
+			tabFolder.setSelection(tabIndex);
+		}
+	}
+
+	/**
+	 * Updates the title of the tab at the specified index.
+	 *
+	 * @param tabIndex the index of the tab to update
+	 * @param title the new title for the tab
+	 */
+	public void updateTabTitle(int tabIndex, String title) {
+		if (tabIndex >= 0 && tabIndex < tabFolder.getItemCount()) {
+			tabFolder.getItem(tabIndex).setText(title);
+		}
+	}
+
+	/**
+	 * Enables or disables user input across the entire view interface.
+	 * When input is disabled, the Stop button remains enabled to allow
+	 * cancellation of ongoing operations.
+	 *
+	 * @param enabled true to enable user input, false to disable it
 	 */
 	public void setInputEnabled(boolean enabled) {
+		setInputEnabled(enabled, true);
+	}
+
+	/**
+	 * Sets the view to a busy/waiting state where all user interactions
+	 * are disabled, including the Stop button. This is used for operations
+	 * that cannot be cancelled once started.
+	 *
+	 * @param isBusy true to set busy state (disable all input), false to restore normal state
+	 */
+	public void setBusyWait(boolean isBusy) {
+		setInputEnabled(!isBusy, false);
+	}
+
+	/**
+	 * Controls the enabled/disabled state of all UI components in the view.
+	 * This method coordinates the state of multiple UI areas to ensure consistent
+	 * user interaction behavior during different application states.
+	 *
+	 * @param enabled true to enable user input, false to disable it
+	 * @param isRunningJob when true, the Stop button will have the opposite enabled state
+	 *                     of other buttons (enabled when others are disabled, and vice versa).
+	 *                     When false, all buttons including Stop follow the same enabled state.
+	 */
+	private void setInputEnabled(boolean enabled, boolean isRunningJob) {
+		// Show wait cursor when disabled to indicate processing state
+		Eclipse.runOnUIThreadSync(() -> {
+			// Save current tab index for blocking tab-switching in the listener
+			disableAllTabsBut = enabled ? -1 : tabFolder.getSelectionIndex();
+		});
 		Eclipse.runOnUIThreadAsync(() -> {
-			chatMessageArea.setEnabled(enabled); // Blocks Javascript callbacks.
+			// Block all Javascript callbacks and disable all right-click menu items
+			getCurrentChatArea().setEnabled(enabled);
+
+			// Disable all but the "STOP" button when running a job
+			buttonBarArea.setInputEnabled(enabled, isRunningJob);
+			tabButtonBarArea.setInputEnabled(enabled);
 			userInputArea.setEnabled(enabled);
-			buttonBarArea.setInputEnabled(enabled);
+
+			// Disable everything when not running a job
+			if (!isRunningJob) {
+				mainContainer.setCursor(enabled ? null : Display.getCurrent().getSystemCursor(SWT.CURSOR_WAIT));
+			}
 		});
 	}
 
 	/**
+	 * Updates the state of all buttons based on current conditions.
+	 */
+	public void updateButtonStates() {
+		buttonBarArea.updateButtonStates();
+		tabButtonBarArea.updateButtonStates();
+		userInputArea.updateButtonStates();
+	}
+
+	/**
 	 * Creates and configures the main container for this view.
-	 * 
-	 * @param parent The parent composite to which this new container will be added. It provides a context
-	 *               in which the new composite will be displayed.
-	 * @return A newly created and configured Composite instance that serves as the main container for other
-	 *         UI components in this view.
+	 *
+	 * @param parent The parent composite to which this new container will be added.
+	 * @return A newly created and configured Composite instance that serves as the main container.
 	 */
 	private Composite createMainContainer(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
@@ -132,8 +295,128 @@ public class MainView extends ViewPart {
 	}
 
 	/**
+	 * Creates and configures the tab folder for chat conversations.
+	 *
+	 * @param parent The parent composite for the tab folder.
+	 * @return The created CTabFolder instance.
+	 */
+	private CTabFolder createTabFolder(Composite parent) {
+		CTabFolder folder = new CTabFolder(parent, SWT.BORDER);
+		folder.setLayoutData(Eclipse.createGridData(true, true));
+		folder.setSimple(false);
+		folder.setUnselectedCloseVisible(false);
+		return folder;
+	}
+
+	/**
+	 * Sets up listeners for tab selection and closing events.
+	 */
+	private void setupTabListeners() {
+		// Selection listener for tab switching
+		tabFolder.addSelectionListener(SelectionListener.widgetSelectedAdapter(e -> {
+
+			// Block tab switching if UI is disabled by forcing back to the allowed tab
+			if (disableAllTabsBut != -1 && tabFolder.getSelectionIndex() != disableAllTabsBut) {
+				// Check if the saved tab index is still valid
+				if (disableAllTabsBut >= 0 && disableAllTabsBut < tabFolder.getItemCount()) {
+					tabFolder.setSelection(disableAllTabsBut);
+				}
+				return;
+			}
+
+			int newIndex = tabFolder.getSelectionIndex();
+			mainPresenter.onTabSwitched(newIndex);
+		}));
+
+		// Mouse listener for double-click to rename tabs
+		tabFolder.addMouseListener(new org.eclipse.swt.events.MouseAdapter() {
+			@Override
+			public void mouseDoubleClick(org.eclipse.swt.events.MouseEvent e) {
+
+				// Block rename if UI is disabled
+				if (disableAllTabsBut != -1) {
+					return;
+				}
+
+				CTabItem item = tabFolder.getItem(new org.eclipse.swt.graphics.Point(e.x, e.y));
+				if (item != null) {
+					int tabIndex = tabFolder.indexOf(item);
+					if (tabIndex >= 0) {
+						openRenameTabDialog(tabIndex);
+					}
+				}
+			}
+		});
+
+		// Tab folder listener for close events
+		tabFolder.addCTabFolder2Listener(new CTabFolder2Adapter() {
+			@Override
+			public void close(CTabFolderEvent event) {
+
+				// Block close if UI is disabled
+				if (disableAllTabsBut != -1) {
+					event.doit = false;
+					return;
+				}
+
+				int tabIndex = tabFolder.indexOf((CTabItem) event.item);
+				boolean shouldClose = mainPresenter.onAttemptCloseTab(tabIndex);
+
+				if (shouldClose) {
+					if (tabIndex < 0 || tabIndex >= chatAreas.size()) {
+						throw new IndexOutOfBoundsException(
+								"Tab index " + tabIndex + " is out of bounds (size: " + chatAreas.size() + ")");
+					}
+
+					// Remove from our chat areas list and dispose browser
+					chatAreas.get(tabIndex).getBrowser().dispose();
+					chatAreas.remove(tabIndex);
+
+					// Update data model AFTER UI is updated
+					mainPresenter.onCloseTab(tabIndex);
+				} else {
+					// Cancel the close operation
+					event.doit = false;
+				}
+			}
+		});
+	}
+
+	/**
+	 * Shows a dialog to rename the tab at the specified index.
+	 *
+	 * @param tabIndex the index of the tab to rename
+	 */
+	private void openRenameTabDialog(int tabIndex) {
+		if (tabIndex < 0 || tabIndex >= tabFolder.getItemCount()) {
+			return;
+		}
+
+		CTabItem tabItem = tabFolder.getItem(tabIndex);
+		String currentName = tabItem.getText();
+
+		Eclipse.runOnUIThreadAsync(() -> {
+			org.eclipse.jface.dialogs.InputDialog dialog = new org.eclipse.jface.dialogs.InputDialog(
+					sashForm.getShell(),
+					"Rename Tab",
+					"Enter new tab name:",
+					currentName,
+					null
+					);
+
+			if (dialog.open() == org.eclipse.jface.window.Window.OK) {
+				String newName = dialog.getValue();
+				if (newName != null) {
+					// Update through presenter to keep conversation title in sync
+					mainPresenter.onTabRenamed(tabIndex, newName.trim());
+				}
+			}
+		});
+	}
+
+	/**
 	 * Attempts to find an instance of MainView in the active workbench window.
-	 * 
+	 *
 	 * @return An Optional containing the MainView if available and not disposed,
 	 *         otherwise an empty Optional.
 	 * @throws IllegalStateException if no active workbench window can be found.

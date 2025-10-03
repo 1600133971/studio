@@ -31,11 +31,16 @@
            defaultHandler="eclipse.plugin.aiassistant.handlers.AddMessagePromptHandler"
            id="eclipse.plugin.aiassistant.AddMessage"
            name="AddMessage">
-     </command>
+     </command> 
      <command
            defaultHandler="eclipse.plugin.aiassistant.handlers.AddContextPromptHandler"
            id="eclipse.plugin.aiassistant.AddContext"
            name="AddContext">
+     </command>
+     <command
+           defaultHandler="eclipse.plugin.aiassistant.handlers.AddFileDiffPromptHandler"
+           id="eclipse.plugin.aiassistant.AddDiff"
+           name="AddDiff">
      </command>
      <command
            defaultHandler="eclipse.plugin.aiassistant.handlers.DiscussPromptHandler"
@@ -93,6 +98,11 @@
            name="Refactor">
      </command>
      <command
+           defaultHandler="eclipse.plugin.aiassistant.handlers.FixErrorsAndWarningsPromptHandler"
+           id="eclipse.plugin.aiassistant.FixErrorsAndWarnings"
+           name="FixErrorsAndWarnings">
+     </command>
+     <command
            defaultHandler="eclipse.plugin.aiassistant.handlers.FixWarningsPromptHandler"
            id="eclipse.plugin.aiassistant.FixWarnings"
            name="FixWarnings">
@@ -101,6 +111,16 @@
            defaultHandler="eclipse.plugin.aiassistant.handlers.FixErrorsPromptHandler"
            id="eclipse.plugin.aiassistant.FixErrors"
            name="FixErrors">
+     </command>
+     <command
+           defaultHandler="eclipse.plugin.aiassistant.handlers.AddProjectDiffPromptHandler"
+           id="eclipse.plugin.aiassistant.AddProjectDiff"
+           name="AddProjectDiff">
+     </command>
+     <command
+           defaultHandler="eclipse.plugin.aiassistant.handlers.GitCommitCommentPromptHandler"
+           id="eclipse.plugin.aiassistant.GitCommitComment"
+           name="GitCommitComment">
      </command>
   </extension>
   <extension
@@ -114,16 +134,29 @@
            <command
                  commandId="eclipse.plugin.aiassistant.AddMessage"
                  icon="icons/Add.png"
-                 label="%AddToMessage"
+                 label="%AddasMessage"
                  style="push"
-                 tooltip="%AddToMessageTooltip">
+                 tooltip="%AddasMessageTooltip">
            </command>
            <command
                  commandId="eclipse.plugin.aiassistant.AddContext"
-                 icon="icons/Add.png"
-                 label="%AddAsContext"
+                 icon="icons/AddContext.png"
+                 label="%AddasContext"
                  style="push"
-                 tooltip="%AddAsContextTooltip">
+                 tooltip="%AddasContextTooltip">
+           </command>       
+           <command
+                 commandId="eclipse.plugin.aiassistant.AddDiff"
+                 icon="icons/DiffFile.png"
+                 label="%AddStagedDiff"
+                 style="push"
+                 tooltip="%AddStagedDiffTooltip">
+              <visibleWhen
+                    checkEnabled="false">
+                 <test
+                       property="eclipse.plugin.aiassistant.GitFileDiffVisibilityHandler">
+                 </test>
+              </visibleWhen>
            </command>
            <separator
                  name="eclipse.plugin.aiassistant.separator1"
@@ -141,7 +174,7 @@
                  icon="icons/Explain.png"
                  label="%Explain"
                  style="push"
-                 tooltip="%ExplainTooltip">
+                 tooltip="%DiscussTooltip">
            </command>
            <command
                  commandId="eclipse.plugin.aiassistant.CodeReview"
@@ -215,6 +248,19 @@
                  visible="true">
            </separator>
            <command
+                 commandId="eclipse.plugin.aiassistant.FixErrorsAndWarnings"
+                 icon="icons/FixErrorsAndWarnings.png"
+                 label="%FixErrorsandWarnings"
+                 style="push"
+                 tooltip="%FixErrorsandWarningsTooltip">
+              <visibleWhen
+                    checkEnabled="false">
+                 <test
+                       property="eclipse.plugin.aiassistant.FixErrorsAndWarningsVisibilityHandler">
+                 </test>
+              </visibleWhen>
+           </command>
+           <command
                  commandId="eclipse.plugin.aiassistant.FixWarnings"
                  icon="icons/FixWarnings.png"
                  label="%FixWarnings"
@@ -248,6 +294,45 @@
            </visibleWhen>
         </menu>
      </menuContribution>
+     <menuContribution locationURI="popup:team.main?after=org.eclipse.egit.ui.team.ShowRepositoriesView">
+        <menu
+              icon="icons/Robot.png"
+              label="%AIAssistant"
+              id="eclipse.plugin.aiassistant.team.menu">
+           <command
+                commandId="eclipse.plugin.aiassistant.AddProjectDiff"
+                icon="icons/DiffProject.png"
+                label="%AddProjectDiff"
+                style="push"
+                tooltip="%AddProjectDiffTooltip">
+              <visibleWhen
+                    checkEnabled="false">
+                 <test
+                       property="eclipse.plugin.aiassistant.GitProjectDiffVisibilityHandler">
+                 </test>
+              </visibleWhen>
+           </command>
+           <command
+                commandId="eclipse.plugin.aiassistant.GitCommitComment"
+                icon="icons/CodeGeneration.png"
+                label="%GitCommitComment"
+                style="push"
+                tooltip="%GitCommitCommentTooltip">
+              <visibleWhen
+                    checkEnabled="false">
+                 <test
+                       property="eclipse.plugin.aiassistant.GitProjectDiffVisibilityHandler">
+                 </test>
+              </visibleWhen>
+           </command>
+           <visibleWhen
+                 checkEnabled="false">
+              <test
+                    property="eclipse.plugin.aiassistant.TeamMenuVisibilityHandler">
+              </test>
+           </visibleWhen>
+        </menu>
+     </menuContribution>
   </extension>
   <extension
     point="org.eclipse.ui.preferencePages">
@@ -271,26 +356,54 @@
   </extension>
   <extension
         point="org.eclipse.core.expressions.propertyTesters">
-          <propertyTester
+     <propertyTester
+           class="eclipse.plugin.aiassistant.handlers.FixErrorsAndWarningsVisibilityHandler"
+           id="eclipse.plugin.aiassistant.FixErrorsAndWarningsVisibilityHandler"
+           namespace="eclipse.plugin.aiassistant"
+           properties="FixErrorsAndWarningsVisibilityHandler"
+           type="java.lang.Object">
+     </propertyTester>
+     <propertyTester
            class="eclipse.plugin.aiassistant.handlers.FixWarningsVisibilityHandler"
            id="eclipse.plugin.aiassistant.FixWarningsVisibilityHandler"
            namespace="eclipse.plugin.aiassistant"
            properties="FixWarningsVisibilityHandler"
            type="java.lang.Object">
      </propertyTester>
-          <propertyTester
+     <propertyTester
            class="eclipse.plugin.aiassistant.handlers.FixErrorsVisibilityHandler"
            id="eclipse.plugin.aiassistant.FixErrorsVisibilityHandler"
            namespace="eclipse.plugin.aiassistant"
            properties="FixErrorsVisibilityHandler"
            type="java.lang.Object">
      </propertyTester>
-          <propertyTester
-                class="eclipse.plugin.aiassistant.handlers.MenuVisibilityHandler"
-                id="eclipse.plugin.aiassistant.MenuVisibilityHandler"
-                namespace="eclipse.plugin.aiassistant"
-                properties="MenuVisibilityHandler"
-                type="java.lang.Object">
-          </propertyTester>
+     <propertyTester
+           class="eclipse.plugin.aiassistant.handlers.MenuVisibilityHandler"
+           id="eclipse.plugin.aiassistant.MenuVisibilityHandler"
+           namespace="eclipse.plugin.aiassistant"
+           properties="MenuVisibilityHandler"
+           type="java.lang.Object">
+     </propertyTester>
+     <propertyTester
+           class="eclipse.plugin.aiassistant.handlers.TeamMenuVisibilityHandler"
+           id="eclipse.plugin.aiassistant.TeamMenuVisibilityHandler"
+           namespace="eclipse.plugin.aiassistant"
+           properties="TeamMenuVisibilityHandler"
+           type="java.lang.Object">
+     </propertyTester>
+     <propertyTester
+           class="eclipse.plugin.aiassistant.handlers.GitProjectDiffVisibilityHandler"
+           id="eclipse.plugin.aiassistant.GitProjectDiffVisibilityHandler"
+           namespace="eclipse.plugin.aiassistant"
+           properties="GitProjectDiffVisibilityHandler"
+           type="java.lang.Object">
+     </propertyTester>
+     <propertyTester
+           class="eclipse.plugin.aiassistant.handlers.GitFileDiffVisibilityHandler"
+           id="eclipse.plugin.aiassistant.GitFileDiffVisibilityHandler"
+           namespace="eclipse.plugin.aiassistant"
+           properties="GitFileDiffVisibilityHandler"
+           type="java.lang.Object">
+     </propertyTester>
   </extension>
 </plugin>

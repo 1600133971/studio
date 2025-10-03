@@ -1,52 +1,58 @@
 package eclipse.plugin.aiassistant.view;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
-
-import eclipse.plugin.aiassistant.Constants;
-import eclipse.plugin.aiassistant.preferences.Preferences;
-import eclipse.plugin.aiassistant.utility.Eclipse;
-
-import org.eclipse.swt.widgets.Button;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+
+import eclipse.plugin.aiassistant.Constants;
+import eclipse.plugin.aiassistant.messages.Messages;
+import eclipse.plugin.aiassistant.prompt.Prompts;
+import eclipse.plugin.aiassistant.utility.Eclipse;
 
 /**
- * This class represents the button bar area in the application. It contains
- * methods to create and manage buttons, as well as handle user interactions
- * with them.
+ * Manages the button bar with undo, redo, clear, and start/stop buttons.
  */
 public class ButtonBarArea {
 
-	public static final String CLEAR_NAME = "Clear";
-	public static final String CLEAR_TOOLTIP = "Clear the Chat History";
-	public static final String CLEAR_ICON = "Clear.png";
-	public static final String UNDO_NAME = "Undo";
-	public static final String UNDO_TOOLTIP = "Undo the Last Chat Interaction";
+	// Button configuration constants
+	public static final String UNDO_NAME = Messages.UNDO_NAME;
+	public static final String UNDO_TOOLTIP = Messages.UNDO_TOOLTIP;
 	public static final String UNDO_ICON = "Undo.png";
-	public static final String STOP_NAME = "Stop";
-	public static final String STOP_TOOLTIP = "Stop the AI";
+
+	public static final String REDO_NAME = Messages.UNDO_NAME;
+	public static final String REDO_TOOLTIP = Messages.REDO_TOOLTIP;
+	public static final String REDO_ICON = "Redo.png";
+
+	public static final String CLEAR_NAME = Messages.CLEAR_NAME;
+	public static final String CLEAR_TOOLTIP = Messages.CLEAR_TOOLTIP;
+	public static final String CLEAR_ICON = "Clear.png";
+
+	public static final String START_NAME = Messages.START_NAME;
+	public static final String START_ICON = "Start.png";
+	public static final String START_TOOLTIP = Messages.START_TOOLTIP;
+
+	public static final String STOP_NAME = Messages.STOP_NAME;
+	public static final String STOP_TOOLTIP = Messages.STOP_TOOLTIP;
 	public static final String STOP_ICON = "Stop.png";
-	public static final String SETTINGS_NAME = "Settings";
-	public static final String SETTINGS_TOOLTIP = "Open the Settings Page";
-	public static final String SETTINGS_ICON = "Settings.png";
 
+	// Core components
 	private final MainPresenter mainPresenter;
-
 	private final List<ButtonConfig> buttonConfigs = List.of(
-			new ButtonConfig(CLEAR_NAME, CLEAR_TOOLTIP, CLEAR_ICON, this::onClear),
 			new ButtonConfig(UNDO_NAME, UNDO_TOOLTIP, UNDO_ICON, this::onUndo),
-			new ButtonConfig(STOP_NAME, STOP_TOOLTIP, STOP_ICON, this::onStop),
-			new ButtonConfig(SETTINGS_NAME, SETTINGS_TOOLTIP, SETTINGS_ICON,
-					this::onSettings));
+			new ButtonConfig(REDO_NAME, REDO_TOOLTIP, REDO_ICON, this::onRedo),
+			new ButtonConfig(CLEAR_NAME, CLEAR_TOOLTIP, CLEAR_ICON, this::onClear),
+			new ButtonConfig(START_NAME, START_TOOLTIP, START_ICON, this::onStartStop));
 
+	// UI components
 	private Composite buttonContainer;
 	private List<Button> buttons;
+	private Button startStopButton;
 
 	/**
 	 * Constructs a new ButtonBarArea instance with the given main presenter and
@@ -62,20 +68,73 @@ public class ButtonBarArea {
 	}
 
 	/**
-	 * Sets the input enabled state for all buttons in the button bar area.
+	 * Controls the enabled/disabled state of all buttons in the button bar.
 	 *
-	 * @param enabled True to enable input, false to disable it.
+	 * @param enabled true to enable buttons, false to disable them
+	 * @param isRunningJob when true, overrides normal enable/disable behavior for the
+	 *                     start/stop button. Instead shows "Stop" state when enabled=false
+	 *                     (during processing) and "Start" state when enabled=true (when idle).
+	 *                     When false, all buttons including start/stop follow normal enable/disable.
 	 */
-	public void setInputEnabled(boolean enabled) {
+	public void setInputEnabled(boolean enabled, boolean isRunningJob) {
 		Eclipse.runOnUIThreadAsync(() -> {
-			buttonContainer.setCursor(enabled ? null : Display.getCurrent().getSystemCursor(SWT.CURSOR_WAIT));
 			for (int i = 0; i < buttons.size(); i++) {
 				Button button = buttons.get(i);
-				if (button.getText().equals(STOP_NAME)) {
-					button.setEnabled(!enabled); // Stop has opposite enabled/disabled status to other buttons.
-					button.setCursor(enabled ? null : Display.getCurrent().getSystemCursor(SWT.CURSOR_HAND));
+				if (isRunningJob && (button.getText().equals(STOP_NAME) || button.getText().equals(START_NAME))) {
+					if (!enabled) {
+						// Show Stop button when processing - only change if currently Start
+						if (button.getText().equals(START_NAME)) {
+							button.setText(STOP_NAME);
+							button.setToolTipText(STOP_TOOLTIP);
+							Eclipse.setButtonIcon(button, STOP_ICON);
+						}
+						// Stop will be the only control without the SWT.CURSOR_WAIT spinning cursor
+						button.setEnabled(true);
+						button.setCursor(Display.getCurrent().getSystemCursor(SWT.CURSOR_HAND));
+					} else {
+						// Show Start button when idle - only change if currently Stop
+						if (button.getText().equals(STOP_NAME)) {
+							button.setText(START_NAME);
+							button.setToolTipText(START_TOOLTIP);
+							Eclipse.setButtonIcon(button, START_ICON);
+						}
+						button.setEnabled(false);
+						button.setCursor(null);
+					}
 				} else {
 					button.setEnabled(enabled);
+					button.setCursor(enabled ? null : Display.getCurrent().getSystemCursor(SWT.CURSOR_WAIT));
+				}
+			}
+			if (enabled) {
+				updateButtonStates();
+			}
+		});
+	}
+
+	/**
+	 * Updates the state of all buttons based on current conditions.
+	 * Enables/disables buttons based on conversation state and ensures the
+	 * start/stop button shows as "Start" when in idle state.
+	 */
+	public void updateButtonStates() {
+		Eclipse.runOnUIThreadAsync(() -> {
+			for (int i = 0; i < buttons.size(); i++) {
+				Button button = buttons.get(i);
+				if (button.getText().equals(UNDO_NAME)) {
+					button.setEnabled(!mainPresenter.isConversationEmpty());
+				} else if (button.getText().equals(REDO_NAME)) {
+					button.setEnabled(mainPresenter.canRedo());
+				} else if (button.getText().equals(CLEAR_NAME)) {
+					button.setEnabled(!mainPresenter.isConversationEmpty());
+				} else if (button.getText().equals(STOP_NAME) || button.getText().equals(START_NAME)) {
+					// Ensure start/stop button shows as "Start" when idle
+					if (button.getText().equals(STOP_NAME)) {
+						button.setText(START_NAME);
+						button.setToolTipText(START_TOOLTIP);
+						Eclipse.setButtonIcon(button, START_ICON);
+					}
+					button.setEnabled(!mainPresenter.isConversationEmpty());
 				}
 			}
 		});
@@ -97,26 +156,25 @@ public class ButtonBarArea {
 
 	/**
 	 * Creates and initializes buttons based on the provided button configurations.
+	 * Also stores a reference to the start/stop button for later state management.
 	 */
 	private void createButtons() {
 		buttons = new ArrayList<>();
 		for (ButtonConfig config : buttonConfigs) {
 			Button button = Eclipse.createButton(buttonContainer, config.name, config.tooltip, config.filename,
 					new SelectionAdapter() {
-						@Override
-						public void widgetSelected(SelectionEvent e) {
-							config.action.run();
-						}
-					});
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					config.action.run();
+				}
+			});
 			buttons.add(button);
-		}
-	}
 
-	/**
-	 * Handles the 'Clear' button click event by delegating to the main presenter.
-	 */
-	private void onClear() {
-		mainPresenter.onClear();
+			// Store reference to start/stop button for state management
+			if (config.name.equals(START_NAME)) {
+				startStopButton = button;
+			}
+		}
 	}
 
 	/**
@@ -127,17 +185,29 @@ public class ButtonBarArea {
 	}
 
 	/**
-	 * Handles the 'Stop' button click event by delegating to the main presenter.
+	 * Handles the 'Redo' button click event by delegating to the main presenter.
 	 */
-	private void onStop() {
-		mainPresenter.onStop();
+	private void onRedo() {
+		mainPresenter.onRedo();
 	}
 
 	/**
-	 * Opens the Preferences dialog when the 'Settings' button is clicked.
+	 * Handles the 'Clear' button click event by delegating to the main presenter.
 	 */
-	private void onSettings() {
-		Preferences.openPreferenceDialog();
+	private void onClear() {
+		mainPresenter.onClear();
+	}
+
+	/**
+	 * Handles the 'Start/Stop' button click event by delegating to the appropriate main presenter method.
+	 * When in "Start" state, sends a default prompt. When in "Stop" state, cancels the current operation.
+	 */
+	private void onStartStop() {
+		if (startStopButton.getText().equals(START_NAME)) {
+			mainPresenter.sendPredefinedPrompt(Prompts.DEFAULT);
+		} else {
+			mainPresenter.onStop();
+		}
 	}
 
 	/**

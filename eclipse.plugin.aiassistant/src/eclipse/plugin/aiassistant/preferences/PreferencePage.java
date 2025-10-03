@@ -31,9 +31,10 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import eclipse.plugin.aiassistant.Constants;
 import eclipse.plugin.aiassistant.Logger;
+import eclipse.plugin.aiassistant.messages.Messages;
 import eclipse.plugin.aiassistant.network.OpenAiApiClient;
-import eclipse.plugin.aiassistant.utility.DoubleFieldEditor;
 import eclipse.plugin.aiassistant.utility.Eclipse;
+import eclipse.plugin.aiassistant.utility.JsonFieldEditor;
 import eclipse.plugin.aiassistant.utility.PasswordFieldEditor;
 import eclipse.plugin.aiassistant.utility.UrlFieldEditor;
 
@@ -92,15 +93,17 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 	private IntegerFieldEditor streamingUpdateIntervalEditor;
 	private IntegerFieldEditor chatFontSizeEditor;
 	private IntegerFieldEditor notificationFontSizeEditor;
+	private IntegerFieldEditor userInputFontSizeEditor;
 	private BooleanFieldEditor disableTooltipsEditor;
 
 	/** Field editors for current API configuration */
 	private StringFieldEditor modelNameEditor;
 	private UrlFieldEditor apiUrlEditor;
 	private PasswordFieldEditor apiKeyEditor;
-	private DoubleFieldEditor temperatureEditor;
-	private AccessibleBooleanFieldEditor useSystemMessageEditor;
+	private JsonFieldEditor jsonOverridesEditor;
 	private AccessibleBooleanFieldEditor useStreamingEditor;
+	private AccessibleBooleanFieldEditor useSystemMessageEditor;
+	private AccessibleBooleanFieldEditor useDeveloperMessageEditor;
 
 	private Button bookmarkButton;
 	private Button unbookmarkButton;
@@ -148,14 +151,14 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 		layout.marginHeight = 3;
 		parent.setLayout(layout);
 
-		createSectionHeader(parent, "GENERAL SETTINGS:");
+		createSectionHeader(parent, Messages.GENERAL_SETTINGS);
 		createGlobalSettingsGroup(parent);
 
-		createSectionHeader(parent, "\nCURRENT API SETTINGS:");
+		createSectionHeader(parent, Messages.CURRENT_API_SETTINGS);
 		createCurrentApiSettingsGroup(parent);
 		createCurrentApiSettingsButtons(parent);
 
-		createSectionHeader(parent, "\nBOOKMARKED API SETTINGS:");
+		createSectionHeader(parent, Messages.BOOKMARKED_API_SETTINGS);
 		createTable(parent);
 		createTableActionButtons(parent);
 
@@ -163,9 +166,13 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 		addSettingsChangeListener(modelNameEditor.getTextControl(parent));
 		addSettingsChangeListener(apiUrlEditor.getTextControl(parent));
 		addSettingsChangeListener(apiKeyEditor.getTextControl(parent));
-		addSettingsChangeListener(temperatureEditor.getTextControl(parent));
-		addSettingsChangeListener(useSystemMessageEditor.getCheckboxControl(parent));
+		addSettingsChangeListener(jsonOverridesEditor.getTextControl(parent));
 		addSettingsChangeListener(useStreamingEditor.getCheckboxControl(parent));
+		addSettingsChangeListener(useSystemMessageEditor.getCheckboxControl(parent));
+		addSettingsChangeListener(useDeveloperMessageEditor.getCheckboxControl(parent));
+
+		// Add mutual exclusion logic for system and developer message checkboxes
+		addMutualExclusionLogic(parent);
 	}
 
 	/**
@@ -193,32 +200,37 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 	 */
 	private void createGlobalSettingsGroup(Composite parent) {
 		connectionTimeoutEditor = new IntegerFieldEditor(PreferenceConstants.CONNECTION_TIMEOUT,
-				"Connection Timeout (s):", parent);
+				Messages.ConnectionTimeouts, parent);
 		connectionTimeoutEditor.setValidRange(Constants.MIN_CONNECTION_TIMEOUT, Constants.MAX_CONNECTION_TIMEOUT);
 
 		requestTimeoutEditor = new IntegerFieldEditor(PreferenceConstants.REQUEST_TIMEOUT,
-				"Request Timeout (s):", parent);
+				Messages.RequestTimeouts, parent);
 		requestTimeoutEditor.setValidRange(Constants.MIN_REQUEST_TIMEOUT, Constants.MAX_REQUEST_TIMEOUT);
 
-		chatFontSizeEditor = new IntegerFieldEditor(PreferenceConstants.CHAT_FONT_SIZE, "Chat Font Size:", parent);
+		chatFontSizeEditor = new IntegerFieldEditor(PreferenceConstants.CHAT_FONT_SIZE, Messages.ChatFontSize, parent);
 		chatFontSizeEditor.setValidRange(Constants.MIN_CHAT_FONT_SIZE, Constants.MAX_CHAT_FONT_SIZE);
 
 		notificationFontSizeEditor = new IntegerFieldEditor(PreferenceConstants.NOTIFICATION_FONT_SIZE,
-				"Notification Font Size:", parent);
+				Messages.NotificationFontSize, parent);
 		notificationFontSizeEditor.setValidRange(Constants.MIN_NOTIFICATION_FONT_SIZE,
 				Constants.MAX_NOTIFICATION_FONT_SIZE);
 
+		userInputFontSizeEditor = new IntegerFieldEditor(PreferenceConstants.USER_INPUT_FONT_SIZE,
+				Messages.UserInputFontSize, parent);
+		userInputFontSizeEditor.setValidRange(Constants.MIN_USER_INPUT_FONT_SIZE, Constants.MAX_USER_INPUT_FONT_SIZE);
+
 		streamingUpdateIntervalEditor = new IntegerFieldEditor(PreferenceConstants.STREAMING_UPDATE_INTERVAL,
-				"Streaming Interval (ms):", parent);
+				Messages.StreamingIntervalms, parent);
 		streamingUpdateIntervalEditor.setValidRange(Constants.MIN_STREAMING_UPDATE_INTERVAL, Constants.MAX_STREAMING_UPDATE_INTERVAL);
 
-		disableTooltipsEditor = new BooleanFieldEditor(PreferenceConstants.DISABLE_TOOLTIPS, "Disable Tooltips",
+		disableTooltipsEditor = new BooleanFieldEditor(PreferenceConstants.DISABLE_TOOLTIPS, Messages.DisableTooltips,
 				BooleanFieldEditor.SEPARATE_LABEL, parent);
 
 		addField(connectionTimeoutEditor);
 		addField(requestTimeoutEditor);
 		addField(chatFontSizeEditor);
 		addField(notificationFontSizeEditor);
+		addField(userInputFontSizeEditor);
 		addField(streamingUpdateIntervalEditor);
 		addField(disableTooltipsEditor);
 	}
@@ -229,31 +241,64 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 	 * @param parent The parent composite where the fields will be created
 	 */
 	private void createCurrentApiSettingsGroup(Composite parent) {
-		modelNameEditor = new StringFieldEditor(PreferenceConstants.CURRENT_MODEL_NAME, "Model Name:", parent);
+		modelNameEditor = new StringFieldEditor(PreferenceConstants.CURRENT_MODEL_NAME, Messages.ModelName, parent);
 		modelNameEditor.setEmptyStringAllowed(false);
 
-		apiUrlEditor = new UrlFieldEditor(PreferenceConstants.CURRENT_API_URL, "API URL:", parent);
+		apiUrlEditor = new UrlFieldEditor(PreferenceConstants.CURRENT_API_URL, Messages.APIURL, parent);
 		apiUrlEditor.setEmptyStringAllowed(false);
 
 		// NOTE: The API-key is allowed to be blank or empty for use with llama.cpp or other local back-ends
-		apiKeyEditor = new PasswordFieldEditor(PreferenceConstants.CURRENT_API_KEY, "API Key:", parent);
+		apiKeyEditor = new PasswordFieldEditor(PreferenceConstants.CURRENT_API_KEY, Messages.APIKey, parent);
 		apiKeyEditor.setEmptyStringAllowed(true);
 
-		temperatureEditor = new DoubleFieldEditor(PreferenceConstants.CURRENT_TEMPERATURE, "Temperature:", parent);
-		temperatureEditor.setValidRange(Constants.MIN_TEMPERATURE, Constants.MAX_TEMPERATURE);
-
-		useSystemMessageEditor = new AccessibleBooleanFieldEditor(PreferenceConstants.CURRENT_USE_SYSTEM_MESSAGE,
-				"System Message", BooleanFieldEditor.SEPARATE_LABEL, parent);
+		jsonOverridesEditor = new JsonFieldEditor(PreferenceConstants.CURRENT_JSON_OVERRIDES, Messages.JSONOverrides, parent);
+		jsonOverridesEditor.setEmptyStringAllowed(true);
 
 		useStreamingEditor = new AccessibleBooleanFieldEditor(PreferenceConstants.CURRENT_USE_STREAMING,
-				"Streaming", BooleanFieldEditor.SEPARATE_LABEL, parent);
+				Messages.UseStreaming, BooleanFieldEditor.SEPARATE_LABEL, parent);
+
+		useSystemMessageEditor = new AccessibleBooleanFieldEditor(PreferenceConstants.CURRENT_USE_SYSTEM_MESSAGE,
+				Messages.SystemMessage, BooleanFieldEditor.SEPARATE_LABEL, parent);
+
+		useDeveloperMessageEditor = new AccessibleBooleanFieldEditor(PreferenceConstants.CURRENT_USE_DEVELOPER_MESSAGE,
+				Messages.DeveloperMessage, BooleanFieldEditor.SEPARATE_LABEL, parent);
 
 		addField(modelNameEditor);
 		addField(apiUrlEditor);
 		addField(apiKeyEditor);
-		addField(temperatureEditor);
-		addField(useSystemMessageEditor);
+		addField(jsonOverridesEditor);
 		addField(useStreamingEditor);
+		addField(useSystemMessageEditor);
+		addField(useDeveloperMessageEditor);
+	}
+
+	/**
+	 * Adds mutual exclusion logic to the system and developer message checkboxes.
+	 * When one is checked, the other is automatically unchecked.
+	 *
+	 * @param parent The parent composite
+	 */
+	private void addMutualExclusionLogic(Composite parent) {
+		Button systemMessageCheckbox = useSystemMessageEditor.getCheckboxControl(parent);
+		Button developerMessageCheckbox = useDeveloperMessageEditor.getCheckboxControl(parent);
+
+		systemMessageCheckbox.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (systemMessageCheckbox.getSelection()) {
+					useDeveloperMessageEditor.setBooleanValue(false);
+				}
+			}
+		});
+
+		developerMessageCheckbox.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (developerMessageCheckbox.getSelection()) {
+					useSystemMessageEditor.setBooleanValue(false);
+				}
+			}
+		});
 	}
 
 	/**
@@ -282,14 +327,16 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 		table.setLinesVisible(true);
 
 		// Create all columns with weight-based widths
-		createTableColumn("Model Name", 32, SWT.LEFT, tableLayout, e -> ((BookmarkedApiSettings) e).getModelName());
-		createTableColumn("API URL", 32, SWT.LEFT, tableLayout, e -> ((BookmarkedApiSettings) e).getApiUrl());
-		createTableColumn("Temperature", 12, SWT.CENTER, tableLayout,
-				e -> String.valueOf(((BookmarkedApiSettings) e).getTemperature()));
-		createTableColumn("System Message", 12, SWT.CENTER, tableLayout,
-				e -> ((BookmarkedApiSettings) e).getUseSystemMessage() ? "🗹" : "☐");
-		createTableColumn("Streaming", 12, SWT.CENTER, tableLayout,
+		createTableColumn(Messages.TableColumnModelName, 22, SWT.LEFT, tableLayout, e -> ((BookmarkedApiSettings) e).getModelName());
+		createTableColumn(Messages.TableColumnAPIURL, 22, SWT.LEFT, tableLayout, e -> ((BookmarkedApiSettings) e).getApiUrl());
+		createTableColumn(Messages.TableColumnJSONOverrides, 26, SWT.LEFT, tableLayout,
+				e -> ((BookmarkedApiSettings) e).getJsonOverrides());
+		createTableColumn(Messages.TableColumnStreaming, 10, SWT.CENTER, tableLayout,
 				e -> ((BookmarkedApiSettings) e).getUseStreaming() ? "🗹" : "☐");
+		createTableColumn(Messages.TableColumnSystem, 10, SWT.CENTER, tableLayout,
+				e -> ((BookmarkedApiSettings) e).getUseSystemMessage() ? "🗹" : "☐");
+		createTableColumn(Messages.TableColumnDeveloper, 10, SWT.CENTER, tableLayout,
+				e -> ((BookmarkedApiSettings) e).getUseDeveloperMessage() ? "🗹" : "☐");
 
 		table.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -301,9 +348,10 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 					apiUrlEditor.setStringValue(selectedSettings.getApiUrl());
 					apiKeyEditor.setStringValue(selectedSettings.getApiKey());
 					apiKeyEditor.setPasswordVisible(apiKeyEditor.getStringValue().isBlank()); // Hide if not blank for safety
-					temperatureEditor.setStringValue(Double.toString(selectedSettings.getTemperature()));
-					useSystemMessageEditor.setBooleanValue(selectedSettings.getUseSystemMessage());
+					jsonOverridesEditor.setStringValue(selectedSettings.getJsonOverrides());
 					useStreamingEditor.setBooleanValue(selectedSettings.getUseStreaming());
+					useSystemMessageEditor.setBooleanValue(selectedSettings.getUseSystemMessage());
+					useDeveloperMessageEditor.setBooleanValue(selectedSettings.getUseDeveloperMessage());
 					updateBookmarkButtonsVisibility();
 				}
 			}
@@ -338,7 +386,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 		gridData.horizontalSpan = 2;
 		buttonComposite.setLayoutData(gridData);
 
-		bookmarkButton = createActionButton(buttonComposite, "Bookmark", "Bookmark current API settings", "Bookmark.png", () -> {
+		bookmarkButton = createActionButton(buttonComposite, Messages.Bookmark, Messages.BookmarkTooltip, "Bookmark.png", () -> {
 			BookmarkedApiSettings currentSettings = getCurrentSettings();
 			if (currentSettings != null && !bookmarkedApiSettings.contains(currentSettings)) {
 				bookmarkedApiSettings.add(currentSettings);
@@ -347,7 +395,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 			}
 		});
 
-		unbookmarkButton = createActionButton(buttonComposite, "Unbookmark", "Unbookmark matching API settings", "Unbookmark.png", () -> {
+		unbookmarkButton = createActionButton(buttonComposite, Messages.Unbookmark, Messages.UnbookmarkTooltip, "Unbookmark.png", () -> {
 			BookmarkedApiSettings currentSettings = getCurrentSettings();
 			if (currentSettings != null) {
 				bookmarkedApiSettings.remove(currentSettings);
@@ -356,7 +404,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 			}
 		});
 
-		validateButton = createActionButton(buttonComposite, "Validate", "Validate current API settings", "Refresh.png", () -> {
+		validateButton = createActionButton(buttonComposite, Messages.Validate, Messages.ValidateTooltip, "Refresh.png", () -> {
 			String currentModelName = modelNameEditor.getStringValue().trim();
 			String currentApiUrl = apiUrlEditor.getStringValue().trim();
 			String currentApiKey = apiKeyEditor.getStringValue().trim();
@@ -401,27 +449,28 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 		buttonComposite.setLayoutData(gridData);
 
 		// Clear button
-		clearButton = createActionButton(buttonComposite, "Clear", "Clear all bookmarked API settings", "Clear.png", () -> {
+		clearButton = createActionButton(buttonComposite, Messages.Clear, Messages.ClearTooltip, "Clear.png", () -> {
 			bookmarkedApiSettings.clear();
 			tableViewer.refresh();
 			updateBookmarkButtonsVisibility();
 		});
 
 		// Sort button
-		sortButton = createActionButton(buttonComposite, "Sort", "Sort bookmarked API settings", "Sort.png", () -> {
+		sortButton = createActionButton(buttonComposite, Messages.Sort, Messages.SortTooltip, "Sort.png", () -> {
 			bookmarkedApiSettings.sort(null);
 			tableViewer.refresh();
 			updateBookmarkButtonsVisibility();
 		});
 
 		// Populate button
-		createActionButton(buttonComposite, "Populate", "Populate API settings", "Populate.png", () -> {
+		createActionButton(buttonComposite, Messages.Populate, Messages.PopulateTooltip, "Populate.png", () -> {
 			String currentModelName = modelNameEditor.getStringValue().trim();
 			String currentApiUrl = apiUrlEditor.getStringValue().trim();
 			String currentApiKey = apiKeyEditor.getStringValue().trim();
-			double currentTemperature = temperatureEditor.getDoubleValue();
-			boolean currentUseSystemMessage = useSystemMessageEditor.getBooleanValue();
+			String currentJsonOverrides = jsonOverridesEditor.getStringValue();
 			boolean currentUseStreaming = useStreamingEditor.getBooleanValue();
+			boolean currentUseSystemMessage = useSystemMessageEditor.getBooleanValue();
+			boolean currentUseDeveloperMessage = useDeveloperMessageEditor.getBooleanValue();
 			if (OpenAiApiClient.getApiStatus(currentApiUrl, currentApiKey).equals("OK")) {
 				java.util.List<String> modelNames = OpenAiApiClient.fetchAvailableModelNames(currentApiUrl,
 						currentApiKey);
@@ -429,7 +478,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 					// If current model name is a substring of model name (or empty)
 					if (modelName.toLowerCase().contains(currentModelName.toLowerCase())) {
 						BookmarkedApiSettings newSetting = new BookmarkedApiSettings(modelName, currentApiUrl,
-								currentApiKey, currentTemperature, currentUseSystemMessage, currentUseStreaming);
+								currentApiKey, currentJsonOverrides, currentUseStreaming, currentUseSystemMessage, currentUseDeveloperMessage);
 						if (!bookmarkedApiSettings.contains(newSetting)) {
 							bookmarkedApiSettings.add(newSetting);
 						}
@@ -605,16 +654,15 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 			allValid.set(modelNameEditor.isValid()
 					&& apiUrlEditor.isValid()
 					&& apiKeyEditor.isValid()
-					&& temperatureEditor.isValid());
+					&& jsonOverridesEditor.isValid());
 		});
 
 		if (allValid.get()) {
-			// Verify non-blank content for all string fields
-			// NOTE: The API-key is allowed to be blank or empty for use with llama.cpp or other local back-ends
+			// Verify non-blank content for all required string fields
+			// NOTE: The API-key and JSON overrides are allowed to be blank or empty
 			Eclipse.runOnUIThreadSync(() -> {
 				allValid.set(!modelNameEditor.getStringValue().isBlank()
-						&& !apiUrlEditor.getStringValue().isBlank()
-						&& !temperatureEditor.getStringValue().isBlank());
+						&& !apiUrlEditor.getStringValue().isBlank());
 			});
 
 			if (allValid.get()) {
@@ -622,9 +670,10 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 						modelNameEditor.getStringValue(),
 						apiUrlEditor.getStringValue(),
 						apiKeyEditor.getStringValue(),
-						temperatureEditor.getDoubleValue(),
+						jsonOverridesEditor.getStringValue(),
+						useStreamingEditor.getBooleanValue(),
 						useSystemMessageEditor.getBooleanValue(),
-						useStreamingEditor.getBooleanValue());
+						useDeveloperMessageEditor.getBooleanValue());
 			}
 		}
 		return null;

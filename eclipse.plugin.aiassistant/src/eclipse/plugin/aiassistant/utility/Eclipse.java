@@ -38,6 +38,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
@@ -135,6 +137,19 @@ public class Eclipse {
 	}
 
 	/**
+	 * Returns the active resource from the active editor.
+	 *
+	 * @return the active resource or null if not found
+	 */
+	public static IResource getActiveResource() {
+		IEditorPart activeEditor = getActiveEditor();
+		if (activeEditor != null) {
+			return activeEditor.getEditorInput().getAdapter(IResource.class);
+		}
+		return null;
+	}
+
+	/**
 	 * Returns the active text editor if the active editor is a text editor,
 	 * otherwise null.
 	 *
@@ -152,9 +167,12 @@ public class Eclipse {
 	 * Returns the active file in the active text editor.
 	 *
 	 * @param textEditor the active text editor
-	 * @return the active file
+	 * @return the active file, or null if not available
 	 */
 	public static IFile getActiveFile(ITextEditor textEditor) {
+		if (textEditor == null || textEditor.getEditorInput() == null) {
+			return null;
+		}
 		return textEditor.getEditorInput().getAdapter(IFile.class);
 	}
 
@@ -162,10 +180,14 @@ public class Eclipse {
 	 * Returns the active project in the active text editor.
 	 *
 	 * @param textEditor the active text editor
-	 * @return the active project
+	 * @return the active project, or null if not available
 	 */
 	public static IProject getActiveProject(ITextEditor textEditor) {
-		return getActiveFile(textEditor).getProject();
+		IFile activeFile = getActiveFile(textEditor);
+		if (activeFile == null) {
+			return null;
+		}
+		return activeFile.getProject();
 	}
 
 	/**
@@ -199,6 +221,40 @@ public class Eclipse {
 	public static int getSelectedEndLine(ITextEditor textEditor) {
 		ITextSelection textSelection = (ITextSelection) textEditor.getSelectionProvider().getSelection();
 		return textSelection.getEndLine() + 1; // +1 to match the editor being 1-indexed.
+	}
+
+	/**
+	 * Returns the currently selected project in the workspace.
+	 * This can be used as a fallback when no active editor is available.
+	 *
+	 * @return the selected project or null if no project is selected
+	 */
+	public static IProject getSelectedProject() {
+		IWorkbenchWindow window = getActiveWorkbenchWindow();
+		if (window != null) {
+			IWorkbenchPage page = window.getActivePage();
+			if (page != null) {
+				var selection = page.getSelection();
+				if (selection instanceof org.eclipse.jface.viewers.IStructuredSelection) {
+					var structuredSelection = (org.eclipse.jface.viewers.IStructuredSelection) selection;
+					Object firstElement = structuredSelection.getFirstElement();
+
+					// Handle different types of selected elements
+					if (firstElement instanceof IProject) {
+						return (IProject) firstElement;
+					} else if (firstElement instanceof IResource) {
+						return ((IResource) firstElement).getProject();
+					} else if (firstElement != null) {
+						// Try to adapt to IResource
+						IResource resource = Platform.getAdapterManager().getAdapter(firstElement, IResource.class);
+						if (resource != null) {
+							return resource.getProject();
+						}
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -254,6 +310,32 @@ public class Eclipse {
 			text = getEditorText(activeFile);
 		}
 		return text;
+	}
+
+	/**
+	 * Returns the name of the current project as a string.
+	 * First tries to get the project from the active text editor,
+	 * then falls back to the selected project in the workspace.
+	 *
+	 * @return the current project name or null if no project is found
+	 */
+	public static String getCurrentProjectName() {
+		// First try to get project from active text editor
+		ITextEditor activeTextEditor = getActiveTextEditor();
+		if (activeTextEditor != null) {
+			IProject project = getActiveProject(activeTextEditor);
+			if (project != null) {
+				return project.getName();
+			}
+		}
+
+		// Fall back to selected project
+		IProject selectedProject = getSelectedProject();
+		if (selectedProject != null) {
+			return selectedProject.getName();
+		}
+
+		return null;
 	}
 
 	/**
@@ -415,6 +497,55 @@ public class Eclipse {
 			Image newIcon = loadIcon(filename);
 			button.setImage(newIcon);
 		});
+	}
+
+	/**
+	 * Creates and shows a warning dialog with an OK button.
+	 *
+	 * @param title the dialog title
+	 * @param message the dialog message
+	 */
+	public static void showWarningDialog(String title, String message) {
+		MessageBox messageBox = new MessageBox(getShell(), SWT.OK | SWT.ICON_WARNING);
+		messageBox.setText(title);
+		messageBox.setMessage(message);
+		messageBox.open();
+	}
+
+	/**
+	 * Creates and shows a confirmation dialog with Yes/No buttons.
+	 *
+	 * @param title the dialog title
+	 * @param message the dialog message
+	 * @return true if Yes was clicked, false if No was clicked or dialog was cancelled
+	 */
+	public static boolean showConfirmDialog(String title, String message) {
+		MessageBox messageBox = new MessageBox(getShell(), SWT.YES | SWT.NO | SWT.ICON_QUESTION);
+		messageBox.setText(title);
+		messageBox.setMessage(message);
+		return messageBox.open() == SWT.YES;
+	}
+
+	/**
+	 * Creates and shows a file dialog with the specified parameters.
+	 *
+	 * @param style the dialog style (SWT.OPEN or SWT.SAVE)
+	 * @param title the dialog title
+	 * @param extensions the file extension filters
+	 * @param names the filter names
+	 * @param defaultFileName the default filename (null for OPEN dialogs)
+	 * @return the selected file path, or null if cancelled
+	 */
+	public static String showFileDialog(int style, String title, String[] extensions, String[] names,
+			String defaultFileName) {
+		FileDialog fileDialog = new FileDialog(getShell(), style);
+		fileDialog.setText(title);
+		fileDialog.setFilterExtensions(extensions);
+		fileDialog.setFilterNames(names);
+		if (defaultFileName != null) {
+			fileDialog.setFileName(defaultFileName);
+		}
+		return fileDialog.open();
 	}
 
 	/**

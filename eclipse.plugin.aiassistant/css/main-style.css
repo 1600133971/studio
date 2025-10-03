@@ -6,12 +6,12 @@
   --mono-font: 'Monospace', monospace;
   --default-font-size: 0px;  /* NOTE: BrowserScriptGenerator.substituteFontSizes() will override this setting */
   --small-font-size: 0px;    /* NOTE: BrowserScriptGenerator.substituteFontSizes() will override this setting */
-  --text-color: #fff;  
+  --text-color: #000;  
   --body-bg-color: #f0f0f0;
-  --user-bubble-bg-color: #222;
-  --assistant-bubble-bg-color: #444;
-  --notification-bubble-bg-color: #225;
-  --error-bubble-bg-color: #522;
+  --user-bubble-bg-color: #99FF99;
+  --assistant-bubble-bg-color: #99FFFF;
+  --notification-bubble-bg-color: #FFCCFF;
+  --error-bubble-bg-color: #FF9966;
   --button-bg-color: #333;
   --button-hover-bg-color: #444;
   --button-active-bg-color: #333;
@@ -107,7 +107,9 @@
 
 /* Define code block styles */
 .chat-bubble.user pre,
-.chat-bubble.assistant pre {
+.chat-bubble.assistant pre,
+.chat-bubble.notification pre,
+.chat-bubble.error pre {
 	background-color: var(--body-bg-color);
 }
 

@@ -3,7 +3,7 @@ package eclipse.plugin.aiassistant.prompt;
 public enum Prompts {
 
 	SYSTEM("System Message", "system.txt"),
-	DEVELOPER("Developer Message (OpenAI reasoning models ONLY)", "developer.txt"),
+	DEVELOPER("Developer Message (for OpenAI reasoning models)", "developer.txt"),
 	DEFAULT("Default", "default.txt"),
 	DEFAULT_DELAYED("Default Delayed", "default-delayed.txt"),
 	ADD_MESSAGE("Add To Message", "add-message.txt"),
@@ -21,8 +21,12 @@ public enum Prompts {
 	REFACTOR("Refactor", "refactor.txt"),
 	FIX_ERRORS("Fix Errors", "fix-errors.txt"),
 	FIX_WARNINGS("Fix Warnings", "fix-warnings.txt"),
+	FIX_ERRORS_AND_WARNINGS("Fix Errors And Warnings", "fix-errors-and-warnings.txt"),
 	PASTE_MESSAGE("Paste To Message", "paste-message.txt"),
-	PASTE_CONTEXT("Paste As Context", "paste-context.txt");
+	PASTE_CONTEXT("Paste As Context", "paste-context.txt"),
+	ADD_FILE_DIFF("Add File Diff", "add-file-diff.txt"),
+	ADD_PROJECT_DIFF("Add Project Diff", "add-project-diff.txt"),
+	GIT_COMMIT_COMMENT("Git Commit Comment", "git-commit-comment.txt");
 
 	private final String taskName;
 	private final String fileName;

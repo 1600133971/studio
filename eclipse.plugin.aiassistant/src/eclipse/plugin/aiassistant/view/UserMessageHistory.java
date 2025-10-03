@@ -1,8 +1,6 @@
 package eclipse.plugin.aiassistant.view;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,36 +9,87 @@ import java.util.List;
  * messages. It provides methods to store a message, get the previous message,
  * and get the next message.
  */
-public class UserMessageHistory {
+public class UserMessageHistory implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-	// Maximum number of messages to serialize
-    private static final int MAX_SERIALIZED_MESSAGES = 100;
-
-	private static final ObjectMapper objectMapper = new ObjectMapper();
 	private List<String> storedMessages = new ArrayList<>();
 	private int currentIndex = 0;
 
 	/**
-	 * Stores a message if it is not empty and not already present in the
-	 * storedMessages list. Updates the currentIndex to point to the last element in
-	 * the list.
-	 * 
+	 * Replaces this history's internal state with another history's state.
+	 * Clears current stored messages, then copies both messages and current index from 'other'.
+	 */
+	public synchronized void copyFrom(UserMessageHistory other) {
+		storedMessages.clear();
+		for (String message : other.storedMessages) {
+			storedMessages.add(message);
+		}
+		currentIndex = other.currentIndex;
+	}
+
+	/**
+	 * Checks if the message history is empty.
+	 *
+	 * @return true if no messages are stored, false otherwise.
+	 */
+	public boolean isEmpty() {
+		return storedMessages.isEmpty();
+	}
+
+	/**
+	 * Returns the number of stored messages.
+	 *
+	 * @return the size of the message history.
+	 */
+	public int size() {
+		return storedMessages.size();
+	}
+
+	/**
+	 * Checks if there are older messages available without changing position.
+	 *
+	 * @return true if there are older messages, false otherwise.
+	 */
+	public boolean hasOlderMessages() {
+		return currentIndex > 0;
+	}
+
+	/**
+	 * Checks if there are newer messages available without changing position.
+	 *
+	 * @return true if there are newer messages, false otherwise.
+	 */
+	public boolean hasNewerMessages() {
+		return currentIndex < storedMessages.size();
+	}
+
+	/**
+	 * Stores a message if it is not empty. If the message already exists in the
+	 * storedMessages list, it is moved to the end (most recent position) rather
+	 * than creating a duplicate entry. This ensures recent messages appear at
+	 * the end of history navigation.
+	 * Updates the currentIndex to point to the last element in the list.
+	 *
 	 * @param message The message to be stored.
 	 */
 	public void storeMessage(String message) {
-		if (!message.trim().isEmpty() && !storedMessages.contains(message)) {
+		if (!message.trim().isEmpty()) {
+			// Remove existing occurrence if present, then add to end
+			if (storedMessages.contains(message)) {
+				storedMessages.remove(message);
+			}
 			storedMessages.add(message);
 		}
 		currentIndex = storedMessages.size();
 	}
 
 	/**
-	 * Retrieves the previous message from the storedMessages list if it exists.
+	 * Retrieves the older message from the storedMessages list if it exists.
 	 * Decrements the currentIndex by 1 and returns the message at that index.
-	 * 
-	 * @return The previous message if it exists, null otherwise.
+	 *
+	 * @return The older message if it exists, null otherwise.
 	 */
-	public String getPreviousMessage() {
+	public String getOlderMessage() {
 		if (currentIndex > 0) {
 			currentIndex--;
 			return storedMessages.get(currentIndex);
@@ -49,12 +98,12 @@ public class UserMessageHistory {
 	}
 
 	/**
-	 * Retrieves the next message from the storedMessages list if it exists.
+	 * Retrieves the newer message from the storedMessages list if it exists.
 	 * Increments the currentIndex by 1 and returns the message at that index.
-	 * 
-	 * @return The next message if it exists, null otherwise.
+	 *
+	 * @return The newer message if it exists, null otherwise.
 	 */
-	public String getNextMessage() {
+	public String getNewerMessage() {
 		if (currentIndex < storedMessages.size()) {
 			currentIndex++;
 			if (currentIndex < storedMessages.size()) {
@@ -63,41 +112,21 @@ public class UserMessageHistory {
 		}
 		return null;
 	}
-	
-    /**
-     * Serializes the UserMessageHistory to a JSON string.
-     *
-     * @return a JSON string representing the stored messages
-     * @throws IOException if an input/output exception occurs
-     */
-	public synchronized String serialize() throws IOException {
-		List<String> messagesToSerialize;
-		if (storedMessages.size() > MAX_SERIALIZED_MESSAGES) {
-			messagesToSerialize = storedMessages.subList(storedMessages.size() - MAX_SERIALIZED_MESSAGES,
-					storedMessages.size());
-		} else {
-			messagesToSerialize = new ArrayList<>(storedMessages);
-		}
-		return objectMapper.writeValueAsString(messagesToSerialize);
+
+	/**
+	 * Resets the current position to the newest message (end of history).
+	 * This is equivalent to what happens after storing a new message.
+	 */
+	public void resetPosition() {
+		currentIndex = storedMessages.size();
 	}
 
-    /**
-     * Deserializes a JSON string to a UserMessageHistory object.
-     * Handles empty or null JSON input by returning an empty UserMessageHistory instance.
-     *
-     * @param json the JSON string representing the stored messages
-     * @return a UserMessageHistory object
-     * @throws IOException if an input/output exception occurs
-     */
-    public static UserMessageHistory deserialize(String json) throws IOException {
-        if (json == null || json.trim().isEmpty()) {
-            return new UserMessageHistory();  // Return an empty history if input is empty or null
-        }
-        List<String> messages = objectMapper.readValue(json, new TypeReference<List<String>>() {});
-        UserMessageHistory history = new UserMessageHistory();
-        history.storedMessages.addAll(messages);
-        history.currentIndex = messages.size(); // Set currentIndex to point to the last message
-        return history;
-    }
+	/**
+	 * Clears all stored messages and resets the current position.
+	 */
+	public void clear() {
+		storedMessages.clear();
+		currentIndex = 0;
+	}
 
 }

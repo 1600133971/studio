@@ -17,13 +17,22 @@ import eclipse.plugin.aiassistant.prompt.Prompts;
 import eclipse.plugin.aiassistant.utility.Eclipse;
 
 /**
- * Manages the context menu for the chat conversation area within the AI Assistant plugin.
- * This class is responsible for creating and handling interactions within the context menu
- * that appears when the user right-clicks in the chat message area. It supports operations
- * like copying, pasting, and reviewing changes directly from the chat interface.
+ * Manages the right-click context menu for the chat conversation area.
  */
 public class ChatConversationMenu {
 
+	public static final String PASTE_MESSAGE_NAME = "Paste";
+	public static final String PASTE_MESSAGE_TOOLTIP = "Paste the Clipboard Contents as a Message";
+	public static final String PASTE_MESSAGE_ICON = "Paste.png";
+	public static final String PASTE_CONTEXT_NAME = "Paste as Context";
+	public static final String PASTE_CONTEXT_TOOLTIP = "Paste the Clipboard Contents as Context";
+	public static final String PASTE_CONTEXT_ICON = "PasteContext.png";
+	public static final String QUOTE_TEXT_NAME = "Quote";
+	public static final String QUOTE_TEXT_TOOLTIP = "Quote Selected Text";
+	public static final String QUOTE_TEXT_ICON = "Quote.png";
+	public static final String QUOTE_CODE_NAME = "Quote as Code";
+	public static final String QUOTE_CODE_TOOLTIP = "Quote Selected Text as Code";
+	public static final String QUOTE_CODE_ICON = "QuoteCode.png";
 	public static final String COPY_TO_CLIPBOARD_NAME = "Copy";
 	public static final String COPY_TO_CLIPBOARD_TOOLTIP = "Copy to the Clipboard";
 	public static final String COPY_TO_CLIPBOARD_ICON = "CopyToClipboard.png";
@@ -33,17 +42,43 @@ public class ChatConversationMenu {
 	public static final String REVIEW_CHANGES_NAME = "Review Changes";
 	public static final String REVIEW_CHANGES_TOOLTIP = "Open the 'Review Changes' Dialog";
 	public static final String REVIEW_CHANGES_ICON = "ReviewChanges.png";
-	public static final String PASTE_MESSAGE_NAME = "Paste To Message";
-	public static final String PASTE_MESSAGE_TOOLTIP = "Paste the Clipboard Contents as a Message";
-	public static final String PASTE_MESSAGE_ICON = "Paste.png";
-	public static final String PASTE_CONTEXT_NAME = "Paste As Context";
-	public static final String PASTE_CONTEXT_TOOLTIP = "Paste the Clipboard Contents as Context";
-	public static final String PASTE_CONTEXT_ICON = "Paste.png";
+	public static final String IMPORT_NAME = "Import";
+	public static final String IMPORT_TOOLTIP = "Import Chat History";
+	public static final String IMPORT_ICON = "Import.png";
+	public static final String EXPORT_NAME = "Export";
+	public static final String EXPORT_TOOLTIP = "Export Chat History";
+	public static final String EXPORT_ICON = "Export.png";
+	public static final String MARKDOWN_NAME = "Export as Markdown";
+	public static final String MARKDOWN_TOOLTIP = "Export Chat History as Markdown";
+	public static final String MARKDOWN_ICON = "Markdown.png";
 
 	private final MainPresenter mainPresenter;
 	private final ChatConversationArea chatConversationArea;
 
 	private final BrowserScriptGenerator browserScriptGenerator;
+
+	private MenuItemData[] fileMenuItemsData = {
+			new MenuItemData(IMPORT_NAME, IMPORT_ICON, IMPORT_TOOLTIP,
+					e -> handleImport()),
+			new MenuItemData(EXPORT_NAME, EXPORT_ICON, EXPORT_TOOLTIP,
+					e -> handleExport()),
+			new MenuItemData(MARKDOWN_NAME, MARKDOWN_ICON, MARKDOWN_TOOLTIP,
+					e -> handleMarkdown())
+	};
+
+	private MenuItemData[] pasteMenuItemsData = {
+			new MenuItemData(PASTE_MESSAGE_NAME, PASTE_MESSAGE_ICON, PASTE_MESSAGE_TOOLTIP,
+					e -> handlePasteMessage()),
+			new MenuItemData(PASTE_CONTEXT_NAME, PASTE_CONTEXT_ICON, PASTE_CONTEXT_TOOLTIP,
+					e -> handlePasteContext())
+	};
+
+	private MenuItemData[] quoteMenuItemsData = {
+			new MenuItemData(QUOTE_TEXT_NAME, QUOTE_TEXT_ICON, QUOTE_TEXT_TOOLTIP,
+					e -> handleQuoteSelection()),
+			new MenuItemData(QUOTE_CODE_NAME, QUOTE_CODE_ICON, QUOTE_CODE_TOOLTIP,
+					e -> handleQuoteCode())
+	};
 
 	private MenuItemData[] browserFunctionMenuItemsData = {
 			new MenuItemData(COPY_TO_CLIPBOARD_NAME, COPY_TO_CLIPBOARD_ICON, COPY_TO_CLIPBOARD_TOOLTIP,
@@ -54,25 +89,18 @@ public class ChatConversationMenu {
 					e -> handleReviewChanges())
 	};
 
-	private MenuItemData[] pasteMenuItemsData = {
-			new MenuItemData(PASTE_MESSAGE_NAME, PASTE_MESSAGE_ICON, PASTE_MESSAGE_TOOLTIP,
-					e -> handlePasteMessage()),
-			new MenuItemData(PASTE_CONTEXT_NAME, PASTE_CONTEXT_ICON, PASTE_CONTEXT_TOOLTIP,
-					e -> handlePasteContext())
-	};
-
 	private List<Image> imagesToDispose = new ArrayList<>();
 
 	private Menu menu;
-	
+
 	// Used to disable all the menu options from setEnabled() call.
 	private boolean menuEnabled = true;
 
 	/**
-     * Constructs a new ChatConversationMenu.
+	 * Constructs a new ChatConversationMenu.
 	 *
-     * @param mainPresenter The main presenter of the application, handling core functionality.
-     * @param chatConversationArea The area of the UI where chat conversations are displayed.
+	 * @param mainPresenter The main presenter of the application, handling core functionality.
+	 * @param chatConversationArea The area of the UI where chat conversations are displayed.
 	 */
 	public ChatConversationMenu(MainPresenter mainPresenter, ChatConversationArea chatConversationArea) {
 		this.mainPresenter = mainPresenter;
@@ -82,15 +110,13 @@ public class ChatConversationMenu {
 	}
 
 	/**
-     * Enables or disables the context menu based on the specified flag.
+	 * Enables or disables the context menu based on the specified flag.
 	 *
 	 * @param enabled True to enable the context menu, false to disable it.
 	 */
 	public void setEnabled(boolean enabled) {
-	    if (menuEnabled != enabled) {
-	        menuEnabled = enabled;
-	        Eclipse.runOnUIThreadAsync(() -> { updateMenuItemsVisibility(); });
-	    }
+		menuEnabled = enabled;
+		Eclipse.runOnUIThreadAsync(() -> { updateMenuItemsVisibility(); });
 	}
 
 	/**
@@ -102,11 +128,19 @@ public class ChatConversationMenu {
 	private Menu createMenu(Browser browser) {
 		Menu menu = new Menu(browser);
 
+		for (MenuItemData itemData : pasteMenuItemsData) {
+			addMenuItem(menu, itemData.text, itemData.iconPath, itemData.toolTipText, itemData.listener);
+		}
+		new MenuItem(menu, SWT.SEPARATOR);
+		for (MenuItemData itemData : quoteMenuItemsData) {
+			addMenuItem(menu, itemData.text, itemData.iconPath, itemData.toolTipText, itemData.listener);
+		}
+		new MenuItem(menu, SWT.SEPARATOR);
 		for (MenuItemData itemData : browserFunctionMenuItemsData) {
 			addMenuItem(menu, itemData.text, itemData.iconPath, itemData.toolTipText, itemData.listener);
 		}
 		new MenuItem(menu, SWT.SEPARATOR);
-		for (MenuItemData itemData : pasteMenuItemsData) {
+		for (MenuItemData itemData : fileMenuItemsData) {
 			addMenuItem(menu, itemData.text, itemData.iconPath, itemData.toolTipText, itemData.listener);
 		}
 
@@ -125,7 +159,7 @@ public class ChatConversationMenu {
 	}
 
 	/**
-     * Adds a menu item to the specified menu with the given properties.
+	 * Adds a menu item to the specified menu with the given properties.
 	 *
 	 * @param menu        The menu to which the item is added.
 	 * @param text        The text displayed on the menu item.
@@ -149,91 +183,142 @@ public class ChatConversationMenu {
 	 * Updates the visibility and enabled state of menu items based on the current context.
 	 */
 	private void updateMenuItemsVisibility() {
-	    boolean showBrowserFunctions = false;
-	    boolean showPasteOptions = false;
-	    if (menuEnabled) {
-	    	showBrowserFunctions = !copyBrowserSelectedText().isEmpty();
-	    	showPasteOptions = !Eclipse.getClipboardContents().isEmpty();
-	    }
-	    for (MenuItem item : menu.getItems()) {
-	        switch (item.getText()) {
-	        case COPY_TO_CLIPBOARD_NAME:
-	        case REPLACE_SELECTION_NAME:
-	        case REVIEW_CHANGES_NAME:
-	            item.setEnabled(showBrowserFunctions);
-	            break;
-	        case PASTE_MESSAGE_NAME:
-	        case PASTE_CONTEXT_NAME:
-	            item.setEnabled(!showBrowserFunctions && showPasteOptions);
-	            break;
-	        }
-	    }
+		// Disable all menu items when menu is disabled
+		if (!menuEnabled) {
+			for (MenuItem item : menu.getItems()) {
+				if (item.getStyle() != SWT.SEPARATOR) {
+					item.setEnabled(false);
+				}
+			}
+			return;
+		}
+
+		// Otherwise selectively enable and disable the menu items
+		boolean showBrowserFunctions = !copyBrowserSelectedText().isEmpty();
+		boolean showPasteOptions = !Eclipse.getClipboardContents().isEmpty();
+		for (MenuItem item : menu.getItems()) {
+			switch (item.getText()) {
+			case IMPORT_NAME:
+				item.setEnabled(!showBrowserFunctions);
+				break;
+			case EXPORT_NAME:
+			case MARKDOWN_NAME:
+				item.setEnabled(!showBrowserFunctions && !mainPresenter.isConversationEmpty());
+				break;
+			case PASTE_MESSAGE_NAME:
+			case PASTE_CONTEXT_NAME:
+				item.setEnabled(!showBrowserFunctions && showPasteOptions);
+				break;
+			case QUOTE_TEXT_NAME:
+			case QUOTE_CODE_NAME:
+			case COPY_TO_CLIPBOARD_NAME:
+			case REPLACE_SELECTION_NAME:
+			case REVIEW_CHANGES_NAME:
+				item.setEnabled(showBrowserFunctions);
+				break;
+			}
+		}
 	}
 
 	/**
-	 * Handles the action of copying the selected text from the browser to the clipboard.
+	 * Handles the 'Import' menu item click event by delegating to the main presenter.
 	 */
-	private void handleCopySelection() {
-	    chatConversationArea.handleCopySelection(copyBrowserSelectedText());
+	private void handleImport() {
+		mainPresenter.onImport();
 	}
-	
+
 	/**
-	 * Handles the action of replacing the selected text in the editor with the text selected
-	 * in the browser.
+	 * Handles the 'Export' menu item click event by delegating to the main presenter.
 	 */
-	private void handleReplaceSelection() {
-	    chatConversationArea.handleReplaceSelection(copyBrowserSelectedText());
+	private void handleExport() {
+		mainPresenter.onExport();
 	}
-	
+
 	/**
-	 * Handles the action of reviewing changes based on the selected text in the browser.
+	 * Handles the 'Markdown' menu item click event by delegating to the main presenter.
 	 */
-	private void handleReviewChanges() {
-	    chatConversationArea.handleReviewChanges(copyBrowserSelectedText());
+	private void handleMarkdown() {
+		mainPresenter.onExportMarkdown();
 	}
-	
+
 	/**
-     * Handles the action to paste a predefined message into the chat.
+	 * Handles the action to paste a predefined message into the chat.
 	 */
 	private void handlePasteMessage() {
 		mainPresenter.sendPredefinedPrompt(Prompts.PASTE_MESSAGE);
 	}
 
 	/**
-     * Handles the action to paste a predefined context into the chat.
+	 * Handles the action to paste a predefined context into the chat.
 	 */
 	private void handlePasteContext() {
 		mainPresenter.sendPredefinedPrompt(Prompts.PASTE_CONTEXT);
 	}
 
-    /**
-     * Copies the currently selected text from the browser.
-     *
-     * @return The selected text, or an empty string if no text is selected.
-     */
+	/**
+	 * Handles the action of quoting the selected text from the browser.
+	 */
+	private void handleQuoteSelection() {
+		mainPresenter.onSendQuote(copyBrowserSelectedText(), false);
+	}
+
+	/**
+	 * Handles the action of quoting the selected text as code from the browser.
+	 */
+	private void handleQuoteCode() {
+		mainPresenter.onSendQuote(copyBrowserSelectedText(), true);
+	}
+
+	/**
+	 * Handles the action of copying the selected text from the browser to the clipboard.
+	 */
+	private void handleCopySelection() {
+		chatConversationArea.handleCopySelection(copyBrowserSelectedText());
+	}
+
+	/**
+	 * Handles the action of replacing the selected text in the editor with the text selected
+	 * in the browser.
+	 */
+	private void handleReplaceSelection() {
+		chatConversationArea.handleReplaceSelection(copyBrowserSelectedText());
+	}
+
+	/**
+	 * Handles the action of reviewing changes based on the selected text in the browser.
+	 */
+	private void handleReviewChanges() {
+		chatConversationArea.handleReviewChanges(copyBrowserSelectedText());
+	}
+
+	/**
+	 * Copies the currently selected text from the browser.
+	 *
+	 * @return The selected text, or an empty string if no text is selected.
+	 */
 	private String copyBrowserSelectedText() {
 		Object result = Eclipse.evaluateScript(chatConversationArea.getBrowser(),
 				browserScriptGenerator.generateGetSelectionScript());
-        return result instanceof String ? (String) result : "";
+		return result instanceof String ? (String) result : "";
 	}
 
-    /**
-     * Disposes of all images that have been used in the menu items.
-     */
+	/**
+	 * Disposes of all images that have been used in the menu items.
+	 */
 	private void disposeImages() {
-	    Eclipse.runOnUIThreadAsync(() -> {
-	        for (Image image : imagesToDispose) {
-	            if (!image.isDisposed()) {
-	                image.dispose();
-	            }
-	        }
-	        imagesToDispose.clear();
-	    });
+		Eclipse.runOnUIThreadAsync(() -> {
+			for (Image image : imagesToDispose) {
+				if (!image.isDisposed()) {
+					image.dispose();
+				}
+			}
+			imagesToDispose.clear();
+		});
 	}
 
-    /**
-     * Data structure to hold menu item properties and associated actions.
-     */
+	/**
+	 * Data structure to hold menu item properties and associated actions.
+	 */
 	class MenuItemData {
 		String text;
 		String iconPath;

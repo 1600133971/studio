@@ -1,31 +1,41 @@
 package eclipse.plugin.aiassistant.view;
 
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
 import eclipse.plugin.aiassistant.Constants;
+import eclipse.plugin.aiassistant.messages.Messages;
+import eclipse.plugin.aiassistant.preferences.PreferenceConstants;
+import eclipse.plugin.aiassistant.preferences.Preferences;
 import eclipse.plugin.aiassistant.prompt.Prompts;
 import eclipse.plugin.aiassistant.utility.Eclipse;
 import eclipse.plugin.aiassistant.utility.SpellCheckedTextBox;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-
 /**
  * This class represents the user input area in the application, which consists
  * of a text area and arrow buttons for navigation.
+ * Provides dynamic tooltip updates for the settings button based on current API settings.
  */
 public class UserInputArea {
 
-	public static final String ARROW_UP_TOOLTIP = "Older User Messages";
-	public static final String ARROW_DOWN_TOOLTIP = "Newer User Messages";
+	// The height hint we pass to the SpellCheckedTextBox widget
+	public static final int HEIGHT_HINT_PIXELS = 80;
+
+	public static final String ARROW_UP_TOOLTIP = Messages.ARROW_UP_TOOLTIP;
+	public static final String ARROW_DOWN_TOOLTIP = Messages.ARROW_DOWN_TOOLTIP;
+	public static final String CLEAR_MESSAGES_TOOLTIP = Messages.CLEAR_MESSAGES_TOOLTIP;
+	public static final String SETTINGS_TOOLTIP = Messages.SETTINGS_TOOLTIP;
 	public static final String ARROW_UP_ICON = "ArrowUp.png";
 	public static final String ARROW_DOWN_ICON = "ArrowDown.png";
-	public static final String INPUT_AREA_TOOLTIP = """
-													Ctrl+Enter: Delay the Assistant's Response
-													Shift+Enter: Insert a Newline""";
+	public static final String CLEAR_MESSAGES_ICON = "ClearMessages.png";
+	public static final String SETTINGS_ICON = "Settings.png";
+	public static final String INPUT_AREA_TOOLTIP = Messages.INPUT_AREA_TOOLTIP;
 	public static final int ARROW_BUTTONS_VERTICAL_SPACING = 0;
 
 	private final MainPresenter mainPresenter;
@@ -35,6 +45,11 @@ public class UserInputArea {
 	private Composite arrowButtonContainer;
 	private Button upArrowButton;
 	private Button downArrowButton;
+	private Button clearButton;
+	private Button settingsButton;
+
+	// Cached tooltip showing current API configuration for the settings button
+	private String currentSettingsTooltip;
 
 	/**
 	 * Constructs a new UserInputArea instance with the given parent composite and
@@ -51,6 +66,11 @@ public class UserInputArea {
 		arrowButtonContainer = createArrowButtonContainer(mainContainer);
 		upArrowButton = createUpArrowButton(arrowButtonContainer);
 		downArrowButton = createDownArrowButton(arrowButtonContainer);
+		clearButton = createClearButton(arrowButtonContainer);
+		settingsButton = createSettingsButton(arrowButtonContainer);
+		setupPropertyChangeListener();
+		setupTooltipListener();
+		updateSettingsTooltip(); // Initialize tooltip
 	}
 
 	/**
@@ -94,10 +114,60 @@ public class UserInputArea {
 	 */
 	public void setEnabled(boolean enabled) {
 		Eclipse.runOnUIThreadAsync(() -> {
-			spellCheckedTextBox.setEnabled(enabled);
 			upArrowButton.setEnabled(enabled);
 			downArrowButton.setEnabled(enabled);
+			clearButton.setEnabled(enabled);
+			settingsButton.setEnabled(enabled);
+			if (enabled) {
+				updateButtonStates();
+			}
+			spellCheckedTextBox.setEnabled(enabled);
 			mainContainer.setCursor(enabled ? null : Display.getCurrent().getSystemCursor(SWT.CURSOR_WAIT));
+		});
+	}
+
+	/**
+	 * Updates the enabled state of all buttons based on the current message history state.
+	 * Tests the message history methods to determine button availability without affecting state.
+	 */
+	public void updateButtonStates() {
+		Eclipse.runOnUIThreadAsync(() -> {
+			UserMessageHistory messageHistory = mainPresenter.getUserMessageHistory();
+			upArrowButton.setEnabled(messageHistory.hasOlderMessages());
+			downArrowButton.setEnabled(messageHistory.hasNewerMessages());
+			clearButton.setEnabled(!messageHistory.isEmpty());
+			// Settings button is always enabled when input is enabled
+		});
+	}
+
+	/**
+	 * Registers a property change listener to handle changes in API settings
+	 * preferences. Updates the settings button tooltip when any relevant setting changes.
+	 */
+	private void setupTooltipListener() {
+		Preferences.getDefault().addPropertyChangeListener(event -> {
+			// React to changes in API settings
+			if (event.getProperty().equals(PreferenceConstants.CURRENT_MODEL_NAME)
+					|| event.getProperty().equals(PreferenceConstants.CURRENT_API_URL)
+					|| event.getProperty().equals(PreferenceConstants.CURRENT_JSON_OVERRIDES)
+					|| event.getProperty().equals(PreferenceConstants.CURRENT_USE_STREAMING)
+					|| event.getProperty().equals(PreferenceConstants.CURRENT_USE_SYSTEM_MESSAGE)
+					|| event.getProperty().equals(PreferenceConstants.CURRENT_USE_DEVELOPER_MESSAGE)) {
+				updateSettingsTooltip();
+			}
+		});
+	}
+
+	/**
+	 * Updates the cached settings button tooltip and applies it to the button.
+	 */
+	private void updateSettingsTooltip() {
+		currentSettingsTooltip = generateModelDetailsTooltip();
+
+		Eclipse.runOnUIThreadAsync(() -> {
+			if (settingsButton != null) {
+				settingsButton.setToolTipText(currentSettingsTooltip);
+			}
 		});
 	}
 
@@ -126,7 +196,8 @@ public class UserInputArea {
 	 *         interaction.
 	 */
 	private SpellCheckedTextBox createSpellCheckedTextBox(Composite parent) {
-		SpellCheckedTextBox spellCheckedTextBox = new SpellCheckedTextBox(parent, this::handleEnterKeyPress);
+		SpellCheckedTextBox spellCheckedTextBox = new SpellCheckedTextBox(parent, HEIGHT_HINT_PIXELS,
+				Preferences.getUserInputFontSize(), this::handleEnterKeyPress);
 		spellCheckedTextBox.configureTextToolTip(INPUT_AREA_TOOLTIP);
 		return spellCheckedTextBox;
 	}
@@ -182,6 +253,57 @@ public class UserInputArea {
 	}
 
 	/**
+	 * Creates the clear messages button component.
+	 *
+	 * @param buttonContainer The parent composite for the clear button.
+	 * @return The created button.
+	 */
+	private Button createClearButton(Composite buttonContainer) {
+		SelectionAdapter listener = new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (spellCheckedTextBox.getEnabled()) {
+					mainPresenter.onAttemptClearMessages();
+				}
+			}
+		};
+		return Eclipse.createButton(buttonContainer, "", CLEAR_MESSAGES_TOOLTIP, CLEAR_MESSAGES_ICON, listener);
+	}
+
+	/**
+	 * Creates the settings button component.
+	 *
+	 * @param buttonContainer The parent composite for the settings button.
+	 * @return The created button.
+	 */
+	private Button createSettingsButton(Composite buttonContainer) {
+		SelectionAdapter listener = new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (spellCheckedTextBox.getEnabled()) {
+					onSettings();
+				}
+			}
+		};
+		return Eclipse.createButton(buttonContainer, "", SETTINGS_TOOLTIP, SETTINGS_ICON, listener);
+	}
+
+	/**
+	 * Registers a property change listener to handle changes in font size preferences.
+	 * This listener reacts to changes in chat font size by updating the input area font immediately.
+	 */
+	private void setupPropertyChangeListener() {
+		Preferences.getDefault().addPropertyChangeListener(new IPropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				if (event.getProperty().equals(PreferenceConstants.USER_INPUT_FONT_SIZE)) {
+					spellCheckedTextBox.setFontSize(Preferences.getUserInputFontSize());
+				}
+			}
+		});
+	}
+
+	/**
 	 * Handles the Enter key press in the text area component.
 	 * NOTE: The Enter key is overloaded and has three different functions:
 	 * - Shift+Enter : Insert newline (default Eclipse behaviour?)
@@ -196,6 +318,49 @@ public class UserInputArea {
 		} else if ((stateMask & SWT.MODIFIER_MASK) != SWT.MOD2) {
 			mainPresenter.sendPredefinedPrompt(Prompts.DEFAULT);
 		}
+	}
+
+	/**
+	 * Opens the Preferences dialog when the 'Settings' button is clicked.
+	 */
+	private void onSettings() {
+		Preferences.openPreferenceDialog();
+	}
+
+	/**
+	 * Generates a tooltip string showing current API configuration.
+	 * Always shows model name and API URL, then conditionally adds other settings
+	 * only if they are set/enabled.
+	 *
+	 * @return formatted tooltip string with current API settings
+	 */
+	private String generateModelDetailsTooltip() {
+		StringBuilder tooltip = new StringBuilder();
+
+		// Model name and API URL on separate lines
+		String modelName = Preferences.getCurrentModelName();
+		String apiUrl = Preferences.getCurrentApiUrl();
+		tooltip.append(modelName).append("\n\n").append(apiUrl);
+
+		// Add JSON overrides if not blank (with double newline)
+		String jsonOverrides = Preferences.getCurrentJsonOverrides();
+		if (jsonOverrides != null && !jsonOverrides.trim().isEmpty()) {
+			tooltip.append("\n\n").append(jsonOverrides.trim());
+		}
+
+		// Options section - streaming always shows, system/developer only if checked
+		tooltip.append("\n\n");
+		tooltip.append(Preferences.getCurrentUseStreaming() ? "🗹" : "☐").append(" Streaming");
+
+		if (Preferences.getCurrentUseSystemMessage()) {
+			tooltip.append("\n🗹 System");
+		}
+
+		if (Preferences.getCurrentUseDeveloperMessage()) {
+			tooltip.append("\n🗹 Developer");
+		}
+
+		return tooltip.toString();
 	}
 
 }

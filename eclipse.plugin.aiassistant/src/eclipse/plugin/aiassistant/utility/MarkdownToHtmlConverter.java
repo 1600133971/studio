@@ -2,6 +2,7 @@ package eclipse.plugin.aiassistant.utility;
 
 import java.util.Base64;
 import java.util.Scanner;
+import java.util.Stack;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,7 +19,16 @@ import org.apache.commons.text.StringEscapeUtils;
  */
 public class MarkdownToHtmlConverter {
 
-	private static final Pattern CODE_BLOCK_PATTERN = Pattern.compile("^[ \\t]*```([a-zA-Z]*)[ \\t]*$");
+	/**
+	 * Represents parsed information from a code block delimiter line.
+	 * Used to track backtick count for proper nesting and language for syntax highlighting.
+	 *
+	 * @param numBackticks Number of consecutive backticks (3 or more for valid code blocks)
+	 * @param language Programming language identifier (empty string for closing delimiters)
+	 */
+	private record CodeBlockInfo(int numBackticks, String language) {}
+
+	private static final Pattern CODE_BLOCK_PATTERN = Pattern.compile("^[ \\t]*(`{3,})([a-zA-Z]*)[ \\t]*$");
 	private static final Pattern CODE_INLINE_PATTERN = Pattern.compile("`(.*?)`");
 	private static final Pattern LATEX_INLINE_PATTERN = Pattern.compile("\\$(.*?)\\$|\\\\\\((.*?)\\\\\\)");
 	private static final Pattern LATEX_MULTILINE_BLOCK_OPEN_PATTERN = Pattern.compile("^[ \\t]*(?:\\$\\$(?!.*\\$\\$)|\\\\\\[(?!.*\\\\\\])).*$");
@@ -44,6 +54,9 @@ public class MarkdownToHtmlConverter {
 	private static final Pattern ITALIC_PATTERN = Pattern.compile("\\*(.*?)\\*");
 	private static final Pattern STRIKETHROUGH_PATTERN = Pattern.compile("~~(.*?)~~");
 
+	// The types of bullet points to use for unordered lists [•, ◦, ▪].
+	private static final String[] BULLET_SYMBOLS = { "&#8226;", "&#9702;", "&#9642;"};
+
 	/**
 	 * Converts Markdown formatted text to HTML. This method also allows for the inclusion
 	 * of interactive buttons within code blocks, such as copy, paste, and review changes.
@@ -67,6 +80,8 @@ public class MarkdownToHtmlConverter {
 
 		int currentQuoteLevel = 0;
 
+		Stack<Integer> codeBlockUnwindStack = new Stack<>();
+
 		try (Scanner scanner = new Scanner(markdownText)) {
 			scanner.useDelimiter("\n");
 
@@ -76,7 +91,6 @@ public class MarkdownToHtmlConverter {
 				Matcher thinkingBlockOpenMatcher = THINKING_BLOCK_OPEN_PATTERN.matcher(line);
 				Matcher thinkingBlockCloseMatcher = THINKING_BLOCK_CLOSE_PATTERN.matcher(line);
 
-				Matcher codeBlockMatcher = CODE_BLOCK_PATTERN.matcher(line);
 				Matcher latexMultilineBlockOpenMatcher = LATEX_MULTILINE_BLOCK_OPEN_PATTERN.matcher(line);
 				Matcher latexSinglelineBlockOpenMatcher = LATEX_SINGLELINE_BLOCK_OPEN_PATTERN.matcher(line);
 				Matcher latexCloseMatcher = LATEX_BLOCK_CLOSE_PATTERN.matcher(line);
@@ -93,7 +107,7 @@ public class MarkdownToHtmlConverter {
 						htmlOutput.append(getThinkingBlockClosingHtml());
 						line = replaceFirstPattern(line, THINKING_BLOCK_CLOSE_PATTERN, "");
 						thinkingBlockCloseMatcher = THINKING_BLOCK_CLOSE_PATTERN.matcher(line);
-						thinkingBlockCount++;
+						thinkingBlockCount--;
 					}
 
 					// Get quote level for current line
@@ -120,9 +134,10 @@ public class MarkdownToHtmlConverter {
 						currentQuoteLevel++;
 					}
 
-					if (codeBlockMatcher.find()) {
-						String language = codeBlockMatcher.group(1);
-						appendOpenCodeBlock(htmlOutput, language, includeCodeBlockButtons);
+					CodeBlockInfo openCodeBlockInfo = getCodeBlockInfo(line);
+					if (openCodeBlockInfo.numBackticks > 0) {
+						appendOpenCodeBlock(htmlOutput, openCodeBlockInfo.language, includeCodeBlockButtons);
+						codeBlockUnwindStack.push(openCodeBlockInfo.numBackticks);
 						currentBlock = BlockType.CODE;
 					} else if (latexMultilineBlockOpenMatcher.find()) {
 						String latexLine = replaceFirstPattern(line, LATEX_LINE_START_PATTERN, "");
@@ -139,10 +154,17 @@ public class MarkdownToHtmlConverter {
 					break;
 
 				case CODE:
-					if (codeBlockMatcher.find()) {
-						appendCloseCodeBlock(htmlOutput);
-						currentBlock = BlockType.NONE;
-					} else {
+					CodeBlockInfo codeBlockInfo = getCodeBlockInfo(line);
+					if (codeBlockInfo.numBackticks > 0 && codeBlockInfo.language.isEmpty()) {
+						if (codeBlockInfo.numBackticks == codeBlockUnwindStack.peek()) {
+							codeBlockUnwindStack.pop();
+							if (codeBlockUnwindStack.empty()) {
+								appendCloseCodeBlock(htmlOutput);
+								currentBlock = BlockType.NONE;
+							}
+						}
+					}
+					if (currentBlock == BlockType.CODE) {
 						htmlOutput.append(convertToEscapedHtmlLine(line)).append("\n");
 					}
 					break;
@@ -161,7 +183,8 @@ public class MarkdownToHtmlConverter {
 			}
 		}
 
-		// Handle unclosed blocks at the end of the input
+		// Handle unclosed code blocks at the end of the input
+		// NOTE: Ignore the codeBlockUnwindStack as only for the nesting heuristic in the loop above
 		// NOTE: Don't auto-close LaTeX here - it causes flicker/errors in output.
 		if (currentBlock == BlockType.CODE) {
 			appendCloseCodeBlock(htmlOutput);
@@ -300,7 +323,28 @@ public class MarkdownToHtmlConverter {
 		markdownLine = replacePattern(markdownLine, HEADER_H6_PATTERN, "<h6>$1</h6>");
 
 		// Convert unordered lists
-		markdownLine = replacePattern(markdownLine, UNORDERED_LIST_PATTERN, "&#8226; $1");
+		Matcher listMatcher = UNORDERED_LIST_PATTERN.matcher(markdownLine);
+		if (listMatcher.matches()) {
+			// Count leading whitespace (space or tab) as indentation level
+			int indentLevel = 0;
+			for (int i = 0; i < markdownLine.length(); i++) {
+				char ch = markdownLine.charAt(i);
+				if (ch == ' ' || ch == '\t') {
+					indentLevel++;
+				} else {
+					break;
+				}
+			}
+
+			// Use two "non-breaking space" so these don't get trimmed away
+			String indentSpaces = "&#160;".repeat(Math.max(0, indentLevel) * 2);
+
+			// Choose the bullet symbol (assume most will indent by 2 spaces each time)
+			String bullet = BULLET_SYMBOLS[(indentLevel / 2) % BULLET_SYMBOLS.length];
+
+			// Lead with a single "thin Space" to slightly indent the first level
+			markdownLine = "&#8201;" + indentSpaces + bullet + " " + listMatcher.group(1);
+		}
 
 		// Convert horizontal rules
 		markdownLine = replacePattern(markdownLine, HORIZONTAL_RULE_PATTERN, "<hr>");
@@ -327,6 +371,21 @@ public class MarkdownToHtmlConverter {
 	 */
 	private static String convertToEscapedHtmlLine(String line) {
 		return StringEscapeUtils.escapeHtml4(escapeBackslashes(line));
+	}
+
+	/**
+	 * Parses a line to extract code block delimiter information.
+	 * Matches lines with 3+ backticks and optional language specifier.
+	 *
+	 * @param line The text line to analyze
+	 * @return CodeBlockInfo with backtick count and language, or (0, "") if not a code block delimiter
+	 */
+	private static CodeBlockInfo getCodeBlockInfo(String line) {
+		Matcher matcher = CODE_BLOCK_PATTERN.matcher(line);
+		if (matcher.matches()) {
+			return new CodeBlockInfo(matcher.group(1).length(), matcher.group(2));
+		}
+		return new CodeBlockInfo(0, "");
 	}
 
 	/**
