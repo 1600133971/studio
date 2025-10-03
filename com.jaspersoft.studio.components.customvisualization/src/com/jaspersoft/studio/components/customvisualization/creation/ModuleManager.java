@@ -51,8 +51,10 @@ public class ModuleManager {
 		d3Circle.setModuleVisualName("Circle Sample based on D3.js library");
 		d3Circle.setModuleName("d3Circle");
 		d3Circle.setVariableName("d3");
-		d3Circle.setLibraryURL("https://raw.githubusercontent.com/mbostock/d3/v3.4.13/d3.min.js");
-		d3Circle.setLicenseURL("https://raw.githubusercontent.com/mbostock/d3/v3.4.13/LICENSE");
+		//d3Circle.setLibraryURL("https://raw.githubusercontent.com/mbostock/d3/v3.4.13/d3.min.js");
+		//d3Circle.setLicenseURL("https://raw.githubusercontent.com/mbostock/d3/v3.4.13/LICENSE");
+		d3Circle.setLibraryURL("com/jaspersoft/studio/components/customvisualization/creation/resources/d3/v3.4.13/d3.min.js");
+		d3Circle.setLicenseURL("com/jaspersoft/studio/components/customvisualization/creation/resources/d3/v3.4.13/LICENSE");
 		d3Circle.setCssResource("com/jaspersoft/studio/components/customvisualization/creation/resources/D3_Circle_css.css");
 		d3Circle.setRenderResource("com/jaspersoft/studio/components/customvisualization/creation/resources/D3_Circle_render.js");
 		d3Circle.setVersionNumber("3.4.13");
@@ -64,8 +66,10 @@ public class ModuleManager {
 		raphaelMap.setCssResource("com/jaspersoft/studio/components/customvisualization/creation/resources/raphael_Map_css.css");
 		raphaelMap.setRenderResource("com/jaspersoft/studio/components/customvisualization/creation/resources/raphael_Map_render.js");
 		//Set the library informations
-		raphaelMap.setLibraryURL("https://raw.githubusercontent.com/DmitryBaranovskiy/raphael/v2.1.2/raphael-min.js");
-		raphaelMap.setLicenseURL("https://raw.githubusercontent.com/DmitryBaranovskiy/raphael/v2.1.2/license.txt");
+		//raphaelMap.setLibraryURL("https://raw.githubusercontent.com/DmitryBaranovskiy/raphael/v2.1.2/raphael-min.js");
+		//raphaelMap.setLicenseURL("https://raw.githubusercontent.com/DmitryBaranovskiy/raphael/v2.1.2/license.txt");
+		raphaelMap.setLibraryURL("com/jaspersoft/studio/components/customvisualization/creation/resources/raphael/v2.1.2/raphael-min.js");
+		raphaelMap.setLicenseURL("com/jaspersoft/studio/components/customvisualization/creation/resources/raphael/v2.1.2/license.txt");
 		raphaelMap.setVersionNumber("2.1.2");
 		raphaelMap.setVariableName("Raphael");
 		raphaelMap.addSampleResource("com/jaspersoft/studio/components/customvisualization/creation/resources/raphael_Map_sample.jrxml");

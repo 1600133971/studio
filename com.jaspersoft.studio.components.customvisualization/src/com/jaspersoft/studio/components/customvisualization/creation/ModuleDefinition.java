@@ -409,7 +409,9 @@ public class ModuleDefinition {
 	 */
 	public File fetchLicense(){
 		try{
-			URL resource = new URL(licenseURL);
+			//改为本地获取License文件
+			//URL resource = new URL(licenseURL);
+			URL resource = getClass().getClassLoader().getResource(licenseURL);
 			InputStream is = resource.openStream();   
 			String tempDir = System.getProperty("java.io.tmpdir");
 			File tempFile = new File(tempDir, "license");
@@ -465,7 +467,9 @@ public class ModuleDefinition {
 	 */
 	public File fetchLibrary(){
 		try{
-			URL resource = new URL(libraryURL);
+			//改为本地获取js库文件
+			//URL resource = new URL(libraryURL);
+			URL resource = getClass().getClassLoader().getResource(libraryURL);
 			InputStream is = resource.openStream();   
 			String tempDir = System.getProperty("java.io.tmpdir");
 			File tempFile = new File(tempDir, getLibraryFilename());
