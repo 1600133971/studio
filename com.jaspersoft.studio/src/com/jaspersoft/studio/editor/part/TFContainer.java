@@ -14,9 +14,12 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.ToolBar;
@@ -46,10 +49,12 @@ public class TFContainer extends Composite {
 		toolBar.setLayoutData(new GridData(SWT.FILL,SWT.CENTER,true,false));
 		
 		// 创建上下文菜单, 添加菜单项
-		final Menu contextMenu = new Menu(toolBar);
-		MenuItem menuItem1 = new MenuItem(contextMenu, SWT.PUSH);
-		menuItem1.setText("close all but Main Report");
-		menuItem1.addSelectionListener(new SelectionAdapter() {
+		Menu contextMenu = new Menu(toolBar.getShell(), SWT.POP_UP);
+		MenuItem closeAllItem = new MenuItem(contextMenu, SWT.PUSH);
+		closeAllItem.setText("close all but Main Report");
+		
+		// 添加菜单项点击事件
+		closeAllItem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				IEditorPart currentEditor = SelectionHelper.getActiveJRXMLEditor();
@@ -61,8 +66,48 @@ public class TFContainer extends Composite {
 			}
 		});
 		
+		// 创建上下文菜单
+		MenuItem closeOneItem = new MenuItem(contextMenu, SWT.PUSH);
+		closeOneItem.setText("close this subeditor");
+		
+		closeOneItem.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ToolItem selectedItem = (ToolItem) contextMenu.getData("selectedItem");
+				if (selectedItem != null) {
+					int newPageIndex = indexOf((TFItem) selectedItem.getData());
+					
+					IEditorPart currentEditor = SelectionHelper.getActiveJRXMLEditor();
+					if (currentEditor instanceof JrxmlEditor){
+						JrxmlEditor editor = (JrxmlEditor) currentEditor;
+						ReportContainer currentContainer =  editor.getReportContainer();
+						if (newPageIndex > 0) {
+							currentContainer.removeVisualView(newPageIndex);
+						}
+					}
+				}
+			}
+		});
+		
+		// 工具栏右键监听，更新选中ToolItem
+		toolBar.addListener(SWT.MouseDown, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				if (event.button == 3) {
+					ToolItem item = toolBar.getItem(new Point(event.x, event.y));
+					if (item != null) {
+						contextMenu.setData("selectedItem", item);
+					}
+				}
+			}
+		});
+		
 		// 添加鼠标监听器来检测右键点击
-		toolBar.addMouseListener(new MouseAdapter() {
+		toolBar.addListener(SWT.MenuDetect, event -> {
+			contextMenu.setLocation(event.x, event.y);
+			contextMenu.setVisible(true);
+		});
+		/*toolBar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent e) {
 				// 检查是否是右键点击
@@ -71,7 +116,7 @@ public class TFContainer extends Composite {
 					contextMenu.setVisible(true);
 				}
 			}
-		});
+		});*/
 		
 		additionalToolbar = new ToolBar(this, SWT.HORIZONTAL | SWT.FLAT | SWT.RIGHT);
 		GridData additionalToolbarGD = new GridData(SWT.RIGHT, SWT.CENTER, true, false);

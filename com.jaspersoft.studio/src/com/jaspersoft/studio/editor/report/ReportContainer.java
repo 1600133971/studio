@@ -401,6 +401,19 @@ public class ReportContainer extends MultiPageToolbarEditorPart
 		// if (ave != null)
 		// ave.setModel(this.model);
 	}
+	
+	// 删除当前子编辑器
+	public void removeVisualView(int index) {
+		if (!editors.isEmpty()) {
+			editors.get(0).setModel(this.model);
+			if (editors.size() > 1) {
+				AbstractVisualEditor ave = editors.get(index);
+				removeEditorPage(null, ave);
+				ave.setModel(this.model);
+			}
+			setActiveEditor(editors.get(0));
+		}
+	}
 
 	public AbstractVisualEditor getMainEditor() {
 		if (editors != null && !editors.isEmpty())
