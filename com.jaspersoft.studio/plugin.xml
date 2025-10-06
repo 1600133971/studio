@@ -55,7 +55,7 @@
                describer="com.jaspersoft.studio.JrxmlContentDescriber"
                priority="high"
                file-extensions="jrxml"
-               name="JasperReports JRXML File">
+               name="%JasperReportsJRXMLFile">
          </content-type>
    </extension>
    <extension
@@ -66,7 +66,7 @@
             icon="icons/jrxml_icon.png"
             id="com.jaspersoft.studio.editor.JrxmlEditor"
             extensions="jrxml"
-            name="JasperReports Designer">
+            name="%JasperReportsDesigner">
             <contentTypeBinding
                   contentTypeId="com.jaspersoft.studio.content-types.jrxml">
             </contentTypeBinding>
@@ -77,7 +77,7 @@
             extensions="jasper"
             icon="icons/resources/jasperreports_jasper.png"
             id="com.jaspersoft.studio.editor.JrxmlEditor.jasper"
-            name="JasperReports Designer">
+            name="%JasperReportsDesigner">
       </editor>
       <editor
             class="com.jaspersoft.studio.editor.preview.PreviewJRPrint"
@@ -85,7 +85,7 @@
             extensions="jrprint"
             icon="icons/report.png"
             id="com.jaspersoft.studio.editor.JRPrintEditor"
-            name="JasperPrint Viewer">
+            name="%JasperPrintViewer">
       </editor>
       <editor
             class="com.jaspersoft.studio.editor.preview.PreviewJRPrint"
@@ -93,7 +93,7 @@
             extensions="jrpxml"
             icon="icons/report.png"
             id="com.jaspersoft.studio.JRPxmlEditor"
-            name="JasperJRPxml Viewer">
+            name="%JasperJRPxmlViewer">
       </editor>
       <editor
             class="com.jaspersoft.studio.editor.JRtxEditor"
@@ -102,7 +102,7 @@
             extensions="jrtx"
             icon="icons/resources/jasperreports_jrtx.png"
             id="com.jaspersoft.studio.JRtxEditor"
-            name="Jasper Style Template Editor">
+            name="%JasperStyleTemplateEditor">
       </editor>
       <editor
             class="com.jaspersoft.studio.editor.preview.PreviewContainer"
@@ -110,7 +110,7 @@
             extensions="jasper"
             icon="icons/resources/jasperreports_jasper.png"
             id="com.jaspersoft.studio.editor.preview.PreviewContainer.jasper"
-            name="JasperReports Preview">
+            name="%JasperReportsPreview">
       </editor>
       <editor
             class="com.jaspersoft.studio.editor.preview.PreviewContainer"
@@ -118,13 +118,13 @@
             extensions="jrxml"
             icon="icons/jrxml_icon.png"
             id="com.jaspersoft.studio.editor.preview.PreviewContainer.jrxml"
-            name="JasperReports Preview">
+            name="%JasperReportsPreview">
       </editor>
       <editor
             class="com.jaspersoft.studio.data.DataAdapterEditorPart"
             icon="icons/data_source.png"
             id="com.jaspersoft.studio.data.DataAdapterEditorPart"
-            name="DataAdapter Editor">
+            name="%DataAdapterEditor">
          <contentTypeBinding
                contentTypeId="com.jaspersoft.studio.content-types.dataAdapter">
          </contentTypeBinding>
@@ -136,7 +136,7 @@
             extensions="jssce"
             icon="icons/jrxml_icon.png"
             id="com.jaspersoft.studio.editor.SimpleJRXMLEditor"
-            name="JasperReports Tool Designer">
+            name="%JasperReportsToolDesigner">
       </editor>
       <editor
             class="com.jaspersoft.studio.font.FontEditor"
@@ -144,7 +144,7 @@
             extensions="xml"
             icon="icons/fontextension.png"
             id="com.jaspersoft.studio.fontextension.editor"
-            name="Font Extension Editor">
+            name="%FontExtensionEditor">
       </editor>
    </extension>
    <extension
@@ -153,7 +153,7 @@
             class="com.jaspersoft.studio.ReportDesignPerspective"
             icon="icons/jr_icon.png"
             id="com.jaspersoft.studio.ReportDesignPerspective"
-            name="Report Design">
+            name="%ReportDesign">
       </perspective>
    </extension>
    <extension
@@ -226,7 +226,7 @@
       <page
             class="com.jaspersoft.studio.preferences.StudioPreferencePage"
             id="com.jaspersoft.studio.preferences.StudioPreferencePage"
-            name="Jaspersoft Studio">
+            name="%JaspersoftStudio">
       </page>
       <page
             category="com.jaspersoft.studio.preferences.StudioPreferencePage"
@@ -404,7 +404,7 @@
       <page
             class="com.jaspersoft.studio.preferences.StudioPreferencePage"
             id="com.jaspersoft.studio.preferences.StudioPreferencePage.property"
-            name="Jaspersoft Studio">
+            name="%JaspersoftStudio">
          <enabledWhen>
             <reference
                   definitionId="com.jaspersoft.studio.projectorjrxml">
@@ -415,7 +415,7 @@
             category="com.jaspersoft.studio.preferences.StudioPreferencePage.property"
             class="com.jaspersoft.studio.preferences.exporter.JRExporterPreferencePage"
             id="com.jaspersoft.studio.preferences.exporter.JRExporterPreferencePage.property"
-            name="Exporters">
+            name="%Exporters">
          <enabledWhen>
             <reference
                   definitionId="com.jaspersoft.studio.projectorjrxml">
@@ -426,7 +426,7 @@
             category="com.jaspersoft.studio.preferences.exporter.JRExporterPreferencePage.property"
             class="com.jaspersoft.studio.preferences.exporter.PDFExporterPreferencePage"
             id="com.jaspersoft.studio.preferences.exporter.PDFExporterPreferencePage.property"
-            name="PDF Exporter">
+            name="%PDFExporter">
          <enabledWhen>
             <reference
                   definitionId="com.jaspersoft.studio.projectorjrxml">
@@ -437,7 +437,7 @@
             category="com.jaspersoft.studio.preferences.exporter.JRExporterPreferencePage.property"
             class="com.jaspersoft.studio.preferences.exporter.HTMLExporterPreferencePage"
             id="com.jaspersoft.studio.preferences.exporter.HTMLExporterPreferencePage.property"
-            name="HTML Exporter">
+            name="%HTMLExporter">
          <enabledWhen>
             <reference
                   definitionId="com.jaspersoft.studio.projectorjrxml">
@@ -448,7 +448,7 @@
             category="com.jaspersoft.studio.preferences.exporter.JRExporterPreferencePage.property"
             class="com.jaspersoft.studio.preferences.exporter.CSVExporterPreferencePage"
             id="com.jaspersoft.studio.preferences.exporter.CSVExporterPreferencePage.property"
-            name="CSV Exporter">
+            name="%CSVExporter">
          <enabledWhen>
             <reference
                   definitionId="com.jaspersoft.studio.projectorjrxml">
@@ -459,7 +459,7 @@
             category="com.jaspersoft.studio.preferences.exporter.JRExporterPreferencePage.property"
             class="com.jaspersoft.studio.preferences.exporter.CSVMetadataExporterPreferencePage"
             id="com.jaspersoft.studio.preferences.exporter.CSVMetadataExporterPreferencePage.property"
-            name="CSV Metadata Exporter">
+            name="%CSVMetadataExporter">
          <enabledWhen>
             <reference
                   definitionId="com.jaspersoft.studio.projectorjrxml">
@@ -470,7 +470,7 @@
             category="com.jaspersoft.studio.preferences.exporter.JRExporterPreferencePage.property"
             class="com.jaspersoft.studio.preferences.exporter.TextExporterPreferencePage"
             id="com.jaspersoft.studio.preferences.exporter.TextExporterPreferencePage.property"
-            name="Text Exporter">
+            name="%TextExporter">
          <enabledWhen>
             <reference
                   definitionId="com.jaspersoft.studio.projectorjrxml">
@@ -481,7 +481,7 @@
             category="com.jaspersoft.studio.preferences.exporter.JRExporterPreferencePage.property"
             class="com.jaspersoft.studio.preferences.exporter.ExcelExporterPreferencePage"
             id="com.jaspersoft.studio.preferences.exporter.ExcelExporterPreferencePage.property"
-            name="Excel Exporter">
+            name="%ExcelExporter">
          <enabledWhen>
             <reference
                   definitionId="com.jaspersoft.studio.projectorjrxml">
@@ -492,7 +492,7 @@
             category="com.jaspersoft.studio.preferences.exporter.JRExporterPreferencePage.property"
             class="com.jaspersoft.studio.preferences.exporter.XMLExporterPreferencePage"
             id="com.jaspersoft.studio.preferences.exporter.XMLExporterPreferencePage.property"
-            name="XML Exporter">
+            name="%XMLExporter">
          <enabledWhen>
             <reference
                   definitionId="com.jaspersoft.studio.projectorjrxml">
@@ -503,7 +503,7 @@
             category="com.jaspersoft.studio.preferences.exporter.JRExporterPreferencePage.property"
             class="com.jaspersoft.studio.preferences.exporter.DOCXExporterPreferencePage"
             id="com.jaspersoft.studio.preferences.exporter.DOCXExporterPreferencePage.property"
-            name="DOCX Exporter">
+            name="%DOCXExporter">
          <enabledWhen>
             <reference
                   definitionId="com.jaspersoft.studio.projectorjrxml">
@@ -514,7 +514,7 @@
             category="com.jaspersoft.studio.preferences.exporter.JRExporterPreferencePage.property"
             class="com.jaspersoft.studio.preferences.exporter.G2DExporterPreferencePage"
             id="com.jaspersoft.studio.preferences.exporter.G2DExporterPreferencePage.property"
-            name="G2D Exporter">
+            name="%G2DExporter">
          <enabledWhen>
             <reference
                   definitionId="com.jaspersoft.studio.projectorjrxml">
@@ -525,7 +525,7 @@
             category="com.jaspersoft.studio.preferences.StudioPreferencePage.property"
             class="com.jaspersoft.studio.preferences.PropertiesPreferencePage"
             id="com.jaspersoft.studio.preferences.PropertiesPreferencePage.property"
-            name="Properties">
+            name="%Properties">
          <enabledWhen>
             <reference
                   definitionId="com.jaspersoft.studio.projectorjrxml">
@@ -536,7 +536,7 @@
             category="com.jaspersoft.studio.preferences.StudioPreferencePage.property"
             class="com.jaspersoft.studio.preferences.DesignerPreferencePage"
             id="com.jaspersoft.studio.preferences.DesignerPreferencePage.property"
-            name="Report Designer"
+            name="%ReportDesigner"
             >
          <enabledWhen>
             <reference
@@ -548,7 +548,7 @@
             category="com.jaspersoft.studio.preferences.DesignerPreferencePage.property"
             class="com.jaspersoft.studio.preferences.theme.ThemesPreferencePage"
             id="com.jaspersoft.studio.preferences.theme.ThemesPreferencePage.property"
-            name="Report Designer Themes">
+            name="%ReportDesignerThemes">
          <enabledWhen>
             <reference
                   definitionId="com.jaspersoft.studio.projectorjrxml">
@@ -559,7 +559,7 @@
             category="com.jaspersoft.studio.preferences.StudioPreferencePage.property"
             class="com.jaspersoft.studio.preferences.execution.ReportExecutionPreferencePage"
             id="com.jaspersoft.studio.preferences.execution.ReportExecutionPreferencePage.property"
-            name="Report Execution">
+            name="%ReportExecution">
          <enabledWhen>
             <reference
                   definitionId="com.jaspersoft.studio.projectorjrxml">
@@ -570,7 +570,7 @@
             category="com.jaspersoft.studio.preferences.StudioPreferencePage.property"
             class="com.jaspersoft.studio.preferences.fonts.FontsPreferencePage"
             id="com.jaspersoft.studio.preferences.fonts.FontsPreferencePage.property"
-            name="Fonts">
+            name="%Fonts">
          <enabledWhen>
             <reference
                   definitionId="com.jaspersoft.studio.project">
@@ -592,7 +592,7 @@
             category="com.jaspersoft.studio.preferences.DesignerPreferencePage.property"
             class="com.jaspersoft.studio.preferences.RulersGridPreferencePage"
             id="com.jaspersoft.studio.preferences.RulersGridPreferencePage.property"
-            name="Rulers And Grid Preferences">
+            name="%RulersAndGridPreferences">
          <enabledWhen>
             <reference
                   definitionId="com.jaspersoft.studio.projectorjrxml">
@@ -603,7 +603,7 @@
             category="com.jaspersoft.studio.preferences.DesignerPreferencePage.property"
             class="com.jaspersoft.studio.editor.toolitems.ToolItemsPreferencePage"
             id="com.jaspersoft.studio.editor.toolitems.ToolItemsPreferencePage.property"
-            name="Toolbars">
+            name="%Toolbars">
          <enabledWhen>
             <reference
                   definitionId="com.jaspersoft.studio.projectorjrxml">
@@ -620,7 +620,7 @@
             category="com.jaspersoft.studio.preferences.StudioPreferencePage.property"
             class="com.jaspersoft.studio.prm.prefs.ParameterSetPreferencePage"
             id="com.jaspersoft.studio.preferences.ParameterSetPreferencePage.property"
-            name="Parameter Sets">
+            name="%ParameterSets">
          <enabledWhen>
             <reference
                   definitionId="com.jaspersoft.studio.project">
@@ -1437,14 +1437,14 @@
          point="org.eclipse.ui.views">
       <category
             id="net.sf.jasperreports"
-            name="Jaspersoft Studio">
+            name="%JaspersoftStudio">
       </category>
       <view
             category="net.sf.jasperreports"
             class="com.jaspersoft.studio.repository.RepositoryView"
             icon="icons/jr_icon.png"
             id="com.jaspersoft.studio.Repository"
-            name="Repository Explorer"
+            name="%RepositoryExplorer"
             restorable="true">
       </view>
       <view
@@ -1452,7 +1452,7 @@
             class="com.jaspersoft.studio.editor.preview.ReportStateView"
             icon="icons/jrxml_icon.png"
             id="com.jaspersoft.studio.editor.preview.reportstate"
-            name="Report State"
+            name="%ReportState"
             restorable="true">
       </view>
       <view
@@ -1460,7 +1460,7 @@
             class="com.jaspersoft.studio.style.view.TemplateStyleView"
             icon="icons/resources/style-16.png"
             id="com.jaspersoft.studio.templateStyleView"
-            name="Template View"
+            name="%TemplateView"
             restorable="true">
       </view>
       <view
@@ -1475,7 +1475,7 @@
             category="net.sf.jasperreports"
             class="com.jaspersoft.studio.debug.TraceView"
             id="com.jaspersoft.studio.debug.trace"
-            name="Trace Report View"
+            name="%TraceReportView"
             restorable="true">
       </view>
    </extension>
@@ -1483,7 +1483,7 @@
          point="org.eclipse.ui.newWizards">
       <category
             id="com.jaspersoft.studio"
-            name="Jaspersoft Studio">
+            name="%JaspersoftStudio">
       </category>
       <wizard
             category="com.jaspersoft.studio"
@@ -1493,7 +1493,7 @@
             id="com.jaspersoft.studio.wizards.ReportNewWizard"
             name="%JasperReport">
          <description>
-            Create a new JasperReport
+            %CreateanewJasperReport
          </description>
       </wizard>
       <wizard
@@ -1504,7 +1504,7 @@
             id="com.jaspersoft.studio.wizards.StyleTemplateNewWizard"
             name="%StyleTemplateFile">
          <description>
-            Create a new Style Template for JasperReport
+            %CreateanewStyleTemplateforJasperReport
          </description>
       </wizard>
       <wizard
@@ -1515,7 +1515,7 @@
             id="com.jaspersoft.studio.data.wizard.NewFileDataAdapterWizard"
             name="%DataAdapter">
          <description>
-            Create a new Data Adapter
+            %CreateanewDataAdapter
          </description>
       </wizard>
 	  <wizard
@@ -1526,7 +1526,7 @@
             id="com.jaspersoft.studio.wizards.NewFunctionsLibraryWizard"
             name="%FunctionsLibrary">
          <description>
-            Create a new Functions Library
+            %CreatenewFunctionsLibrary
          </description>
       </wizard>
    <wizard
@@ -1535,9 +1535,9 @@
          finalPerspective="com.jaspersoft.studio.ReportDesignPerspective"
          icon="icons/resources/newPluginAdapter.png"
          id="com.jaspersoft.studio.wizards.NewDataAdapterWizard"
-         name="Plug-in Data Adapter">
+         name="%PluginDataAdapter">
       <description>
-         Create a new data adapter skeleton
+         %Createanewdataadapterskeleton
       </description>
    </wizard>
    <wizard
@@ -1545,7 +1545,7 @@
          class="com.jaspersoft.studio.font.FontExtensionNewWizard"
          icon="icons/fontextension.png"
          id="com.jaspersoft.studio.font.fontextension.newwizard"
-         name="JasperReports Fonts Extension">
+         name="%JasperReportsFontsExtension">
    </wizard>
    </extension>
     <extension
@@ -1673,15 +1673,15 @@
    <command
          defaultHandler="com.jaspersoft.studio.refactor.ResetUuidCommand"
          id="com.jaspersoft.studio.refactor.uuid"
-         name="Reset UUIDs">
+         name="%ResetUUIDs">
    </command>
    <command
          defaultHandler="com.jaspersoft.studio.editor.context.EditorContextCommand"
          id="com.jaspersoft.studio.editor.context.type"
-         name="Report Repository">
+         name="%ReportRepository">
       <commandParameter
             id="org.eclipse.ui.commands.radioStateParameter"
-            name="State"
+            name="%State"
             optional="false">
       </commandParameter>
       <state
@@ -1708,7 +1708,7 @@
              base-type="org.eclipse.core.runtime.xml"
              file-extensions="xml,jrdax"
              id="com.jaspersoft.studio.content-types.dataAdapter"
-             name="DataAdapter File">
+             name="%DataAdapterFile">
        </content-type>
     </extension>
     <extension
@@ -1719,19 +1719,19 @@
 		  <command
                 commandId="com.jaspersoft.studio.commands.ReportNewWizard"
                 icon="icons/jrxml_icon_add.png"
-                label="Jasper Report"
+                label="%JasperReport"
                 style="push">
           </command>
 		  <command
                 commandId="com.jaspersoft.studio.commands.StyleTemplateNewWizard"
                 icon="icons/jasperreports_jrtx_add.png"
-                label="Style Template File"
+                label="%StyleTemplateFile"
                 style="push">
           </command>
           <command
                 commandId="com.jaspersoft.studio.data.commands.NewFileDataAdapterWizard"
                 icon="icons/data_source_add.png"
-                label="Data Adapter"
+                label="%DataAdapter"
                 style="push">
           </command>
           <separator
@@ -1744,7 +1744,7 @@
           <command
                 commandId="com.jaspersoft.studio.commands.ReportNewWizard"
                 icon="icons/jrxml_icon_add.png"
-                label="Jasper Report"
+                label="%JasperReport"
                 style="push">
                 <visibleWhen>
                 	<with
@@ -1773,7 +1773,7 @@
          <command
                 commandId="com.jaspersoft.studio.commands.StyleTemplateNewWizard"
                 icon="icons/jasperreports_jrtx_add.png"
-                label="Style Template File"
+                label="%StyleTemplateFile"
                 style="push">
                 <visibleWhen>
                    <with
@@ -1802,7 +1802,7 @@
          <command
                 commandId="com.jaspersoft.studio.data.commands.NewFileDataAdapterWizard"
                 icon="icons/data_source_add.png"
-                label="Data Adapter"
+                label="%DataAdapter"
                 style="push">
                 <visibleWhen>
                    <with
@@ -1956,7 +1956,7 @@
      </separator>
      <command
            commandId="com.jaspersoft.studio.refactor.uuid"
-           label="Reset UUIDs"
+           label="%ResetUUIDs"
            mode="FORCE_TEXT"
            style="push">
         <visibleWhen
@@ -1975,7 +1975,7 @@
      </separator>
      <menu
            id="com.jaspersoft.studio.editor.context.type"
-           label="Report Repository Type">
+           label="%ReportRepositoryType">
         <visibleWhen
               checkEnabled="false">
            <with
@@ -2014,7 +2014,7 @@
         locationURI="popup:com.jaspersoft.studio.editor.context.type">
      <command
            commandId="com.jaspersoft.studio.editor.context.type"
-           label="Default - No setting"
+           label="%DefaultNosetting"
            style="radio">
         <parameter
               name="org.eclipse.ui.commands.radioStateParameter"
@@ -2027,7 +2027,7 @@
      </separator>
      <command
            commandId="com.jaspersoft.studio.editor.context.type"
-           label="JasperReports Library"
+           label="%JasperReportsLibrary"
            style="radio">
         <parameter
               name="org.eclipse.ui.commands.radioStateParameter"
@@ -2080,7 +2080,7 @@
          point="org.eclipse.ui.importWizards">
       <category
             id="com.jaspersoft.studio"
-            name="Jaspersoft Studio">
+            name="%JaspersoftStudio">
       </category>
       <wizard
             category="com.jaspersoft.studio"
@@ -2088,7 +2088,7 @@
             id="com.jaspersoft.studio.importadapter"
             name="%importDataAdapters">
          <description>
-            Import Data Adapters from iReport
+            %ImportDataAdaptersfromiReport
          </description>
       </wizard>
       <wizard
@@ -2097,7 +2097,7 @@
             id="com.jaspersoft.studio.importadapterjss"
             name="%importDataAdaptersJSS">
          <description>
-            Import Data Adapters from another JSS Workspace
+            %ImportDataAdaptersfromanotherJSSWorkspace
          </description>
       </wizard>
       <wizard
@@ -2111,7 +2111,7 @@
          point="org.eclipse.ui.exportWizards">
       <category
             id="com.jaspersoft.studio"
-            name="Jaspersoft Studio">
+            name="%JaspersoftStudio">
       </category>
       <wizard
             category="com.jaspersoft.studio"   
@@ -2119,7 +2119,7 @@
             id="com.jaspersoft.studio.exportjsstemplate"
             name="%ExportTemplate2">
          <description>
-            Export the report as a new Report Template
+            %ExportthereportasanewReportTemplate
          </description>
       </wizard>
       <wizard
