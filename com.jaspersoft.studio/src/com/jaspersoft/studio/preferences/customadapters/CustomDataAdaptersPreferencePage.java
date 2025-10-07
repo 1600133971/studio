@@ -7,6 +7,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.IWorkbench;
 
 import com.jaspersoft.studio.JaspersoftStudioPlugin;
+import com.jaspersoft.studio.messages.Messages;
 import com.jaspersoft.studio.preferences.util.FieldEditorOverlayPage;
 
 /**
@@ -21,7 +22,7 @@ public class CustomDataAdaptersPreferencePage extends FieldEditorOverlayPage {
 	public CustomDataAdaptersPreferencePage() {
 		super(GRID);
 		setPreferenceStore(JaspersoftStudioPlugin.getInstance().getPreferenceStore());
-		setDescription("Choose a location for the Data Adapter Configurations Definitions");
+		setDescription(Messages.ChoosealocationfortheDataAdapterConfigurationsDefinitions);
 	}
 
 	/**
@@ -30,7 +31,7 @@ public class CustomDataAdaptersPreferencePage extends FieldEditorOverlayPage {
 	 * editor knows how to save and restore itself.
 	 */
 	public void createFieldEditors() {
-		addField(new FileEditor(CUSTOMDATAADAPTERS, "Configurations Location", "Select a Configuration File", getFieldEditorParent())); //$NON-NLS-1$ //$NON-NLS-2$
+		addField(new FileEditor(CUSTOMDATAADAPTERS, Messages.ConfigurationsLocation, Messages.SelectaConfigurationFile, getFieldEditorParent())); //$NON-NLS-1$ //$NON-NLS-2$
 		super.createFieldEditors();
 	}
 

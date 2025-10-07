@@ -977,7 +977,7 @@
             extensions="jrctx"
             icon="icons/chart-16.png"
             id="com.jaspersoft.studio.components.editor1"
-            name="Chart Theme Editor">
+            name="%ChartThemeEditor">
       </editor>
    </extension>
    <extension
@@ -987,9 +987,9 @@
             class="com.jaspersoft.studio.components.chart.editor.wizard.ChartThemeNewWizard"
             icon="icons/chart-16.png"
             id="com.jaspersoft.studio.components.chart.editor.wizard.ChartThemeNewWizard"
-            name="Chart Themes">
+            name="%ChartThemes">
          <description>
-            Create a new Chart Theme
+            %CreateanewChartTheme
          </description>
       </wizard>
    </extension>
@@ -1089,7 +1089,7 @@
             category="com.jaspersoft.studio.preferences.StudioPreferencePage"
             class="com.jaspersoft.studio.components.map.pref.KeysPreferencePage"
             id="com.jaspersoft.studio.components.map.pref.KeysPreferencePage"
-            name="Map Component Keys">
+            name="%MapComponentKeys">
       </page>
    </extension>
    <extension
@@ -1098,7 +1098,7 @@
             category="com.jaspersoft.studio.preferences.StudioPreferencePage.property"
             class="com.jaspersoft.studio.components.map.pref.KeysPreferencePage"
             id="com.jaspersoft.studio.components.map.pref.KeysPreferencePage.property"
-            name="Map Component Keys">
+            name="%MapComponentKeys">
          <enabledWhen>
             <reference
                   definitionId="com.jaspersoft.studio.projectorjrxml">

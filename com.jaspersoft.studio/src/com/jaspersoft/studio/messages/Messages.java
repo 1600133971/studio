@@ -2690,6 +2690,10 @@ public class Messages extends NLS {
 	public static String JRPropertyExpressionDialog_UseExpressionCheckTxt;
 	public static String JRPropertyExpressionDialog_1;
 	
+	public static String Locationwhereyoucouldhavedifferentresources;
+	public static String ChoosealocationfortheDataAdapterConfigurationsDefinitions;
+	public static String ConfigurationsLocation;
+	public static String SelectaConfigurationFile;
 	private Messages() {
 	}
 

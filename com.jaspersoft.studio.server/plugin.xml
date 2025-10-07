@@ -18,13 +18,13 @@
          <propertyTab
                category="element"
                id="com.jaspersoft.studio.server.ResourceDescriptor.Basic"
-               label="Resource">
+               label="%Resource">
          </propertyTab>
          <propertyTab
                afterTab="com.jaspersoft.studio.server.ResourceDescriptor.Basic"
                category="element"
                id="com.jaspersoft.studio.server.ResourceDescriptor.Properties"
-               label="Properties">
+               label="%Properties">
          </propertyTab>
       </propertyTabs>
    </extension>
@@ -37,7 +37,7 @@
             default="false"
             icon="icons/reportunit.png"
             id="com.jaspersoft.studio.server.editor.ReportUnitEditor"
-            name="ReportUnit Editor">
+            name="%ReportUnitEditor">
       </editor>
    </extension>
    <extension
@@ -50,15 +50,15 @@
          point="org.eclipse.ui.exportWizards">
       <category
             id="com.jaspersoft.studio"
-            name="Jaspersoft Studio">
+            name="%JaspersoftStudio">
       </category>
       <wizard
             category="com.jaspersoft.studio"
             class="com.jaspersoft.studio.server.publish.wizard.Publish2ServerWizard"
             id="com.jaspersoft.studio.server.publish"
-            name="Report To JasperReports Server">
+            name="%ReportToJasperReportsServer">
          <description>
-            Export the report to JasperReports Server
+            %ExportthereporttoJasperReportsServer
          </description>
          <selection
                class="org.eclipse.core.resources.IResource"
@@ -69,9 +69,9 @@
             category="com.jaspersoft.studio"
             class="com.jaspersoft.studio.server.publish.wizard.PublishFile2ServerWizard"
             id="com.jaspersoft.studio.server.publishFile"
-            name="File To JasperReports Server">
+            name="%FileToJasperReportsServer">
          <description>
-            Export a file to JasperReports Server
+            %ExportafiletoJasperReportsServer
          </description>
          <selection
                class="org.eclipse.core.resources.IFile">
@@ -109,7 +109,7 @@
 	         point="org.eclipse.ui.importWizards">
 	      <category
 	            id="com.jaspersoft.studio"
-	            name="Jaspersoft Studio">
+	            name="%JaspersoftStudio">
 	      </category>
 	      <wizard
 	            category="com.jaspersoft.studio"
@@ -117,7 +117,7 @@
 	            id="com.jaspersoft.studio.importserver"
 	            name="%importServers">
 	         <description>
-	            Import one or more JasperReport Server connections from a previuous installation of iReport
+	            %ImportoneormoreJasperReportServerconnectionsfromapreviuousinstallationofiReport
 	         </description>
 	      </wizard>
 	      <wizard
@@ -126,7 +126,7 @@
 	            id="com.jaspersoft.studio.importserver"
 	            name="%importServersJSS">
 	         <description>
-	            Import one or more JasperReport Server connections from another workspace of JSS
+	            %ImportoneormoreJasperReportServerconnectionsfromanotherworkspaceofJSS
 	         </description>
 	      </wizard>
 	   </extension>
@@ -183,7 +183,7 @@
            locationURI="popup:com.jaspersoft.studio.editor.context.type">
         <command
               commandId="com.jaspersoft.studio.editor.context.type"
-              label="JasperReports Server"
+              label="%JasperReportsServer"
               style="radio">
            <parameter
                  name="org.eclipse.ui.commands.radioStateParameter"
@@ -262,7 +262,7 @@
      <classpathContainerPage
            class="com.jaspersoft.studio.server.container.JRSClasspathContainerPage"
            id="com.jaspersoft.server.JRS_CONTAINER"
-           name="Jaspersoft Server Library">
+           name="%JaspersoftServerLibrary">
      </classpathContainerPage>
   </extension>
   <extension

@@ -29,7 +29,7 @@ public class ChartCustomizerListFieldEditor extends TableFieldEditor {
 	private List<String> items = new ArrayList<String>();
 	
 	public ChartCustomizerListFieldEditor(String name, Composite parent) {
-		super(name, "", new String[] { "Chart Customizer Class" }, new int[] { 100 }, parent);
+		super(name, "", new String[] { com.jaspersoft.studio.components.chart.messages.Messages.ChartCustomizerClass }, new int[] { 100 }, parent);
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class ChartCustomizerListFieldEditor extends TableFieldEditor {
 	}
 	@Override
 	protected String[] getNewInputObject() {
-		ChartCustomizerSelectionDialog fd = new ChartCustomizerSelectionDialog(UIUtils.getShell(), "Select the definition file", "Select the Chart Customizer definition file");
+		ChartCustomizerSelectionDialog fd = new ChartCustomizerSelectionDialog(UIUtils.getShell(), com.jaspersoft.studio.components.chart.messages.Messages.Selectthedefinitionfile, com.jaspersoft.studio.components.chart.messages.Messages.SelecttheChartCustomizerdefinitionfile);
 		if (fd.open() == Dialog.OK){
 			String selection = fd.getSelectedResource();
 			items.add(selection);

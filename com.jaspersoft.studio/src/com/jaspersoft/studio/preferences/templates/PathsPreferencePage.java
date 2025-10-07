@@ -7,6 +7,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.ui.IWorkbench;
 
 import com.jaspersoft.studio.JaspersoftStudioPlugin;
+import com.jaspersoft.studio.messages.Messages;
 import com.jaspersoft.studio.preferences.util.FieldEditorOverlayPage;
 
 /**
@@ -21,7 +22,7 @@ public class PathsPreferencePage extends FieldEditorOverlayPage {
 	public PathsPreferencePage() {
 		super(GRID);
 		setPreferenceStore(JaspersoftStudioPlugin.getInstance().getPreferenceStore());
-		setDescription("Location where you could have different resources");
+		setDescription(Messages.Locationwhereyoucouldhavedifferentresources);
 	}
 
 	@Override

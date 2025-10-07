@@ -4,6 +4,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Data Adapters
 Bundle-SymbolicName: com.jaspersoft.studio.data;singleton:=true
 Bundle-Version: 6.20.6.final
+Bundle-Localization: plugin
 Bundle-Activator: com.jaspersoft.studio.data.Activator
 Bundle-Vendor: Cloud Software Group, Inc.
 Require-Bundle: com.jaspersoft.studio;bundle-version="6.20.6";visibility:=reexport,

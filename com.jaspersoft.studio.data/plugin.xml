@@ -98,7 +98,7 @@
             category="com.jaspersoft.studio.preferences.EditorsPreferencePage"
             class="com.jaspersoft.studio.data.xml.XMLQueryEditorPreferencePage"
             id="com.jaspersoft.studio.data.xml.XMLQueryEditorPreferencePage"
-            name="XML Query Editor">
+            name="%XMLQueryEditor">
       </page>
    </extension>
    

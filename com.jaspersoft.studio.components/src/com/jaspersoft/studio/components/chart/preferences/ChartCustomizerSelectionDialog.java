@@ -113,7 +113,7 @@ public class ChartCustomizerSelectionDialog extends PersistentLocationTitleAreaD
 			dirComposite.setFont(font);
 	
 	    Label label = new Label(dirComposite, SWT.NONE);
-	    label.setText(Messages.common_path);
+	    label.setText(com.jaspersoft.studio.messages.Messages.common_path);
 	    label.setFont(font);
 	        
 	    fDirText = new Text(dirComposite, SWT.BORDER);
@@ -129,7 +129,7 @@ public class ChartCustomizerSelectionDialog extends PersistentLocationTitleAreaD
 	    });
 	
 	    Button button = new Button(dirComposite, SWT.PUSH);
-	    button.setText(Messages.common_browse);
+	    button.setText(com.jaspersoft.studio.messages.Messages.common_browse);
 	    data = new GridData();
 	    int widthHint = convertHorizontalDLUsToPixels(IDialogConstants.BUTTON_WIDTH);
 	    Point minSize = button.computeSize(SWT.DEFAULT, SWT.DEFAULT, true);
