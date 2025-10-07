@@ -53,7 +53,7 @@ public class CASListFieldEditor extends TableFieldEditor {
 	}
 
 	public CASListFieldEditor(String name, Composite parent) {
-		super(name, "", new String[] { "Type", "SSO Server" }, new int[] { 50, 300 }, parent);
+		super(name, "", new String[] { com.jaspersoft.studio.server.messages.Messages.Type, com.jaspersoft.studio.server.messages.Messages.SSOServer }, new int[] { 50, 300 }, parent);
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class CASListFieldEditor extends TableFieldEditor {
 		protected PEditDialog(Shell parentShell, SSOServer value) {
 			super(parentShell);
 			this.value = value;
-			setTitle("SSO Server");
+			setTitle(com.jaspersoft.studio.server.messages.Messages.SSOServer);
 			setDefaultSize(500, 300);
 		}
 

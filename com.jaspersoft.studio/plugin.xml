@@ -2363,63 +2363,63 @@
     <extension
           point="com.jaspersoft.studio.bindings">
        <item
-             context="Selecting"
+             context="%Selecting"
              description="%parentSelectionModifierDescription"
              id="com.jaspersoft.studio.editor.ParentSelectionOverrider"
              name="%parentSelectionModifierName"
              sequence="P">
        </item>
        <item
-             context="Dragging"
+             context="%Dragging"
              description="%forceParentChangeDescription"
              id="com.jaspersoft.studio.editor.enforcechangeparent"
              name="%forceParentChangeName"
              sequence="A">
        </item>
        <item
-             context="Selecting"
+             context="%Selecting"
              description="%marqueeSelectionModifierDescription"
              id="com.jaspersoft.studio.editor.MarqueeSelectionOverrider"
              name="%marqueeSelectionModifierName"
              sequence="SHIFT">
        </item>
        <item
-             context="Dragging"
+             context="%Dragging"
              description="%forceStraightDirectionDescription"
              id="com.jaspersoft.studio.editor.straightmovment"
              name="%forceStraightDirectionName"
              sequence="SHIFT">
        </item>
        <item
-             context="Dragging"
+             context="%Dragging"
              description="%disableSnapDescription"
              id="com.jaspersoft.studio.editor.straightmovment.nosnapping"
              name="%disableSnapName"
              sequence="ALT">
        </item>
        <item
-             context="Elements Selected"
+             context="%ElementsSelected"
              description="%groupSelectionDescription"
              id="com.jaspersoft.studio.editor.groupselection"
              name="%groupSelectionName"
              sequence="G">
        </item>
        <item
-             context="Selecting"
+             context="%Selecting"
              description="%bringForwardDescription"
              id="com.jaspersoft.studio.editor.action.order.BringForwardAction"
              name="%bringForwardName"
              sequence="CTRL ARROW_UP">
        </item>
        <item
-             context="Selecting"
+             context="%Selecting"
              description="%bringBackwardDescription"
              id="com.jaspersoft.studio.editor.action.order.BringBackwardAction"
              name="%bringBackwardName"
              sequence="CTRL ARROW_DOWN">
        </item>
        <item
-             context="Dragging"
+             context="%Dragging"
              description="%forceParentKeepDescription"
              id="com.jaspersoft.studio.editor.enforcekeepparent"
              name="%forceParentKeepName"

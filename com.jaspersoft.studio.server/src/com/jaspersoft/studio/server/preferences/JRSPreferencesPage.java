@@ -78,14 +78,14 @@ public class JRSPreferencesPage extends FieldEditorOverlayPage {
 			}
 		});
 
-		StringFieldEditor dmrn = new StringFieldEditor(DEFAULT_MAIN_REPORT_LABEL, "Default Main Report Label", parent);
+		StringFieldEditor dmrn = new StringFieldEditor(DEFAULT_MAIN_REPORT_LABEL, Messages.DefaultMainReportLabel, parent);
 		addField(dmrn);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		Text tlab = dmrn.getTextControl(parent);
 		tlab.setLayoutData(gd);
 		tlab.setToolTipText("This is the default Report Unit main reports label. Default (Main jrxml)");
 
-		StringFieldEditor dmrl = new StringFieldEditor(DEFAULT_MAIN_REPORT_NAME, "Default Main Report Name", parent);
+		StringFieldEditor dmrl = new StringFieldEditor(DEFAULT_MAIN_REPORT_NAME, Messages.DefaultMainReportName, parent);
 		addField(dmrl);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		Text tid = dmrl.getTextControl(parent);

@@ -64,6 +64,7 @@ import org.eclipse.ui.dialogs.PatternFilter;
 import org.eclipse.ui.keys.IBindingService;
 
 import com.jaspersoft.studio.JaspersoftStudioPlugin;
+import com.jaspersoft.studio.messages.Messages;
 import com.jaspersoft.studio.plugin.ExtensionManager;
 
 /**
@@ -402,7 +403,7 @@ public class BindingsPreferencePage extends PreferencePage implements IWorkbench
 
 		// The command name label.
 		final Label commandNameLabel = new Label(leftDataArea, SWT.NONE);
-		commandNameLabel.setText("Name");
+		commandNameLabel.setText(Messages.BindingsPreferencePageName);
 
 		// The current command name.
 		commandNameValueLabel = new Label(leftDataArea, SWT.NONE);
@@ -412,7 +413,7 @@ public class BindingsPreferencePage extends PreferencePage implements IWorkbench
 		commandNameValueLabel.setLayoutData(gridData);
 
 		Label commandDescriptionlabel = new Label(leftDataArea, SWT.LEAD);
-		commandDescriptionlabel.setText("Description");
+		commandDescriptionlabel.setText(Messages.BindingsPreferencePageDescription);
 		gridData = new GridData();
 		gridData.verticalAlignment = SWT.BEGINNING;
 		commandDescriptionlabel.setLayoutData(gridData);
@@ -422,7 +423,7 @@ public class BindingsPreferencePage extends PreferencePage implements IWorkbench
 
 		// The binding label.
 		final Label bindingLabel = new Label(leftDataArea, SWT.NONE);
-		bindingLabel.setText("Binding");
+		bindingLabel.setText(Messages.BindingsPreferencePageBinding);
 
 		// The key sequence entry widget.
 		fBindingText = new Text(leftDataArea, SWT.BORDER);
@@ -457,7 +458,7 @@ public class BindingsPreferencePage extends PreferencePage implements IWorkbench
 
 		// The when label.
 		final Label whenLabel = new Label(leftDataArea, SWT.NONE);
-		whenLabel.setText("When");
+		whenLabel.setText(Messages.BindingsPreferencePageWhen);
 
 		// The when combo.
 		fWhenLabel = new Label(leftDataArea, SWT.NONE);
@@ -474,20 +475,20 @@ public class BindingsPreferencePage extends PreferencePage implements IWorkbench
 		rightDataArea.setLayout(layout);
 		gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		rightDataArea.setLayoutData(gridData);
-		rightDataArea.setText("Conflicts");
+		rightDataArea.setText(Messages.BindingsPreferencePageConflicts);
 		
 		//Create the conflict table
 		conflictViewer = new TableViewer(rightDataArea, SWT.SINGLE | SWT.V_SCROLL | SWT.BORDER | SWT.FULL_SELECTION);
 		Table table = conflictViewer.getTable();
 		table.setHeaderVisible(true);
 		TableColumn bindingStudioNameColumn = new TableColumn(table, SWT.LEAD);
-		bindingStudioNameColumn.setText("Binding");
+		bindingStudioNameColumn.setText(Messages.BindingsPreferencePageBinding);
 		bindingStudioNameColumn.setWidth(100);
 		TableColumn bindingNameColumn = new TableColumn(table, SWT.LEAD);
-		bindingNameColumn.setText("Conflicting Binding");
+		bindingNameColumn.setText(Messages.BindingsPreferencePageConflictingBinding);
 		bindingNameColumn.setWidth(100);
 		TableColumn bindingContextNameColumn = new TableColumn(table, SWT.LEAD);
-		bindingContextNameColumn.setText("Origin");
+		bindingContextNameColumn.setText(Messages.BindingsPreferencePageOrigin);
 		bindingContextNameColumn.setWidth(100);
 		gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		table.setLayoutData(gridData);
@@ -524,7 +525,7 @@ public class BindingsPreferencePage extends PreferencePage implements IWorkbench
 				} else if (index == 1){
 					return conflict.bidningConflict;
 				}	else {
-					return conflict.isPlatformConflict ? "Eclipse" : "Jaspersoft Studio" ;
+					return conflict.isPlatformConflict ? Messages.BindingsPreferencePageEclipse : Messages.BindingsPreferencePageJaspersoftStudio ;
 				}
 			}
 		});
@@ -577,17 +578,17 @@ public class BindingsPreferencePage extends PreferencePage implements IWorkbench
 		viewer.setComparator(comparator);
 
 		final TreeColumn commandNameColumn = new TreeColumn(tree, SWT.LEFT, COMMAND_NAME_COLUMN);
-		commandNameColumn.setText("Name");
+		commandNameColumn.setText(Messages.BindingsPreferencePageName);
 		tree.setSortColumn(commandNameColumn);
 		tree.setSortDirection(comparator.isAscending() ? SWT.UP : SWT.DOWN);
 		commandNameColumn.addSelectionListener(new ResortColumn(comparator, commandNameColumn, viewer, COMMAND_NAME_COLUMN));
 
 		final TreeColumn triggerSequenceColumn = new TreeColumn(tree, SWT.LEFT, KEY_SEQUENCE_COLUMN);
-		triggerSequenceColumn.setText("Binding");
+		triggerSequenceColumn.setText(Messages.BindingsPreferencePageBinding);
 		triggerSequenceColumn.addSelectionListener(new ResortColumn(comparator, triggerSequenceColumn, viewer, KEY_SEQUENCE_COLUMN));
 
 		final TreeColumn whenColumn = new TreeColumn(tree, SWT.LEFT, CONTEXT_COLUMN);
-		whenColumn.setText("When");
+		whenColumn.setText(Messages.BindingsPreferencePageWhen);
 		whenColumn.addSelectionListener(new ResortColumn(comparator, whenColumn, viewer, CONTEXT_COLUMN));
 
 		viewer.setContentProvider(new ModelContentProvider());
@@ -659,7 +660,7 @@ public class BindingsPreferencePage extends PreferencePage implements IWorkbench
 		removeBindingButton = new Button(treeControls, SWT.PUSH);
 		gridData = new GridData();
 		widthHint = convertHorizontalDLUsToPixels(IDialogConstants.BUTTON_WIDTH);
-		removeBindingButton.setText("Unbind Command");
+		removeBindingButton.setText(Messages.BindingsPreferencePageUnbindCommand);
 		gridData.widthHint = Math.max(widthHint, removeBindingButton.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x) + 5;
 		removeBindingButton.setLayoutData(gridData);
 		removeBindingButton.addSelectionListener(new SelectionAdapter() {
@@ -679,7 +680,7 @@ public class BindingsPreferencePage extends PreferencePage implements IWorkbench
 		restoreBindingButton = new Button(treeControls, SWT.PUSH);
 		gridData = new GridData();
 		widthHint = convertHorizontalDLUsToPixels(IDialogConstants.BUTTON_WIDTH);
-		restoreBindingButton.setText("Restore Default");
+		restoreBindingButton.setText(Messages.BindingsPreferencePageRestoreDefault);
 		gridData.widthHint = Math.max(widthHint, restoreBindingButton.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x) + 5;
 		restoreBindingButton.setLayoutData(gridData);
 		restoreBindingButton.addSelectionListener(new SelectionAdapter() {

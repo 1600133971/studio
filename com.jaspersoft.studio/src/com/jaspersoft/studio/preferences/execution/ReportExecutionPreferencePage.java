@@ -74,15 +74,15 @@ public class ReportExecutionPreferencePage extends FieldEditorOverlayPage {
 	 */
 	public void createFieldEditors() {
 		BooleanFieldEditor brunOnDaChange = new BooleanFieldEditor(JSS_RUNREPORTONDACHANGE,
-				"Run report on Data Adapter change", getFieldEditorParent());
+				Messages.RunreportonDataAdapterchange, getFieldEditorParent());
 		brunOnDaChange.getDescriptionControl(getFieldEditorParent())
-				.setToolTipText("Run report on Data Adapter change");
+				.setToolTipText(Messages.RunreportonDataAdapterchangeTooltip);
 		addField(brunOnDaChange);
 
 		BooleanFieldEditor timezoneCheckBox = new BooleanFieldEditor(JSS_REPORT_FORCE_PARAMETER_TIMEZONE,
-				"Calculate date ranges for input parameters using system time zone", getFieldEditorParent());
+				Messages.Calculatedaterangesforinputparametersusingsystemtimezone, getFieldEditorParent());
 		timezoneCheckBox.getDescriptionControl(getFieldEditorParent()).setToolTipText(
-				"Calculates date ranges for input parameters using the system time zone. Set to false to use the time zone set in the�report�(REPORT_TIME_ZONE).");
+				Messages.CalculatedaterangesforinputparametersusingsystemtimezoneTooltip);
 		addField(timezoneCheckBox);
 
 		addField(new LocaleFieldEditor(JSS_REPORT_LOCALE, Messages.ReportExecutionPreferencePage_localeLabel,

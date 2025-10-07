@@ -150,7 +150,7 @@ public class ChartCustomizerSelectionDialog extends PersistentLocationTitleAreaD
 	 */
 	@Override
 	protected void configureShell(Shell newShell) {
-		String title = Messages.ChartCustomizerSelectionDialog_dialogTitle;
+		String title = com.jaspersoft.studio.components.chart.messages.Messages.SelectDestinationDialog;
 		newShell.setText(title);
 		super.configureShell( newShell );
 	}

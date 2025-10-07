@@ -70,7 +70,7 @@ public class ParameterSetDialog extends ATitledDialog {
 		this.prmSet = prmSet;
 		this.indx = indx;
 		this.table = table;
-		setTitle("Parameter Set");
+		setTitle(Messages.ParameterSet);
 		setDescription("");
 		setDefaultSize(600, 600);
 	}
@@ -124,7 +124,7 @@ public class ParameterSetDialog extends ATitledDialog {
 		cmp.setLayoutData(gd);
 
 		Label lbl = new Label(cmp, SWT.NONE);
-		lbl.setText("Parameters");
+		lbl.setText(Messages.Parameters);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
 		lbl.setLayoutData(gd);
@@ -194,7 +194,7 @@ public class ParameterSetDialog extends ATitledDialog {
 	private void createColumns(TableViewer viewer) {
 		TableViewerColumn colFirstName = new TableViewerColumn(viewer, SWT.NONE);
 		colFirstName.getColumn().setWidth(200);
-		colFirstName.getColumn().setText("Name");
+		colFirstName.getColumn().setText(Messages.Name);
 		colFirstName.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -205,7 +205,7 @@ public class ParameterSetDialog extends ATitledDialog {
 
 		colFirstName = new TableViewerColumn(viewer, SWT.NONE);
 		colFirstName.getColumn().setWidth(200);
-		colFirstName.getColumn().setText("Description");
+		colFirstName.getColumn().setText(Messages.Description);
 		colFirstName.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -246,13 +246,13 @@ public class ParameterSetDialog extends ATitledDialog {
 		setValidationError(null);
 		String pname = text.getText();
 		if (pname.isEmpty()) {
-			setValidationError("Name can't be empty");
+			setValidationError(Messages.Namecantbeempty);
 			return;
 		}
 		for (int i = 0; i < table.getItemCount(); i++) {
 			TableItem ti = table.getItem(i);
 			if (ti.getText(0).equals(pname) && i != indx) {
-				setValidationError("This name already exists, please select another one");
+				setValidationError(Messages.Thisnamealreadyexistspleaseselectanotherone);
 				return;
 			}
 		}

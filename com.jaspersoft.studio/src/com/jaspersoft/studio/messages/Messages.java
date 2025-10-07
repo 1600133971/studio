@@ -2694,6 +2694,31 @@ public class Messages extends NLS {
 	public static String ChoosealocationfortheDataAdapterConfigurationsDefinitions;
 	public static String ConfigurationsLocation;
 	public static String SelectaConfigurationFile;
+	
+	public static String ParameterSet;
+	public static String Namecantbeempty;
+	public static String Thisnamealreadyexistspleaseselectanotherone;
+	public static String Name;
+	public static String Description;
+	public static String Parameters;
+	
+	public static String RunreportonDataAdapterchange;
+	public static String RunreportonDataAdapterchangeTooltip;
+	public static String Calculatedaterangesforinputparametersusingsystemtimezone;
+	public static String CalculatedaterangesforinputparametersusingsystemtimezoneTooltip;
+	
+	public static String BindingsPreferencePageName;
+	public static String BindingsPreferencePageBinding;
+	public static String BindingsPreferencePageWhen;
+	public static String BindingsPreferencePageDescription;
+	public static String BindingsPreferencePageConflicts;
+	public static String BindingsPreferencePageConflictingBinding;
+	public static String BindingsPreferencePageOrigin;
+	public static String BindingsPreferencePageEclipse;
+	public static String BindingsPreferencePageJaspersoftStudio;
+	public static String BindingsPreferencePageUnbindCommand;
+	public static String BindingsPreferencePageRestoreDefault;
+
 	private Messages() {
 	}
 

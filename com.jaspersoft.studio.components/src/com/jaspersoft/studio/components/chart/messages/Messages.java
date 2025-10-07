@@ -751,6 +751,7 @@ public class Messages extends NLS {
 	public static String ChartCustomizerClass;
 	public static String Selectthedefinitionfile;
 	public static String SelecttheChartCustomizerdefinitionfile;
+	public static String SelectDestinationDialog;
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

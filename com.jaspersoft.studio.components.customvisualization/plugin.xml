@@ -125,14 +125,14 @@
   	<extension point="org.eclipse.ui.newWizards">
       <category
             id="com.jaspersoft.studio"
-            name="Jaspersoft Studio">
+            name="%JaspersoftStudio">
       </category>
       <wizard
          category="com.jaspersoft.studio"
          class="com.jaspersoft.studio.components.customvisualization.creation.wizard.CustomVisualizationComponentWizard"
          icon="icons/cvcomponent-16.png"
          id="com.jaspersoft.studio.wizards.custom_component_wizard"
-         name="Custom Visualization Component">
+         name="%CustomVisualizationComponent">
         <description>
            %newComponentWizardDescription
         </description>
@@ -146,7 +146,7 @@
             extensions="ipxml"
             icon="icons/cvcomponent-16.png"
             id="com.jaspersoft.studio.components.customvisualization.editor.itemproperty"
-            name="Item Property Editor">
+            name="%ItemPropertyEditor">
       </editor>
    </extension>
    <extension
@@ -169,7 +169,7 @@
    </extension>
    <extension
          id="com.jasspersoft.studio.cvc.nature"
-         name="CVC Nature"
+         name="%CVCNature"
          point="org.eclipse.core.resources.natures">
       <runtime>
          <run
@@ -182,7 +182,7 @@
    </extension>
    <extension
          id="com.jaspersoft.studio.cvc.builder"
-         name="CVC Builder"
+         name="%CVCBuilder"
          point="org.eclipse.core.resources.builders">
       <builder
             callOnEmptyDelta="false"

@@ -488,6 +488,10 @@ public class Messages extends NLS {
 	public static String UsernameValidator_ErrorMsgUsernameTooLong;
 	public static String WSClient_errorWithMessage;
 	public static String WSClient_errorWithoutMessage;
+	public static String DefaultMainReportLabel;
+	public static String DefaultMainReportName;
+	public static String Type;
+	public static String SSOServer;
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
