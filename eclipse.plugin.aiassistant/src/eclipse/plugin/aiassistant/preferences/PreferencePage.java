@@ -101,6 +101,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 	private UrlFieldEditor apiUrlEditor;
 	private PasswordFieldEditor apiKeyEditor;
 	private JsonFieldEditor jsonOverridesEditor;
+	private JsonFieldEditor jsonHeaderOverridesEditor;
 	private AccessibleBooleanFieldEditor useStreamingEditor;
 	private AccessibleBooleanFieldEditor useSystemMessageEditor;
 	private AccessibleBooleanFieldEditor useDeveloperMessageEditor;
@@ -167,6 +168,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 		addSettingsChangeListener(apiUrlEditor.getTextControl(parent));
 		addSettingsChangeListener(apiKeyEditor.getTextControl(parent));
 		addSettingsChangeListener(jsonOverridesEditor.getTextControl(parent));
+		addSettingsChangeListener(jsonHeaderOverridesEditor.getTextControl(parent));
 		addSettingsChangeListener(useStreamingEditor.getCheckboxControl(parent));
 		addSettingsChangeListener(useSystemMessageEditor.getCheckboxControl(parent));
 		addSettingsChangeListener(useDeveloperMessageEditor.getCheckboxControl(parent));
@@ -254,6 +256,9 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 		jsonOverridesEditor = new JsonFieldEditor(PreferenceConstants.CURRENT_JSON_OVERRIDES, Messages.JSONOverrides, parent);
 		jsonOverridesEditor.setEmptyStringAllowed(true);
 
+		jsonHeaderOverridesEditor = new JsonFieldEditor(PreferenceConstants.CURRENT_JSON_HEADER_OVERRIDES, Messages.JSONHeaderOverrides, parent);
+		jsonHeaderOverridesEditor.setEmptyStringAllowed(true);
+
 		useStreamingEditor = new AccessibleBooleanFieldEditor(PreferenceConstants.CURRENT_USE_STREAMING,
 				Messages.UseStreaming, BooleanFieldEditor.SEPARATE_LABEL, parent);
 
@@ -267,6 +272,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 		addField(apiUrlEditor);
 		addField(apiKeyEditor);
 		addField(jsonOverridesEditor);
+		addField(jsonHeaderOverridesEditor);
 		addField(useStreamingEditor);
 		addField(useSystemMessageEditor);
 		addField(useDeveloperMessageEditor);
@@ -331,6 +337,8 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 		createTableColumn(Messages.TableColumnAPIURL, 22, SWT.LEFT, tableLayout, e -> ((BookmarkedApiSettings) e).getApiUrl());
 		createTableColumn(Messages.TableColumnJSONOverrides, 26, SWT.LEFT, tableLayout,
 				e -> ((BookmarkedApiSettings) e).getJsonOverrides());
+		createTableColumn(Messages.TableColumnJSONHeaderOverrides, 26, SWT.LEFT, tableLayout,
+				e -> ((BookmarkedApiSettings) e).getJsonHeaderOverrides());
 		createTableColumn(Messages.TableColumnStreaming, 10, SWT.CENTER, tableLayout,
 				e -> ((BookmarkedApiSettings) e).getUseStreaming() ? "🗹" : "☐");
 		createTableColumn(Messages.TableColumnSystem, 10, SWT.CENTER, tableLayout,
@@ -349,6 +357,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 					apiKeyEditor.setStringValue(selectedSettings.getApiKey());
 					apiKeyEditor.setPasswordVisible(apiKeyEditor.getStringValue().isBlank()); // Hide if not blank for safety
 					jsonOverridesEditor.setStringValue(selectedSettings.getJsonOverrides());
+					jsonHeaderOverridesEditor.setStringValue(selectedSettings.getJsonHeaderOverrides());
 					useStreamingEditor.setBooleanValue(selectedSettings.getUseStreaming());
 					useSystemMessageEditor.setBooleanValue(selectedSettings.getUseSystemMessage());
 					useDeveloperMessageEditor.setBooleanValue(selectedSettings.getUseDeveloperMessage());
@@ -468,6 +477,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 			String currentApiUrl = apiUrlEditor.getStringValue().trim();
 			String currentApiKey = apiKeyEditor.getStringValue().trim();
 			String currentJsonOverrides = jsonOverridesEditor.getStringValue();
+			String currentJsonHeaderOverrides = jsonHeaderOverridesEditor.getStringValue();
 			boolean currentUseStreaming = useStreamingEditor.getBooleanValue();
 			boolean currentUseSystemMessage = useSystemMessageEditor.getBooleanValue();
 			boolean currentUseDeveloperMessage = useDeveloperMessageEditor.getBooleanValue();
@@ -478,7 +488,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 					// If current model name is a substring of model name (or empty)
 					if (modelName.toLowerCase().contains(currentModelName.toLowerCase())) {
 						BookmarkedApiSettings newSetting = new BookmarkedApiSettings(modelName, currentApiUrl,
-								currentApiKey, currentJsonOverrides, currentUseStreaming, currentUseSystemMessage, currentUseDeveloperMessage);
+								currentApiKey, currentJsonOverrides, currentJsonHeaderOverrides, currentUseStreaming, currentUseSystemMessage, currentUseDeveloperMessage);
 						if (!bookmarkedApiSettings.contains(newSetting)) {
 							bookmarkedApiSettings.add(newSetting);
 						}
@@ -654,7 +664,8 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 			allValid.set(modelNameEditor.isValid()
 					&& apiUrlEditor.isValid()
 					&& apiKeyEditor.isValid()
-					&& jsonOverridesEditor.isValid());
+					&& jsonOverridesEditor.isValid()
+					&& jsonHeaderOverridesEditor.isValid());
 		});
 
 		if (allValid.get()) {
@@ -671,6 +682,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 						apiUrlEditor.getStringValue(),
 						apiKeyEditor.getStringValue(),
 						jsonOverridesEditor.getStringValue(),
+						jsonHeaderOverridesEditor.getStringValue(),
 						useStreamingEditor.getBooleanValue(),
 						useSystemMessageEditor.getBooleanValue(),
 						useDeveloperMessageEditor.getBooleanValue());

@@ -10,16 +10,18 @@ public class BookmarkedApiSettings implements Serializable, Comparable<Bookmarke
 	private String apiUrl;
 	private String apiKey;
 	private String jsonOverrides;
+	private String jsonHeaderOverrides;
 	private boolean useStreaming;
 	private boolean useSystemMessage;
 	private boolean useDeveloperMessage;
 
-	public BookmarkedApiSettings(String modelName, String apiUrl, String apiKey, String jsonOverrides,
+	public BookmarkedApiSettings(String modelName, String apiUrl, String apiKey, String jsonOverrides, String jsonHeaderOverrides,
 			boolean useStreaming, boolean useSystemMessage, boolean useDeveloperMessage) {
 		this.modelName = modelName;
 		this.apiUrl = apiUrl;
 		this.apiKey = apiKey;
 		this.jsonOverrides = jsonOverrides;
+		this.jsonHeaderOverrides = jsonHeaderOverrides;
 		this.useStreaming = useStreaming;
 		this.useSystemMessage = useSystemMessage;
 		this.useDeveloperMessage = useDeveloperMessage;
@@ -36,6 +38,9 @@ public class BookmarkedApiSettings implements Serializable, Comparable<Bookmarke
 
 	public String getJsonOverrides() { return jsonOverrides; }
 	public void setJsonOverrides(String jsonOverrides) { this.jsonOverrides = jsonOverrides; }
+
+	public String getJsonHeaderOverrides() { return jsonHeaderOverrides; }
+	public void setJsonHeaderOverrides(String jsonHeaderOverrides) { this.jsonHeaderOverrides = jsonHeaderOverrides; }
 
 	public boolean getUseStreaming() { return useStreaming; }
 	public void setUseStreaming(boolean useStreaming) { this.useStreaming = useStreaming; }
@@ -61,6 +66,9 @@ public class BookmarkedApiSettings implements Serializable, Comparable<Bookmarke
 		int jsonOverridesCompare = this.jsonOverrides.compareTo(other.jsonOverrides);
 		if (jsonOverridesCompare != 0) return jsonOverridesCompare;
 
+		int jsonHeaderOverridesCompare = this.jsonHeaderOverrides.compareTo(other.jsonHeaderOverrides);
+		if (jsonHeaderOverridesCompare != 0) return jsonHeaderOverridesCompare;
+
 		int useStreamingCompare = Boolean.compare(this.useStreaming, other.useStreaming);
 		if (useStreamingCompare != 0) return useStreamingCompare;
 
@@ -82,6 +90,7 @@ public class BookmarkedApiSettings implements Serializable, Comparable<Bookmarke
 				&& Objects.equals(apiUrl, other.apiUrl)
 				&& Objects.equals(apiKey, other.apiKey)
 				&& Objects.equals(jsonOverrides, other.jsonOverrides)
+				&& Objects.equals(jsonHeaderOverrides, other.jsonHeaderOverrides)
 				&& (Boolean.compare(useStreaming, other.useStreaming) == 0)
 				&& (Boolean.compare(useSystemMessage, other.useSystemMessage) == 0)
 				&& (Boolean.compare(useDeveloperMessage, other.useDeveloperMessage) == 0);
@@ -89,7 +98,7 @@ public class BookmarkedApiSettings implements Serializable, Comparable<Bookmarke
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(modelName, apiUrl, apiKey, jsonOverrides, useStreaming, useSystemMessage, useDeveloperMessage);
+		return Objects.hash(modelName, apiUrl, apiKey, jsonOverrides, jsonHeaderOverrides, useStreaming, useSystemMessage, useDeveloperMessage);
 	}
 
 }

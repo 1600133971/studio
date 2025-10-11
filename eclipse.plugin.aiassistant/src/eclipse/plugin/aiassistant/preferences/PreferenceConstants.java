@@ -16,6 +16,7 @@ public class PreferenceConstants {
 	public static final String CURRENT_API_URL = "CURRENT_API_URL";
 	public static final String CURRENT_API_KEY = "CURRENT_API_KEY";
 	public static final String CURRENT_JSON_OVERRIDES = "CURRENT_JSON_OVERRIDES";
+	public static final String CURRENT_JSON_HEADER_OVERRIDES = "CURRENT_JSON_HEADER_OVERRIDES";
 	public static final String CURRENT_USE_STREAMING = "CURRENT_USE_STREAMING";
 	public static final String CURRENT_USE_SYSTEM_MESSAGE = "CURRENT_USE_SYSTEM_MESSAGE";
 	public static final String CURRENT_USE_DEVELOPER_MESSAGE = "CURRENT_USE_DEVELOPER_MESSAGE";

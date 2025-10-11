@@ -348,6 +348,12 @@ public class UserInputArea {
 			tooltip.append("\n\n").append(jsonOverrides.trim());
 		}
 
+		// Add JSON header overrides if not blank (with double newline)
+		String jsonHeaderOverrides = Preferences.getCurrentJsonHeaderOverrides();
+		if (jsonHeaderOverrides != null && !jsonHeaderOverrides.trim().isEmpty()) {
+			tooltip.append("\n\n").append(jsonHeaderOverrides.trim());
+		}
+
 		// Options section - streaming always shows, system/developer only if checked
 		tooltip.append("\n\n");
 		tooltip.append(Preferences.getCurrentUseStreaming() ? "🗹" : "☐").append(" Streaming");

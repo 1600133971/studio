@@ -149,6 +149,15 @@ public final class Preferences {
 	}
 
 	/**
+	 * Returns the currently selected JSON overrides from the preference store.
+	 *
+	 * @return The JSON overrides string.
+	 */
+	public static String getCurrentJsonHeaderOverrides() {
+		return preferenceStore.getString(PreferenceConstants.CURRENT_JSON_HEADER_OVERRIDES);
+	}
+
+	/**
 	 * Returns the currently selected streaming flag from the preference store.
 	 *
 	 * @return The streaming flag value.

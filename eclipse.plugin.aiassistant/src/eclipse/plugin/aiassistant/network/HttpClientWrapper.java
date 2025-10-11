@@ -8,6 +8,11 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.toml.TomlFactory;
+
 /**
  * A wrapper around {@link HttpClient} that provides simplified HTTP communication
  * with a specific API endpoint. Handles authentication, request building, and
@@ -44,9 +49,9 @@ public class HttpClientWrapper {
      * @return Response with input stream for reading the response body
      * @throws IOException If the request fails or returns a non-200 status code
      */
-    public HttpResponse<InputStream> sendRequest(String body) throws IOException {
+    public HttpResponse<InputStream> sendRequest(String body, String header) throws IOException {
         HttpResponse<InputStream> response;
-        HttpRequest request = buildRequest(body);
+        HttpRequest request = buildRequest(body, header);
         try {
             response = httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
         } catch (Exception e) {
@@ -64,8 +69,8 @@ public class HttpClientWrapper {
      * @param body The JSON request body
      * @throws IOException If request building fails
      */
-    public void sendRequestAsync(String body) throws IOException {
-        HttpRequest request = buildRequest(body);
+    public void sendRequestAsync(String body, String header) throws IOException {
+        HttpRequest request = buildRequest(body, header);
         try {
             httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofInputStream());
         } catch (Exception e) {
@@ -81,7 +86,7 @@ public class HttpClientWrapper {
      * @return Built HTTP request
      * @throws IOException If request building fails
      */
-    private HttpRequest buildRequest(String body) throws IOException {
+    private HttpRequest buildRequest(String body, String header) throws IOException {
         HttpRequest request;
         try {
             HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
@@ -91,6 +96,41 @@ public class HttpClientWrapper {
                     .header("Authorization", "Bearer " + apiKey)
                     .header("Accept", "text/event-stream")
                     .header("Content-Type", "application/json");
+            
+			// Apply JSON overrides if specified
+			if (header != null && !header.trim().isEmpty()) {
+				try {
+					// Wrap with braces since JsonFieldEditor validates without outer braces
+					String wrappedOverrides = "{ " + header.trim() + " }";
+					JsonNode overridesNode = null;
+
+					// Try JSON first
+					try {
+						var objectMapper = new ObjectMapper();
+						overridesNode = objectMapper.readTree(wrappedOverrides);
+					} catch (JsonProcessingException e) {
+						// JSON parsing failed, try TOML
+						try {
+							ObjectMapper tomlMapper = new ObjectMapper(new TomlFactory());
+							String wrappedToml = "temp = " + wrappedOverrides;
+							JsonNode tomlTree = tomlMapper.readTree(wrappedToml);
+							overridesNode = tomlTree.get("temp");
+						} catch (JsonProcessingException tomlException) {
+							throw new Exception("Failed to parse JSON overrides as either JSON or TOML: " + e.getMessage(), e);
+						}
+					}
+
+					// Apply each override field to the request body
+					if (overridesNode != null) {
+						overridesNode.fields().forEachRemaining(entry -> {
+							requestBuilder.header(entry.getKey(), entry.getValue().asText());
+						});
+					}
+				} catch (JsonProcessingException e) {
+					throw new Exception("Failed to parse JSON overrides: " + e.getMessage(), e);
+				}
+			}
+            
             if (body == null || body.isEmpty()) {
                 requestBuilder.GET();
             } else {

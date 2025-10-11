@@ -55,6 +55,7 @@ public class Messages extends NLS {
 	public static String APIURL;
 	public static String APIKey;
 	public static String JSONOverrides;
+	public static String JSONHeaderOverrides;
 	public static String UseStreaming;
 	public static String SystemMessage;
 	public static String DeveloperMessage;
@@ -62,6 +63,7 @@ public class Messages extends NLS {
 	public static String TableColumnModelName;
 	public static String TableColumnAPIURL;
 	public static String TableColumnJSONOverrides;
+	public static String TableColumnJSONHeaderOverrides;
 	public static String TableColumnStreaming;
 	public static String TableColumnSystem;
 	public static String TableColumnDeveloper;

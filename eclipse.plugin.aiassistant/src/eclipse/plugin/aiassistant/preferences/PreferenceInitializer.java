@@ -35,6 +35,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		setDefaultCurrentApiUrl();
 		setDefaultCurrentApiKey();
 		setDefaultCurrentJsonOverrides();
+		setDefaultCurrentJsonHeaderOverrides();
 		setDefaultCurrentUseStreaming();
 		setDefaultCurrentUseSystemMessage();
 		setDefaultCurrentUseDeveloperMessage();
@@ -117,6 +118,14 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 	private void setDefaultCurrentJsonOverrides() {
 		Preferences.getDefault().setDefault(PreferenceConstants.CURRENT_JSON_OVERRIDES,
 				Constants.DEFAULT_JSON_OVERRIDES);
+	}
+
+	/**
+	 * Sets the default JSON overrides setting in the preference store.
+	 */
+	private void setDefaultCurrentJsonHeaderOverrides() {
+		Preferences.getDefault().setDefault(PreferenceConstants.CURRENT_JSON_HEADER_OVERRIDES,
+				Constants.DEFAULT_JSON_HEADER_OVERRIDES);
 	}
 
 	/**

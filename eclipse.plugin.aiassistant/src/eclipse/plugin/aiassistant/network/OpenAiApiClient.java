@@ -88,7 +88,7 @@ public class OpenAiApiClient {
 					apiKey,
 					Duration.ofSeconds(Preferences.getConnectionTimeout()),
 					Duration.ofSeconds(Preferences.getRequestTimeout()));
-			HttpResponse<InputStream> response = client.sendRequest( null);
+			HttpResponse<InputStream> response = client.sendRequest( null, null);
 			InputStream responseBody = response.body();
 			ObjectMapper objectMapper = new ObjectMapper();
 			JsonNode rootNode = objectMapper.readTree(responseBody);
@@ -172,7 +172,7 @@ public class OpenAiApiClient {
 						Duration.ofSeconds(Preferences.getConnectionTimeout()),
 						Duration.ofSeconds(Preferences.getRequestTimeout()));
 				HttpResponse<InputStream> streamingResponse = httpClientWrapper.sendRequest(
-						buildChatCompletionRequestBody(modelName, chatConversation));
+						buildChatCompletionRequestBody(modelName, chatConversation), Preferences.getCurrentJsonHeaderOverrides());
 				if (Preferences.getCurrentUseStreaming()) {
 					processStreamingResponse(streamingResponse);
 				}

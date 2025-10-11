@@ -55,14 +55,14 @@ public final class Constants {
 
 	// Default bookmarked settings, showing 5 of the most common OpenAI compatible end-points.
 	public static final List<BookmarkedApiSettings> DEFAULT_BOOKMARKED_API_SETTINGS = new ArrayList<>(Arrays.asList(
-			new BookmarkedApiSettings("deepseek-chat", "https://api.deepseek.com/v1", "sk-...", "", true, false, true),
-			new BookmarkedApiSettings("deepseek-reasoner", "https://api.deepseek.com/v1", "sk-...", "", true, false, true),
-			new BookmarkedApiSettings("gpt-4-turbo", "https://api.openai.com/v1", "sk-...", "", true, false, true),
-			new BookmarkedApiSettings("o3", "https://api.openai.com/v1", "sk-...", "reasoning_effort = \"low\"", true, false, true),
-			new BookmarkedApiSettings("anthropic/claude-sonnet-4", "https://openrouter.ai/api/v1", "sk-...", "", true, true, false),
-			new BookmarkedApiSettings("<LLAMA.CPP MODEL>", "http://localhost:8080/v1", "", "temperature = 0.0", true, true, false),
-			new BookmarkedApiSettings("<OLLAMA MODEL>", "http://localhost:11434/v1", "", "temperature = 0.2", true, true, false),
-			new BookmarkedApiSettings("<TABBYAPI MODEL>", "http://localhost:5000/v1", "", "", true, true, false)));
+			new BookmarkedApiSettings("deepseek-chat", "https://api.deepseek.com/v1", "sk-...", "temperature = 0.0", "", true, false, true),
+			new BookmarkedApiSettings("deepseek-reasoner", "https://api.deepseek.com/v1", "sk-...", "temperature = 0.0", "", true, false, true),
+			new BookmarkedApiSettings("gpt-4-turbo", "https://api.openai.com/v1", "sk-...", "temperature = 0.0", "", true, false, true),
+			new BookmarkedApiSettings("o3", "https://api.openai.com/v1", "sk-...", "reasoning_effort = \"low\"", "", true, false, true),
+			new BookmarkedApiSettings("anthropic/claude-sonnet-4", "https://openrouter.ai/api/v1", "sk-...", "", "", true, true, false),
+			new BookmarkedApiSettings("<LLAMA.CPP MODEL>", "http://localhost:8080/v1", "", "temperature = 0.0", "", true, true, false),
+			new BookmarkedApiSettings("<OLLAMA MODEL>", "http://localhost:11434/v1", "", "temperature = 0.2", "", true, true, false),
+			new BookmarkedApiSettings("<TABBYAPI MODEL>", "http://localhost:5000/v1", "", "", "", true, true, false)));
 
 	// Widget dimensions and spacing for the main view.
 	public static final int DEFAULT_EXTERNAL_MARGINS = 0;
@@ -91,7 +91,10 @@ public final class Constants {
 	public static final boolean DEFAULT_DISABLE_TOOLTIPS = true;
 
 	// The default JSON overrides.
-	public static final String DEFAULT_JSON_OVERRIDES = "";
+	public static final String DEFAULT_JSON_OVERRIDES = "temperature = 0.0";
+
+	// The default JSON overrides.
+	public static final String DEFAULT_JSON_HEADER_OVERRIDES = "";
 
 	// Streaming flag.
 	public static final boolean DEFAULT_USE_STREAMING = true;
