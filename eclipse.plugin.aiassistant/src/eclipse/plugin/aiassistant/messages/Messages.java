@@ -51,6 +51,7 @@ public class Messages extends NLS {
 	public static String StreamingIntervalms;
 	public static String DisableTooltips;
 	
+	public static String NickName;
 	public static String ModelName;
 	public static String APIURL;
 	public static String APIKey;
@@ -60,6 +61,7 @@ public class Messages extends NLS {
 	public static String SystemMessage;
 	public static String DeveloperMessage;
 	
+	public static String TableColumnNickName;
 	public static String TableColumnModelName;
 	public static String TableColumnAPIURL;
 	public static String TableColumnJSONOverrides;

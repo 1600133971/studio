@@ -338,9 +338,10 @@ public class UserInputArea {
 		StringBuilder tooltip = new StringBuilder();
 
 		// Model name and API URL on separate lines
+		String nickName = Preferences.getCurrentNickName();
 		String modelName = Preferences.getCurrentModelName();
 		String apiUrl = Preferences.getCurrentApiUrl();
-		tooltip.append(modelName).append("\n\n").append(apiUrl);
+		tooltip.append(nickName).append("\n\n").append(modelName).append("\n\n").append(apiUrl);
 
 		// Add JSON overrides if not blank (with double newline)
 		String jsonOverrides = Preferences.getCurrentJsonOverrides();

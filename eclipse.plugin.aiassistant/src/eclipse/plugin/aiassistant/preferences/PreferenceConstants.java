@@ -12,6 +12,7 @@ public class PreferenceConstants {
 	public static final String USER_INPUT_FONT_SIZE = "USER_INPUT_FONT_SIZE";
 	public static final String DISABLE_TOOLTIPS = "DISABLE_TOOLTIPS";
 
+	public static final String CURRENT_NICK_NAME = "CURRENT_NICK_NAME";
 	public static final String CURRENT_MODEL_NAME = "CURRENT_MODEL_NAME";
 	public static final String CURRENT_API_URL = "CURRENT_API_URL";
 	public static final String CURRENT_API_KEY = "CURRENT_API_KEY";

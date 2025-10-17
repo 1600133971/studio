@@ -97,6 +97,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 	private BooleanFieldEditor disableTooltipsEditor;
 
 	/** Field editors for current API configuration */
+	private StringFieldEditor nickNameEditor;
 	private StringFieldEditor modelNameEditor;
 	private UrlFieldEditor apiUrlEditor;
 	private PasswordFieldEditor apiKeyEditor;
@@ -164,6 +165,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 		createTableActionButtons(parent);
 
 		// Add listeners to all fields that affect bookmark status
+		addSettingsChangeListener(nickNameEditor.getTextControl(parent));
 		addSettingsChangeListener(modelNameEditor.getTextControl(parent));
 		addSettingsChangeListener(apiUrlEditor.getTextControl(parent));
 		addSettingsChangeListener(apiKeyEditor.getTextControl(parent));
@@ -243,6 +245,9 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 	 * @param parent The parent composite where the fields will be created
 	 */
 	private void createCurrentApiSettingsGroup(Composite parent) {
+		nickNameEditor = new StringFieldEditor(PreferenceConstants.CURRENT_NICK_NAME, Messages.NickName, parent);
+		nickNameEditor.setEmptyStringAllowed(false);
+
 		modelNameEditor = new StringFieldEditor(PreferenceConstants.CURRENT_MODEL_NAME, Messages.ModelName, parent);
 		modelNameEditor.setEmptyStringAllowed(false);
 
@@ -268,6 +273,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 		useDeveloperMessageEditor = new AccessibleBooleanFieldEditor(PreferenceConstants.CURRENT_USE_DEVELOPER_MESSAGE,
 				Messages.DeveloperMessage, BooleanFieldEditor.SEPARATE_LABEL, parent);
 
+		addField(nickNameEditor);
 		addField(modelNameEditor);
 		addField(apiUrlEditor);
 		addField(apiKeyEditor);
@@ -333,6 +339,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 		table.setLinesVisible(true);
 
 		// Create all columns with weight-based widths
+		createTableColumn(Messages.TableColumnNickName, 22, SWT.LEFT, tableLayout, e -> ((BookmarkedApiSettings) e).getNickName());
 		createTableColumn(Messages.TableColumnModelName, 22, SWT.LEFT, tableLayout, e -> ((BookmarkedApiSettings) e).getModelName());
 		createTableColumn(Messages.TableColumnAPIURL, 22, SWT.LEFT, tableLayout, e -> ((BookmarkedApiSettings) e).getApiUrl());
 		createTableColumn(Messages.TableColumnJSONOverrides, 26, SWT.LEFT, tableLayout,
@@ -352,6 +359,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 				TableItem[] items = table.getSelection();
 				if (items.length > 0) {
 					BookmarkedApiSettings selectedSettings = (BookmarkedApiSettings) items[0].getData();
+					nickNameEditor.setStringValue(selectedSettings.getNickName());
 					modelNameEditor.setStringValue(selectedSettings.getModelName());
 					apiUrlEditor.setStringValue(selectedSettings.getApiUrl());
 					apiKeyEditor.setStringValue(selectedSettings.getApiKey());
@@ -473,6 +481,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 
 		// Populate button
 		createActionButton(buttonComposite, Messages.Populate, Messages.PopulateTooltip, "Populate.png", () -> {
+			String currentNickName = nickNameEditor.getStringValue().trim();
 			String currentModelName = modelNameEditor.getStringValue().trim();
 			String currentApiUrl = apiUrlEditor.getStringValue().trim();
 			String currentApiKey = apiKeyEditor.getStringValue().trim();
@@ -487,7 +496,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 				for (String modelName : modelNames) {
 					// If current model name is a substring of model name (or empty)
 					if (modelName.toLowerCase().contains(currentModelName.toLowerCase())) {
-						BookmarkedApiSettings newSetting = new BookmarkedApiSettings(modelName, currentApiUrl,
+						BookmarkedApiSettings newSetting = new BookmarkedApiSettings(currentNickName, modelName, currentApiUrl,
 								currentApiKey, currentJsonOverrides, currentJsonHeaderOverrides, currentUseStreaming, currentUseSystemMessage, currentUseDeveloperMessage);
 						if (!bookmarkedApiSettings.contains(newSetting)) {
 							bookmarkedApiSettings.add(newSetting);
@@ -662,6 +671,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 		// Validate string field editor states
 		Eclipse.runOnUIThreadSync(() -> {
 			allValid.set(modelNameEditor.isValid()
+					&& nickNameEditor.isValid()
 					&& apiUrlEditor.isValid()
 					&& apiKeyEditor.isValid()
 					&& jsonOverridesEditor.isValid()
@@ -673,11 +683,13 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 			// NOTE: The API-key and JSON overrides are allowed to be blank or empty
 			Eclipse.runOnUIThreadSync(() -> {
 				allValid.set(!modelNameEditor.getStringValue().isBlank()
+						&& !nickNameEditor.getStringValue().isBlank()
 						&& !apiUrlEditor.getStringValue().isBlank());
 			});
 
 			if (allValid.get()) {
 				return new BookmarkedApiSettings(
+						nickNameEditor.getStringValue(),
 						modelNameEditor.getStringValue(),
 						apiUrlEditor.getStringValue(),
 						apiKeyEditor.getStringValue(),

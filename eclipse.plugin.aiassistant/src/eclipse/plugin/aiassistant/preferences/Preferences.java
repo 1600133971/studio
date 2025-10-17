@@ -113,6 +113,15 @@ public final class Preferences {
 	}
 
 	/**
+	 * Returns the currently selected nick name from the preference store.
+	 *
+	 * @return The currently selected nick name.
+	 */
+	public static String getCurrentNickName() {
+		return preferenceStore.getString(PreferenceConstants.CURRENT_NICK_NAME);
+	}
+
+	/**
 	 * Returns the currently selected model name from the preference store.
 	 *
 	 * @return The currently selected model name.

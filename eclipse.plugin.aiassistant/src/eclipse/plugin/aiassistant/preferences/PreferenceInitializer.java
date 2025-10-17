@@ -31,6 +31,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		setDefaultNotificationFontSize();
 		setDefaultUserInputFontSize();
 		setDefaultDisableTooltips();
+		setDefaultCurrentNickName();
 		setDefaultCurrentModelName();
 		setDefaultCurrentApiUrl();
 		setDefaultCurrentApiKey();
@@ -89,6 +90,13 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 	 */
 	private void setDefaultDisableTooltips() {
 		Preferences.getDefault().setDefault(PreferenceConstants.DISABLE_TOOLTIPS, Constants.DEFAULT_DISABLE_TOOLTIPS);
+	}
+
+	/**
+	 * Sets the default currently selected nick name in the preference store.
+	 */
+	private void setDefaultCurrentNickName() {
+		Preferences.getDefault().setDefault(PreferenceConstants.CURRENT_NICK_NAME, Constants.DEFAULT_NICK_NAME);
 	}
 
 	/**

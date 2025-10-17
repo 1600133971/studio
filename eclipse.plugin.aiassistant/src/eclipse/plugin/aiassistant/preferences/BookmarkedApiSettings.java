@@ -6,6 +6,7 @@ import java.util.Objects;
 public class BookmarkedApiSettings implements Serializable, Comparable<BookmarkedApiSettings> {
 	private static final long serialVersionUID = 1L;
 
+	private String nickName;
 	private String modelName;
 	private String apiUrl;
 	private String apiKey;
@@ -15,8 +16,9 @@ public class BookmarkedApiSettings implements Serializable, Comparable<Bookmarke
 	private boolean useSystemMessage;
 	private boolean useDeveloperMessage;
 
-	public BookmarkedApiSettings(String modelName, String apiUrl, String apiKey, String jsonOverrides, String jsonHeaderOverrides,
+	public BookmarkedApiSettings(String nickName, String modelName, String apiUrl, String apiKey, String jsonOverrides, String jsonHeaderOverrides,
 			boolean useStreaming, boolean useSystemMessage, boolean useDeveloperMessage) {
+		this.nickName = nickName;
 		this.modelName = modelName;
 		this.apiUrl = apiUrl;
 		this.apiKey = apiKey;
@@ -26,6 +28,9 @@ public class BookmarkedApiSettings implements Serializable, Comparable<Bookmarke
 		this.useSystemMessage = useSystemMessage;
 		this.useDeveloperMessage = useDeveloperMessage;
 	}
+
+	public String getNickName() { return nickName; }
+	public void setNickName(String nickName) { this.nickName = nickName; }
 
 	public String getModelName() { return modelName; }
 	public void setModelName(String modelName) { this.modelName = modelName; }
@@ -57,6 +62,9 @@ public class BookmarkedApiSettings implements Serializable, Comparable<Bookmarke
 		int urlCompare = this.apiUrl.compareTo(other.apiUrl);
 		if (urlCompare != 0) return urlCompare;
 
+		int nickCompare = this.nickName.compareTo(other.nickName);
+		if (nickCompare != 0) return nickCompare;
+
 		int nameCompare = this.modelName.compareTo(other.modelName);
 		if (nameCompare != 0) return nameCompare;
 
@@ -87,6 +95,7 @@ public class BookmarkedApiSettings implements Serializable, Comparable<Bookmarke
 		if (obj == null || getClass() != obj.getClass()) return false;
 		BookmarkedApiSettings other = (BookmarkedApiSettings) obj;
 		return Objects.equals(modelName, other.modelName)
+				&& Objects.equals(nickName, other.nickName)
 				&& Objects.equals(apiUrl, other.apiUrl)
 				&& Objects.equals(apiKey, other.apiKey)
 				&& Objects.equals(jsonOverrides, other.jsonOverrides)
@@ -98,7 +107,7 @@ public class BookmarkedApiSettings implements Serializable, Comparable<Bookmarke
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(modelName, apiUrl, apiKey, jsonOverrides, jsonHeaderOverrides, useStreaming, useSystemMessage, useDeveloperMessage);
+		return Objects.hash(nickName, modelName, apiUrl, apiKey, jsonOverrides, jsonHeaderOverrides, useStreaming, useSystemMessage, useDeveloperMessage);
 	}
 
 }
