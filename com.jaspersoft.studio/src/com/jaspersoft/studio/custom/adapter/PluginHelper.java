@@ -119,7 +119,7 @@ public class PluginHelper {
 				}
 			}
 
-			Path java11ContainerPath = new Path(JavaRuntime.JRE_CONTAINER + "/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11");
+			Path java11ContainerPath = new Path(JavaRuntime.JRE_CONTAINER + "/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17");
 			classpathEntries.add(JavaCore.newContainerEntry(java11ContainerPath, null, new IClasspathAttribute[] {JavaCore.newClasspathAttribute("module", "true")}, false));
 			classpathEntries.add(JavaCore.newContainerEntry(new Path("org.eclipse.pde.core.requiredPlugins")));
 
@@ -260,7 +260,7 @@ public class PluginHelper {
 		maniContent.append("Bundle-ActivationPolicy: lazy\n");
 		maniContent.append("Eclipse-BuddyPolicy: registered\n");
 		maniContent.append("Eclipse-RegisterBuddy: com.jaspersoft.studio.data\n");		
-		maniContent.append("Bundle-RequiredExecutionEnvironment: JavaSE-11\r\n");
+		maniContent.append("Bundle-RequiredExecutionEnvironment: JavaSE-17\r\n");
 		if (!externalLibs.isEmpty()){
 			maniContent.append("Bundle-ClassPath: ");
 			for(IFile lib : externalLibs){

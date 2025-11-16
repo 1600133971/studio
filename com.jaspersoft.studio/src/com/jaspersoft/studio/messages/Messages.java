@@ -2718,6 +2718,10 @@ public class Messages extends NLS {
 	public static String BindingsPreferencePageJaspersoftStudio;
 	public static String BindingsPreferencePageUnbindCommand;
 	public static String BindingsPreferencePageRestoreDefault;
+	
+	public static String VErrorPreview_DataQueriedAt;
+	public static String VErrorPreview_UsedDataFromSnapshot;
+	public static String VErrorPreview_DataSnapshotFile;
 
 	private Messages() {
 	}

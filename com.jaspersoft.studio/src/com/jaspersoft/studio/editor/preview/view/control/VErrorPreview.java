@@ -398,7 +398,7 @@ public class VErrorPreview extends APreview {
 		com.jaspersoft.studio.utils.UIUtil.setBold(fillSize);
 		new Label(statComposite, SWT.NONE).setText(Messages.VErrorPreview_bytesLabel);
 
-		new Label(statComposite, SWT.NONE).setText("Data Queried At");
+		new Label(statComposite, SWT.NONE).setText(Messages.VErrorPreview_DataQueriedAt);
 
 		runTime = new Label(statComposite, SWT.BOLD);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -406,14 +406,14 @@ public class VErrorPreview extends APreview {
 		runTime.setLayoutData(gd);
 		com.jaspersoft.studio.utils.UIUtil.setBold(runTime);
 
-		new Label(statComposite, SWT.NONE).setText("Used Data From Snapshot");
+		new Label(statComposite, SWT.NONE).setText(Messages.VErrorPreview_UsedDataFromSnapshot);
 
 		snapshot = new Label(statComposite, SWT.BOLD);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
 		snapshot.setLayoutData(gd);
 
-		new Label(statComposite, SWT.NONE).setText("Data Snapshot File");
+		new Label(statComposite, SWT.NONE).setText(Messages.VErrorPreview_DataSnapshotFile);
 
 		snapshotFile = new Label(statComposite, SWT.BOLD);
 		gd = new GridData(GridData.FILL_HORIZONTAL);

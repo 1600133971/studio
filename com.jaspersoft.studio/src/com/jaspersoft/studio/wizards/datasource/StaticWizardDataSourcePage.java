@@ -354,7 +354,7 @@ public class StaticWizardDataSourcePage extends JSSWizardRunnablePage {
 			// 从模板中获取主Dataset中的queryString信息，如果界面没有填写queryString，则用模板中的queryString替代
 			String queryString = "";
 			JrxmlTemplateBundle tb = (JrxmlTemplateBundle)getSettings().get("template");
-			if (tb != null) {
+			if (tb != null && tb.getJasperDesign().getMainDesignDataset().getQuery() != null) {
 				queryString = tb.getJasperDesign().getMainDesignDataset().getQuery().getText();
 			}
 			getSettings().put(DATASET_QUERY_TEXT, activeEditor.getQueryString().isEmpty() ? queryString : activeEditor.getQueryString());

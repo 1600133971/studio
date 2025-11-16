@@ -216,6 +216,24 @@
                  visible="true">
            </separator>
            <command
+                 commandId="eclipse.plugin.aiassistant.Refactor"
+                 icon="icons/Refactor.png"
+                 label="%Refactor"
+                 style="push"
+                 tooltip="%RefactorTooltip">
+           </command>
+           <command
+                 commandId="eclipse.plugin.aiassistant.WriteComments"
+                 icon="icons/WriteComments.png"
+                 label="%WriteComments"
+                 style="push"
+                 tooltip="%WriteCommentsTooltip">
+           </command>
+           <separator
+                 name="eclipse.plugin.aiassistant.separator3"
+                 visible="true">
+           </separator>
+           <command
                  commandId="eclipse.plugin.aiassistant.CodeGeneration"
                  icon="icons/CodeGeneration.png"
                  label="%CodeGeneration"
@@ -229,22 +247,8 @@
                  style="push"
                  tooltip="%CodeCompletionTooltip">
            </command>
-           <command
-                 commandId="eclipse.plugin.aiassistant.WriteComments"
-                 icon="icons/WriteComments.png"
-                 label="%WriteComments"
-                 style="push"
-                 tooltip="%WriteCommentsTooltip">
-           </command>
-           <command
-                 commandId="eclipse.plugin.aiassistant.Refactor"
-                 icon="icons/Refactor.png"
-                 label="%Refactor"
-                 style="push"
-                 tooltip="%RefactorTooltip">
-           </command>
            <separator
-                 name="eclipse.plugin.aiassistant.separator3"
+                 name="eclipse.plugin.aiassistant.separator4"
                  visible="true">
            </separator>
            <command

@@ -12,8 +12,27 @@ public class Messages extends NLS {
 	public static String PreviousTab;
 	public static String NextTab;
 	public static String NewTab;
-	public static String CloneTab;
+	public static String CloneCurrentTab;
 	public static String CloseAllTabs;
+	
+	public static String Discuss;
+	public static String DiscussTooltip;
+	public static String Explain;
+	public static String ExplainTooltip;
+	public static String CodeReview;
+	public static String CodeReviewTooltip;
+	public static String BestPractices;
+	public static String BestPracticesTooltip;
+	public static String Robustify;
+	public static String RobustifyTooltip;
+	public static String Optimize;
+	public static String OptimizeTooltip;
+	public static String Debug;
+	public static String DebugTooltip;
+	public static String Refactor;
+	public static String RefactorTooltip;
+	public static String WriteComments;
+	public static String WriteCommentsTooltip;
 	
 	public static String ARROW_UP_TOOLTIP;
 	public static String ARROW_DOWN_TOOLTIP;
