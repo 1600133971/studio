@@ -68,10 +68,10 @@ public class ImportDataSourceInJSSAction extends Action {
 	public void run() {
 		final Object firstElement = ((TreeSelection) treeViewer.getSelection()).getFirstElement();
 
-		Job job = new Job("Building report") {
+		Job job = new Job(Messages.Buildingreport) {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				monitor.beginTask("", IProgressMonitor.UNKNOWN);
+				monitor.beginTask(Messages.Buildingreport, IProgressMonitor.UNKNOWN);
 				try {
 					if (firstElement instanceof AMResource) {
 						AMResource mres = (AMResource) firstElement;

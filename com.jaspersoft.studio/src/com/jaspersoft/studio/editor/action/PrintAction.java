@@ -57,6 +57,8 @@ import org.eclipse.swt.printing.PrinterData;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.ActionFactory;
 
+import com.jaspersoft.studio.messages.Messages;
+
 public class PrintAction extends WorkbenchPartAction {
 
 	public PrintAction(IWorkbenchPart part) {
@@ -92,7 +94,7 @@ public class PrintAction extends WorkbenchPartAction {
 			PrintDialog dialog = new PrintDialog(UIUtils.getShell(), SWT.NULL);
 			final PrinterData data = dialog.open();
 			if (data != null) {
-				Job job = new Job("Printing the Report") {
+				Job job = new Job(Messages.PrintingtheReport) {
 					@Override
 					protected IStatus run(IProgressMonitor monitor) {
 						try {
@@ -141,7 +143,7 @@ public class PrintAction extends WorkbenchPartAction {
 				int nrpages = jrPrint.getPages().size();
 				switch (data.scope) {
 				case PrinterData.ALL_PAGES:
-					monitor.beginTask("Printing the Report", nrpages);
+					monitor.beginTask(Messages.PrintingtheReport, nrpages);
 					for (int j = 0; j < nrpages; j++) {
 						printPage(monitor, jrContext, jrPrint, graphics, j);
 						if (monitor.isCanceled())
@@ -150,7 +152,7 @@ public class PrintAction extends WorkbenchPartAction {
 					}
 					break;
 				case PrinterData.PAGE_RANGE:
-					monitor.beginTask("Printing the Report", data.endPage - data.startPage);
+					monitor.beginTask(Messages.PrintingtheReport, data.endPage - data.startPage);
 					for (int j = data.startPage - 1; j < data.endPage && j < nrpages; j++) {
 						printPage(monitor, jrContext, jrPrint, graphics, j);
 						if (monitor.isCanceled())
@@ -159,7 +161,7 @@ public class PrintAction extends WorkbenchPartAction {
 					}
 					break;
 				case PrinterData.SELECTION:
-					monitor.beginTask("Printing the Report", 1);
+					monitor.beginTask(Messages.PrintingtheReport, 1);
 					printPage(monitor, jrContext, jrPrint, graphics, 0);
 					break;
 				}

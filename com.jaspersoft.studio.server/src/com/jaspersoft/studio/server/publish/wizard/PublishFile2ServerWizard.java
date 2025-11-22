@@ -109,7 +109,7 @@ public class PublishFile2ServerWizard extends Wizard implements IExportWizard {
 				@Override
 				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 					try {
-						monitor.beginTask("Saving", IProgressMonitor.UNKNOWN);
+						monitor.beginTask(Messages.Saving, IProgressMonitor.UNKNOWN);
 						List<AMResource> fres = page1.getSelectedNodes();
 						if (fres != null) {
 							List<String> saved = new ArrayList<>();

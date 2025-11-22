@@ -94,7 +94,7 @@ public abstract class ASelector {
 		jsRefDS.addModifyListener(e -> {
 			if (!refresh) {
 				final String uri = jsRefDS.getText().trim();
-				Job job = new Job("Validating") {
+				Job job = new Job(Messages.Validating) {
 					private ResourceDescriptor newrd;
 
 					@Override

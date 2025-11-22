@@ -63,10 +63,10 @@ public class CutResourceAction extends Action {
 		TreeSelection s = (TreeSelection) treeViewer.getSelection();
 		final TreePath[] p = s.getPaths();
 		final List<AMResource> rlist = new ArrayList<AMResource>();
-		Job job = new Job("Copy resources") {
+		Job job = new Job(com.jaspersoft.studio.server.messages.Messages.Copyresources) {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				monitor.beginTask("Copy resources", IProgressMonitor.UNKNOWN);
+				monitor.beginTask(com.jaspersoft.studio.server.messages.Messages.Copyresources, IProgressMonitor.UNKNOWN);
 				try {
 					for (int i = 0; i < p.length; i++) {
 						Object obj = p[i].getLastSegment();

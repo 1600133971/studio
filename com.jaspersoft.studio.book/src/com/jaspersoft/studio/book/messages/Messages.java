@@ -54,6 +54,7 @@ public class Messages extends NLS {
 	public static String ReportPartSection_advancedLabel;
 	public static String SPPartParametersButton_parametersButton;
 	public static String SPPartReturnValuesButton_returnValuesButton;
+	public static String CompilingSubreports;
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

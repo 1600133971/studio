@@ -256,6 +256,8 @@ public class Messages extends NLS {
 	public static String XPathQueryDesigner_XmlLoaderJobName;
 	public static String XPathWizardDataEditorComposite_RefreshJobTitle;
 	public static String XPathWizardDataEditorComposite_TaskName;
+	public static String Testingdriver;
+	public static String InitHttpbuiltinparameters;
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

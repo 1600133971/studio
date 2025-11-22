@@ -29,6 +29,7 @@ import com.jaspersoft.studio.outline.ReportTreeLabelProvider;
 import com.jaspersoft.studio.server.ServerProvider;
 import com.jaspersoft.studio.server.WSClientHelper;
 import com.jaspersoft.studio.server.action.resource.RefreshResourcesAction;
+import com.jaspersoft.studio.server.messages.Messages;
 import com.jaspersoft.studio.server.model.AMResource;
 import com.jaspersoft.studio.server.model.MFolder;
 import com.jaspersoft.studio.server.model.server.MServerProfile;
@@ -141,10 +142,10 @@ public class RepositoryComposite extends Composite {
 	}
 
 	protected void createReadRepositoryJob() {
-		Job job = new Job("Looking into repository") {
+		Job job = new Job(Messages.Lookingintorepository) {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				monitor.beginTask("Looking into repository", IProgressMonitor.UNKNOWN);
+				monitor.beginTask(Messages.Lookingintorepository, IProgressMonitor.UNKNOWN);
 				return doReadRepository(monitor);
 			}
 

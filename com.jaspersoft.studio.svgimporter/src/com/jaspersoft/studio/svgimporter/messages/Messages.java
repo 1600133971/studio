@@ -15,6 +15,7 @@ public class Messages extends NLS {
 	public static String InkscapeMessageDialog_fileDialogTitle;
 	public static String InkscapeMessageDialog_partentLabel;
 	public static String InkscapeMessageDialog_retryOption;
+	public static String Compilingjob;
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

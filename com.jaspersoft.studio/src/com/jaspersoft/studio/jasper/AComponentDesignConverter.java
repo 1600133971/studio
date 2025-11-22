@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
 import com.jaspersoft.studio.editor.AMultiEditor;
+import com.jaspersoft.studio.messages.Messages;
 import com.jaspersoft.studio.utils.CacheMap;
 import com.jaspersoft.studio.utils.ExpressionUtil;
 import com.jaspersoft.studio.utils.jasper.JasperReportsConfiguration;
@@ -122,7 +123,7 @@ public abstract class AComponentDesignConverter extends ElementIconConverter imp
 
 		final KeyValue<String, Long> kv = new KeyValue<String, Long>(null, null);
 		running.put(element, kv);
-		Job job = new Job("load map") {
+		Job job = new Job(Messages.loadmap) {
 			protected IStatus run(IProgressMonitor monitor) {
 				try {
 					final Renderable r = doRenderable(reportConverter, element, cmp, ekey, jrContext, kv);

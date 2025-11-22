@@ -11,6 +11,8 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.osgi.framework.BundleContext;
 
+import com.jaspersoft.studio.data.messages.Messages;
+
 /*
  * The activator class controls the plug-in life cycle
  */
@@ -69,7 +71,7 @@ public class Activator extends AbstractJRUIPlugin {
 	@Override
 	protected void postStartOperations() {
 		super.postStartOperations();
-		Job initParametersJob = new Job("Init Http built-in parameters") {
+		Job initParametersJob = new Job(Messages.InitHttpbuiltinparameters) {
 
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {

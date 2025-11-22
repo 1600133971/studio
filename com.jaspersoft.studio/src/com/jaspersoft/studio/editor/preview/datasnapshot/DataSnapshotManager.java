@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
+import com.jaspersoft.studio.messages.Messages;
 import com.jaspersoft.studio.utils.jasper.JasperReportsConfiguration;
 
 import net.sf.jasperreports.data.cache.DataCacheHandler;
@@ -121,11 +122,11 @@ public class DataSnapshotManager {
 	}
 
 	public static void saveSnapshot(final String fname, final Date creationTimestamp, final DataSnapshot snapshot) {
-		Job job = new Job("Saving snapshot to: " + fname) {
+		Job job = new Job(Messages.Savingsnapshotto + ": " + fname) {
 
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				monitor.beginTask("Saving data snapshot to: " + fname, IProgressMonitor.UNKNOWN);
+				monitor.beginTask(Messages.Savingdatasnapshotto + ": " + fname, IProgressMonitor.UNKNOWN);
 				try {
 					// should save it to IFile?
 					new JssDataSnapshot(creationTimestamp, snapshot);

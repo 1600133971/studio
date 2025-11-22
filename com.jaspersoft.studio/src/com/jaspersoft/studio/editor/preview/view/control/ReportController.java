@@ -379,7 +379,7 @@ public class ReportController {
 					if (editorInput instanceof IFileEditorInput) {
 						file = ((IFileEditorInput) editorInput).getFile();
 					}
-					monitor.beginTask("Form initialisation", IProgressMonitor.UNKNOWN);
+					monitor.beginTask(Messages.Forminitialisation, IProgressMonitor.UNKNOWN);
 
 					jd = jrContext.getJasperDesign();
 

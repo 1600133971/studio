@@ -169,7 +169,7 @@ public class StylesListSection extends AbstractSection {
 		@Override
 		public IStatus runInUIThread(IProgressMonitor monitor) {
 			if(shown){
-				monitor.beginTask("Update Styles Tab", IProgressMonitor.UNKNOWN);
+				monitor.beginTask(Messages.UpdateStylesTab, IProgressMonitor.UNKNOWN);
 				createContent();
 				monitor.done();
 				return Status.OK_STATUS;

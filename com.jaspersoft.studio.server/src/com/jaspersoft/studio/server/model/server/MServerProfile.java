@@ -187,7 +187,7 @@ public class MServerProfile extends ANode {
 			Job job = new Job(Messages.MServerProfile_15) {
 				@Override
 				protected IStatus run(IProgressMonitor monitor) {
-					monitor.beginTask("", IProgressMonitor.UNKNOWN); //$NON-NLS-1$
+					monitor.beginTask(Messages.MServerProfile_15, IProgressMonitor.UNKNOWN); //$NON-NLS-1$
 					try {
 						getWsClient(monitor);
 					} catch (Exception e) {

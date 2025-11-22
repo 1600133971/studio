@@ -19,6 +19,7 @@ import org.eclipse.ui.IWorkbench;
 
 import com.jaspersoft.studio.editor.action.exporter.IExportedResourceHandler;
 import com.jaspersoft.studio.editor.action.exporter.IResourceDefinition;
+import com.jaspersoft.studio.messages.Messages;
 
 import net.sf.jasperreports.eclipse.ui.util.UIUtils;
 import net.sf.jasperreports.eclipse.util.FileUtils;
@@ -83,7 +84,7 @@ public class ConfigurationImporterWizard extends Wizard implements IImportWizard
 				@Override
 				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 						Map<IExportedResourceHandler, List<IResourceDefinition>> selectedResources = page1.getSelectedResources();
-						monitor.beginTask("Restoring Resources", selectedResources.keySet().size());
+						monitor.beginTask(Messages.RestoringResources, selectedResources.keySet().size());
 						final File importContainerLocation = new File(getSelectedFile());
 						for(Entry<IExportedResourceHandler, List<IResourceDefinition>> selectedEntry : selectedResources.entrySet()){
 							final IExportedResourceHandler currentExporter = selectedEntry.getKey();

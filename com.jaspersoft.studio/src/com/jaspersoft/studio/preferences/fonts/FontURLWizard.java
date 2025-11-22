@@ -71,9 +71,9 @@ public class FontURLWizard extends Wizard {
 						try {
 							path = FileUtils.createTempDir("jssfonts");
 							fetch(path, monitor, page0.getValue());
-							monitor.setTaskName("create destination directory");
+							monitor.setTaskName(Messages.createdestinationdirectory);
 							File destDir = new File(storage, "fonts");
-							monitor.setTaskName("move to destingation directory " + destDir);
+							monitor.setTaskName(Messages.movetodestingationdirectory + " " + destDir);
 							if (destDir.exists())
 								for (File f : path.listFiles()) {
 									try {

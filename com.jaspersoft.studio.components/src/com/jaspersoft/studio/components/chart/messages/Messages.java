@@ -752,6 +752,9 @@ public class Messages extends NLS {
 	public static String Selectthedefinitionfile;
 	public static String SelecttheChartCustomizerdefinitionfile;
 	public static String SelectDestinationDialog;
+	public static String ExportingChartThemestoaJAR;
+	public static String Creating;
+	public static String Openingfileforediting;
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

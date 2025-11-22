@@ -61,6 +61,7 @@ public class Messages extends NLS {
 	public static String WorkspaceUtils_WarningDialogMsg3;
 	public static String WorkspaceUtils_WarningDialogMsg4;
 	public static String WorkspaceUtils_WarningDialogTitle;
+	public static String Preferencessetting;
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

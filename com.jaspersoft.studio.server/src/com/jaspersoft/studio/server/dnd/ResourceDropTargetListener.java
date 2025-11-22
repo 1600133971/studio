@@ -24,6 +24,7 @@ import com.jaspersoft.studio.model.ANode;
 import com.jaspersoft.studio.model.INode;
 import com.jaspersoft.studio.server.WSClientHelper;
 import com.jaspersoft.studio.server.action.resource.PasteResourceAction;
+import com.jaspersoft.studio.server.messages.Messages;
 import com.jaspersoft.studio.server.model.AMResource;
 import com.jaspersoft.studio.server.model.MFolder;
 import com.jaspersoft.studio.server.model.MReference;
@@ -59,11 +60,11 @@ public class ResourceDropTargetListener extends NodeTreeDropAdapter implements T
 		} else if (data instanceof AMResource)
 			mc.add((AMResource) data);
 		final List<AMResource> droppedObjects = getDroppedObjects();
-		Job job = new Job("Moving elements") {
+		Job job = new Job(Messages.Movingelements) {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				IStatus status = Status.OK_STATUS;
-				monitor.beginTask("Moving elements", IProgressMonitor.UNKNOWN);
+				monitor.beginTask(Messages.Movingelements, IProgressMonitor.UNKNOWN);
 				try {
 					Object target = getCurrentTarget();
 					if (target instanceof ANode) {

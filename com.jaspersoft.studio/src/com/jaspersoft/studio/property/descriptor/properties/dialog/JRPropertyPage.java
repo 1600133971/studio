@@ -610,7 +610,7 @@ public class JRPropertyPage extends JSSHelpWizardPage {
 		}
 		refreshing = true;
 
-		Job job = new Job("refresh widgets") {
+		Job job = new Job(Messages.refreshwidgets) {
 
 			protected IStatus run(IProgressMonitor monitor) {
 				final boolean ex = showExisting;

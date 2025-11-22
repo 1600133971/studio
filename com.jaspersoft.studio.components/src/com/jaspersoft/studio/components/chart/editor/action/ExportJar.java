@@ -37,6 +37,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 
 import com.jaspersoft.studio.components.chart.editor.ChartThemeEditor;
+import com.jaspersoft.studio.components.chart.messages.Messages;
 
 public class ExportJar extends Action {
 	public static final String ID = "EXPORTCHARTHEMEJAR";
@@ -101,7 +102,7 @@ public class ExportJar extends Action {
 			if (file != null) {
 				IProgressMonitor monitor = editor.getEditorSite().getActionBars().getStatusLineManager()
 						.getProgressMonitor();
-				monitor.beginTask("Exporting Chart Themes to a JAR", IProgressMonitor.UNKNOWN);
+				monitor.beginTask(Messages.ExportingChartThemestoaJAR, IProgressMonitor.UNKNOWN);
 				try {
 					ChartThemeSettings cts = editor.getChartThemeSettings();
 					File f = new File(file.getRawLocationURI());

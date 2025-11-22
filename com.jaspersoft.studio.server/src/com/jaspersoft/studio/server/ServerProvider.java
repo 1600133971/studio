@@ -60,6 +60,7 @@ import com.jaspersoft.studio.server.dnd.ResourceDragSourceListener;
 import com.jaspersoft.studio.server.dnd.ResourceDropTargetListener;
 import com.jaspersoft.studio.server.dnd.UnitDragSourceListener;
 import com.jaspersoft.studio.server.export.AExporter;
+import com.jaspersoft.studio.server.messages.Messages;
 import com.jaspersoft.studio.server.model.AFileResource;
 import com.jaspersoft.studio.server.model.AMResource;
 import com.jaspersoft.studio.server.model.MFolder;
@@ -337,7 +338,7 @@ public class ServerProvider implements IRepositoryViewProvider {
 	private void listServer(final TreeExpansionEvent event) {
 		if (skipLazyLoad)
 			return;
-		Job job = new Job("Refreshing tree") {
+		Job job = new Job(Messages.Refreshingtree) {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				IStatus status = Status.OK_STATUS;
@@ -358,7 +359,7 @@ public class ServerProvider implements IRepositoryViewProvider {
 	private void lazyLoadResource(final TreeExpansionEvent event) {
 		if (skipLazyLoad)
 			return;
-		Job job = new Job("Refreshing tree") {
+		Job job = new Job(Messages.Refreshingtree) {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				return lazyLoadResource(event, monitor);

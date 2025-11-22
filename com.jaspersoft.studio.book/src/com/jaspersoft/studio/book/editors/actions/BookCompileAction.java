@@ -13,6 +13,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import com.jaspersoft.studio.book.JRBookActivator;
 import com.jaspersoft.studio.book.editors.JRBookDesignEditor;
+import com.jaspersoft.studio.book.messages.Messages;
 import com.jaspersoft.studio.editor.action.CompileAction;
 import com.jaspersoft.studio.model.MReport;
 import com.jaspersoft.studio.utils.PartUtils;
@@ -51,7 +52,7 @@ public class BookCompileAction extends CompileAction {
 	 */
 	@Override
 	protected Map<File, IFile> getSubreports(JasperReportsConfiguration jConfig, IFile mfile, JasperDesign jd, IProgressMonitor monitor) {
-		monitor.setTaskName("Compiling Subreports");
+		monitor.setTaskName(Messages.CompilingSubreports);
 		Map<File, IFile> partial = super.getSubreports(jConfig, mfile, jd, monitor);
 		partial.putAll(PartUtils.getSubreportsFromParts(jConfig, jd, true, monitor));
 		return partial;

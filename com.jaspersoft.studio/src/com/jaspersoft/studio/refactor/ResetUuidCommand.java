@@ -25,6 +25,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.jaspersoft.studio.messages.Messages;
 import com.jaspersoft.studio.utils.jasper.JasperReportsConfiguration;
 
 import net.sf.jasperreports.eclipse.ui.util.UIUtils;
@@ -41,9 +42,9 @@ public class ResetUuidCommand extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ISelection selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
 		if (selection instanceof IStructuredSelection) {
-			Job job = new Job("Reset report UUIDs") {
+			Job job = new Job(Messages.ResetreportUUIDs) {
 				protected IStatus run(IProgressMonitor monitor) {
-					monitor.beginTask("Reset report UUIDs", IProgressMonitor.UNKNOWN);
+					monitor.beginTask(Messages.ResetreportUUIDs, IProgressMonitor.UNKNOWN);
 					for (Iterator<?> it = ((IStructuredSelection) selection).iterator(); it.hasNext();) {
 						Object element = it.next();
 						if (element instanceof IFile) {

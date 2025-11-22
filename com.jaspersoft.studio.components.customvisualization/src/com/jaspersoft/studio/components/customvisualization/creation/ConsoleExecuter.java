@@ -92,7 +92,7 @@ public class ConsoleExecuter {
 	 * a console. The job can be cancelled but the current compilation must be
 	 * finished before it stops
 	 */
-	private Job readOutputJob = new Job("Compiling job") { //$NON-NLS-1$
+	private Job readOutputJob = new Job(Messages.Compilingjob) { //$NON-NLS-1$
 
 		private boolean checkJavaVersion(MessageConsoleStream outputStream, IProgressMonitor monitor) {
 			String javaCommand = getJavaCommand();
@@ -223,7 +223,7 @@ public class ConsoleExecuter {
 					return Status.CANCEL_STATUS;
 				if (fileToCompile.exists()) {
 					try {
-						monitor.beginTask("Compiling " + fileToCompile.getName(), 10); //$NON-NLS-1$
+						monitor.beginTask(Messages.Compiling + " " + fileToCompile.getName(), 10); //$NON-NLS-1$
 
 						if (checkJavaVersion(outputStream, monitor)) {
 

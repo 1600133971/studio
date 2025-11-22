@@ -110,6 +110,9 @@ public class Messages extends NLS {
 	public static String CustomVisualizationComponentTablePage_errorInvalidGeneric;
 	public static String CustomVisualizationComponentTablePage_errorProjectExist;
 	public static String UIManager_2;
+	public static String CreatingCVCComponentProject;
+	public static String Compiling;
+	public static String Compilingjob;
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

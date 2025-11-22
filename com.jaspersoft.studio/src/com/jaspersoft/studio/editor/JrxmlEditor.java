@@ -225,7 +225,7 @@ public class JrxmlEditor extends AbstractJRXMLEditor implements IJROBjectEditor,
 		if (isRefreshing)
 			return;
 		if (getModel() != null && event.getType() == IResourceChangeEvent.POST_CHANGE) {
-			Job job = new Job("Verify Styles") {
+			Job job = new Job(Messages.VerifyStyles) {
 				@Override
 				protected IStatus run(IProgressMonitor monitor) {
 					try {

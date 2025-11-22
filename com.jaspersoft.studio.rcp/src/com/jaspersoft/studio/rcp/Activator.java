@@ -18,6 +18,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
+import com.jaspersoft.studio.rcp.messages.Messages;
 import com.jaspersoft.studio.rcp.p2.JSSP2Policy;
 
 /**
@@ -50,7 +51,7 @@ public class Activator extends AbstractUIPlugin {
 		plugin = this;
 		// Register the p2 UI policy
 		registerP2Policy(context);
-		Job prefSettings = new Job("Preferences setting"){
+		Job prefSettings = new Job(Messages.Preferencessetting){
 
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {

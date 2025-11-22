@@ -128,7 +128,7 @@ public abstract class AbstractDataAdapterWizard extends JSSWizard implements Sel
 
 					@Override
 					protected void runOperations(IProgressMonitor monitor) {
-						monitor.beginTask("Testing Data Adapter", SWT.INDETERMINATE);
+						monitor.beginTask(Messages.TestingDataAdapter, SWT.INDETERMINATE);
 						ClassLoader oldCL = Thread.currentThread().getContextClassLoader();
 						try {
 							ClassLoader cl = Thread.currentThread().getContextClassLoader();

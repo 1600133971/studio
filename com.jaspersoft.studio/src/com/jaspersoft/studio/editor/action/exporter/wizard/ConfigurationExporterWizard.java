@@ -90,7 +90,7 @@ public class ConfigurationExporterWizard extends Wizard implements IExportWizard
 					public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 						Map<IExportedResourceHandler, List<IResourceDefinition>> selectedResources = page0.getSelectedResources();
 						List<String> elementsToCompress = new ArrayList<String>();
-						monitor.beginTask("Exporting resources", selectedResources.keySet().size());
+						monitor.beginTask(Messages.Exportingresources, selectedResources.keySet().size());
 						for(Entry<IExportedResourceHandler, List<IResourceDefinition>> selectedEntry : selectedResources.entrySet()){
 							IExportedResourceHandler exporter = selectedEntry.getKey();
 							File elementToCompress = exporter.exportContentFolder(selectedEntry.getValue());

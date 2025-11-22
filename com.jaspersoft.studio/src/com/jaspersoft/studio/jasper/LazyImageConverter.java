@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.widgets.Display;
 
 import com.jaspersoft.studio.JaspersoftStudioPlugin;
+import com.jaspersoft.studio.messages.Messages;
 import com.jaspersoft.studio.model.MGraphicElement;
 import com.jaspersoft.studio.model.image.MImage;
 import com.jaspersoft.studio.utils.ExpressionUtil;
@@ -472,7 +473,7 @@ public class LazyImageConverter extends ElementConverter {
 	 */
 	private void startLoadingJob(final TimedCache info, final String location, final JasperReportsContext jrContext,
 			final KeyValue<JasperReportsContext, String> key) {
- 		Job job = new Job("load image") {
+ 		Job job = new Job(Messages.loadimage) {
 			protected IStatus run(IProgressMonitor monitor) {
 				try {
 					if (location != null) {

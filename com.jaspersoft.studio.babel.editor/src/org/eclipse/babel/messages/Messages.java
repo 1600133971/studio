@@ -113,6 +113,8 @@ public class Messages extends NLS {
 	public static String translation_wiz_title;
 	public static String translation_wiz_description;
 	public static String translation_wiz_name;
+	
+	public static String LocalizationEditorSearch;
 
 
 	static {

@@ -14,6 +14,7 @@ import com.jaspersoft.studio.property.dataset.fields.table.widget.WJRProperty;
 import com.jaspersoft.studio.server.export.AExporter;
 import com.jaspersoft.studio.server.ic.ICParameterContributor;
 import com.jaspersoft.studio.server.ic.ResourcePropertyDescription;
+import com.jaspersoft.studio.server.messages.Messages;
 import com.jaspersoft.studio.server.model.AMResource;
 import com.jaspersoft.studio.server.model.MJrxml;
 import com.jaspersoft.studio.server.model.MReportUnit;
@@ -112,7 +113,7 @@ public class Activator extends AbstractJRUIPlugin {
 			}
 		});
 
-		Job initParametersJob = new Job("Init JRS built-in parameters") {
+		Job initParametersJob = new Job(Messages.InitJRSbuiltinparameters) {
 
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {

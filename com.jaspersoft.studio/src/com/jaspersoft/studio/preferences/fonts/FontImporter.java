@@ -16,6 +16,7 @@ import org.apache.batik.svggen.font.table.NameTable;
 import org.apache.batik.svggen.font.table.Table;
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import com.jaspersoft.studio.messages.Messages;
 import com.jaspersoft.studio.utils.jasper.JasperReportsConfiguration;
 
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -32,7 +33,7 @@ public class FontImporter {
 			fams.put(ff.getName(), ff);
 		for (File f : org.apache.commons.io.FileUtils.listFiles(destDir,
 				new String[] { "ttf", "TTF", "OTF", "otf", "SVG", "svg", "eot", "EOT", "WOFF", "woff" }, true)) {
-			monitor.setTaskName("Analyzing font: " + f.getName());
+			monitor.setTaskName(Messages.Analyzingfont + ": " + f.getName());
 			String fname = f.getName().trim().toLowerCase();
 			if (fname.endsWith(".ttf") || fname.endsWith(".otf")) {
 				try {

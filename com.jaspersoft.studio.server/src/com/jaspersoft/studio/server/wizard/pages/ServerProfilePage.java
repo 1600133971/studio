@@ -767,7 +767,7 @@ public class ServerProfilePage extends WizardPage implements WizardEndingStateLi
 						@Override
 						public void run(IProgressMonitor monitor)
 								throws InvocationTargetException, InterruptedException {
-							monitor.beginTask("Connecting", IProgressMonitor.UNKNOWN);
+							monitor.beginTask(Messages.Connecting, IProgressMonitor.UNKNOWN);
 							Future<Content> future = Async.newInstance().use(exec).execute(req,
 									new FutureCallback<Content>() {
 

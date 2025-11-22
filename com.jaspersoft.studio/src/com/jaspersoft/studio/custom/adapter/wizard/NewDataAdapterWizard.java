@@ -46,6 +46,7 @@ import com.jaspersoft.studio.custom.adapter.AdapterInfo;
 import com.jaspersoft.studio.custom.adapter.DynamicCompositeHelper;
 import com.jaspersoft.studio.custom.adapter.Pair;
 import com.jaspersoft.studio.custom.adapter.PluginHelper;
+import com.jaspersoft.studio.messages.Messages;
 import com.jaspersoft.studio.utils.ImageUtils;
 import com.jaspersoft.studio.utils.VelocityUtils;
 
@@ -580,7 +581,7 @@ public class NewDataAdapterWizard extends Wizard implements INewWizard {
 		// that the user can press the dialog buttons another time after the first one
 		disableButtons();
 		NullProgressMonitor monitor = new NullProgressMonitor();
-		monitor.setTaskName("Crating project");
+		monitor.setTaskName(Messages.Cratingproject);
 		try {
 			ArrayList<String> src = new ArrayList<String>();
 			src.add("src");

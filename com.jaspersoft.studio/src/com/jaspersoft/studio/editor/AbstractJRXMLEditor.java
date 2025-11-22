@@ -337,7 +337,7 @@ public abstract class AbstractJRXMLEditor extends MultiPageEditorPart
 	public void resourceChanged(final IResourceChangeEvent event) {
 		if (isRefreshing)
 			return;
-		Job job = new Job("Post file change") {
+		Job job = new Job(Messages.Postfilechange) {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				switch (event.getType()) {

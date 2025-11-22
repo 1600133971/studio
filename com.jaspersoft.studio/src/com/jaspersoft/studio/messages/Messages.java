@@ -2722,7 +2722,33 @@ public class Messages extends NLS {
 	public static String VErrorPreview_DataQueriedAt;
 	public static String VErrorPreview_UsedDataFromSnapshot;
 	public static String VErrorPreview_DataSnapshotFile;
-
+	
+	public static String Forminitialisation;
+	public static String Cleaningproject;
+	public static String TestingDataAdapter;
+	public static String Creating;
+	public static String Exportingresources;
+	public static String RestoringResources;
+	public static String PrintingtheReport;
+	public static String Savingsnapshotto;
+	public static String Savingdatasnapshotto;
+	public static String Creatingfontsextensionfile;
+	public static String UpdateStylesTab;
+	public static String ResetreportUUIDs;
+	public static String LoadingJRextensions;
+	public static String Processingpleasewait;
+	public static String Postfilechange;
+	public static String VerifyStyles;
+	public static String loadmap;
+	public static String loadimage;
+	public static String refreshwidgets;
+	public static String Cratingproject;
+	public static String Openingfileforediting;
+	public static String Openingtheeditor;
+	public static String Analyzingfont;
+	public static String createdestinationdirectory;
+	public static String movetodestingationdirectory;
+	public static String Gettingfields;
 	private Messages() {
 	}
 

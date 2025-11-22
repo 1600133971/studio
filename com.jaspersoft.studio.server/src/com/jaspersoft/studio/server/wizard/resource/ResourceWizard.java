@@ -78,7 +78,7 @@ public class ResourceWizard extends Wizard {
 
 				@Override
 				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-					monitor.beginTask("Saving", IProgressMonitor.UNKNOWN);
+					monitor.beginTask(Messages.Saving, IProgressMonitor.UNKNOWN);
 					try {
 						ResourceDescriptor rd = resource.getValue();
 						rd.fixResourceMap();
@@ -109,7 +109,7 @@ public class ResourceWizard extends Wizard {
 
 				@Override
 				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-					monitor.beginTask("Canceling", IProgressMonitor.UNKNOWN);
+					monitor.beginTask(Messages.Canceling, IProgressMonitor.UNKNOWN);
 					try {
 						if (resource.getParent() instanceof IInputControlsContainer)
 							WSClientHelper.refreshContainer((AMResource) resource.getParent(), monitor);

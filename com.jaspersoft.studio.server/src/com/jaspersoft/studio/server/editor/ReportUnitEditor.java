@@ -171,7 +171,7 @@ public class ReportUnitEditor extends PreviewJRPrint implements IRunReport, IPar
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				Job job = new Job("Update Report Options") {
+				Job job = new Job(com.jaspersoft.studio.server.messages.Messages.UpdateReportOptions) {
 
 					@Override
 					protected IStatus run(IProgressMonitor monitor) {

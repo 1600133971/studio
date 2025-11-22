@@ -12,6 +12,8 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.widgets.Composite;
 
+import com.jaspersoft.studio.messages.Messages;
+
 
 
 /**
@@ -62,7 +64,7 @@ public abstract class JSSWizardRunnablePage extends JSSWizardPage {
 			if (getWizard() != null && getWizard() instanceof JSSWizard) {
 				((JSSWizard) getWizard()).run(true, true, new IRunnableWithProgress() {
 					public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-						monitor.beginTask("Processing, please wait", IProgressMonitor.UNKNOWN); // to be translated!
+						monitor.beginTask(Messages.Processingpleasewait, IProgressMonitor.UNKNOWN); // to be translated!
 						try {
 							JSSWizardRunnablePage.this.run(monitor);
 						} catch (Exception e) {

@@ -339,7 +339,7 @@ public class JDBCDataAdapterComposite extends ADataAdapterComposite {
 	// SIMBA Impala driver is causing an NPE when trying to get the DriverPropertyInfo items
 	protected void getDriverProperties() {
 //		JdbcDataAdapter da = (JdbcDataAdapter) getDataAdapter().getDataAdapter();
-//		Job job = new Job("Testing driver") {
+//		Job job = new Job(Messages.Testingdriver) {
 //			protected IStatus run(IProgressMonitor monitor) {
 //				JasperReportsConfiguration jConf = (JasperReportsConfiguration) jrContext;
 //

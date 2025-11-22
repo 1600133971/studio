@@ -666,7 +666,7 @@ public class RestV2ConnectionJersey extends ARestV2ConnectionJersey {
 	}
 
 	public void uploadJdbcDrivers(JdbcDriver driver, IProgressMonitor monitor) throws Exception {
-		monitor.setTaskName("Uploading drivers"); //$NON-NLS-1$
+		monitor.setTaskName(Messages.Uploadingdrivers); //$NON-NLS-1$
 		if (Misc.isNullOrEmpty(driver.getPaths()))
 			return;
 		FormDataMultiPart entity = new FormDataMultiPart();

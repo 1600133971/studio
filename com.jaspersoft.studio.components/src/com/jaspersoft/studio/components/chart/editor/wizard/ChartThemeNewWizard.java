@@ -216,7 +216,7 @@ public class ChartThemeNewWizard extends Wizard implements INewWizard {
 
 	private void doFinish(String containerName, String fileName, IProgressMonitor monitor) throws CoreException {
 		// create a sample file
-		monitor.beginTask("Creating " + fileName, 2); //$NON-NLS-1$
+		monitor.beginTask(Messages.Creating + " " + fileName, 2); //$NON-NLS-1$
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		IResource resource = root.findMember(new Path(containerName));
 		if (!resource.exists() || !(resource instanceof IContainer))
@@ -236,7 +236,7 @@ public class ChartThemeNewWizard extends Wizard implements INewWizard {
 			FileUtils.closeStream(in);
 		}
 		monitor.worked(1);
-		monitor.setTaskName("Opening file for editing..."); //$NON-NLS-1$
+		monitor.setTaskName(Messages.Openingfileforediting); //$NON-NLS-1$
 		getShell().getDisplay().asyncExec(new Runnable() {
 			public void run() {
 				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();

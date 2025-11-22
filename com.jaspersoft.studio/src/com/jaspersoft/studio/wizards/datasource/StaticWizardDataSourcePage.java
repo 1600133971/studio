@@ -363,7 +363,7 @@ public class StaticWizardDataSourcePage extends JSSWizardRunnablePage {
 				getSettings().put(DATASET_PROPERTIES,
 						((SimpleQueryWizardDataEditorComposite) activeEditor).getDataset().getPropertiesMap());
 
-			UIUtils.getDisplay().asyncExec(() -> monitor.setTaskName("Getting fields..."));
+			UIUtils.getDisplay().asyncExec(() -> monitor.setTaskName(Messages.Gettingfields));
 
 			ProgressMonitorCheckerThread checker = new ProgressMonitorCheckerThread(monitor);
 			checker.addListener(activeEditor);

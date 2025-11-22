@@ -492,6 +492,22 @@ public class Messages extends NLS {
 	public static String DefaultMainReportName;
 	public static String Type;
 	public static String SSOServer;
+	public static String Copyresources;
+	public static String Resolvingreference;
+	public static String Movingelements;
+	public static String UpdateCascadingInputControls;
+	public static String UpdateControls;
+	public static String Lookingintorepository;
+	public static String Saving;
+	public static String Testingconnection;
+	public static String Connecting;
+	public static String Canceling;
+	public static String Buildingreport;
+	public static String UpdateReportOptions;
+	public static String Validating;
+	public static String InitJRSbuiltinparameters;
+	public static String Refreshingtree;
+	public static String Uploadingdrivers;
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

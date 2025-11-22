@@ -159,9 +159,9 @@ public class JRVersionPreferencesPages extends FieldEditorOverlayPage {
 				String newValue = getPreferenceStore().getString(JasperReportCompiler.JSS_COMPATIBILITY_COMPILER_VERSION);
 				if ((oldValue == null && newValue == null) || (oldValue != null && oldValue.equals(newValue)))
 					return;
-				Job job = new Job("Cleaning project") {
+				Job job = new Job(Messages.Cleaningproject) {
 					protected IStatus run(IProgressMonitor monitor) {
-						monitor.beginTask("Cleaning project", IProgressMonitor.UNKNOWN);
+						monitor.beginTask(Messages.Cleaningproject, IProgressMonitor.UNKNOWN);
 						IResource r = getResource();
 						if (r instanceof IFile)
 							r = r.getProject();

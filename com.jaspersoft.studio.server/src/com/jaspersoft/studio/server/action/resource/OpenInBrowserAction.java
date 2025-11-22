@@ -85,7 +85,7 @@ public class OpenInBrowserAction extends Action {
 						Job job = new Job(Messages.FindReportUnit_jobname) {
 							@Override
 							protected IStatus run(IProgressMonitor monitor) {
-								monitor.beginTask("Resolving reference", IProgressMonitor.UNKNOWN);
+								monitor.beginTask(Messages.Resolvingreference, IProgressMonitor.UNKNOWN);
 								try {
 									ResourceDescriptor rd = ReferenceResolver.resolveReference((MReference) mr,
 											monitor);

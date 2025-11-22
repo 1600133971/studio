@@ -10,6 +10,8 @@ import java.util.HashSet;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.osgi.util.NLS;
 
+import com.jaspersoft.studio.messages.Messages;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 
 /**
@@ -150,7 +152,7 @@ public class ExtensionLoader {
   */
  public static void initializeJRExtensions(IProgressMonitor monitor){
 		final DefaultJasperReportsContext context = DefaultJasperReportsContext.getInstance();
-		monitor.beginTask("Loading JR extensions",commonExensionKeys.length);
+		monitor.beginTask(Messages.LoadingJRextensions,commonExensionKeys.length);
 		for (Class<?> extensionKey : commonExensionKeys) {
 			monitor.subTask(NLS.bind("Loading JR extension: {0}", extensionKey.getCanonicalName()));
 			setLoadingStart(extensionKey);

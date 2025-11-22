@@ -126,7 +126,7 @@ public class CustomVisualizationComponentWizard extends JSSWizard implements INe
 
 				@Override
 				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-					monitor.beginTask("Creating CVC Component Project", IProgressMonitor.UNKNOWN);
+					monitor.beginTask(Messages.CreatingCVCComponentProject, IProgressMonitor.UNKNOWN);
 					try {
 
 						boolean result = createProject(projectName, monitor);

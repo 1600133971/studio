@@ -24,6 +24,7 @@ import java.util.Locale;
 
 import org.eclipse.babel.editor.compat.SwtRapCompatibilityFormToolkit;
 import org.eclipse.babel.editor.plugin.MessagesEditorPlugin;
+import org.eclipse.babel.messages.Messages;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -820,7 +821,7 @@ public class LocalizationEditor extends EditorPart {
         if (searchJob != null) {
             searchJob.cancel();
         }
-        searchJob = new Job("Localization Editor Search...") {
+        searchJob = new Job(Messages.LocalizationEditorSearch) {
 
             @Override
             protected IStatus run(IProgressMonitor monitor) {

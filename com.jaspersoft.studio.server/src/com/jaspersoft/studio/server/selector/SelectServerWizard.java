@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.jaspersoft.studio.outline.ReportTreeLabelProvider;
 import com.jaspersoft.studio.server.ServerManager;
+import com.jaspersoft.studio.server.messages.Messages;
 import com.jaspersoft.studio.server.model.server.MServerProfile;
 import com.jaspersoft.studio.server.protocol.IConnection;
 
@@ -96,7 +97,7 @@ public class SelectServerWizard extends Wizard {
 
 					@Override
 					public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-						monitor.beginTask("Testing connection", IProgressMonitor.UNKNOWN);
+						monitor.beginTask(Messages.Testingconnection, IProgressMonitor.UNKNOWN);
 						try {
 							IConnection c = value.getWsClient(monitor);
 							if (c == null)

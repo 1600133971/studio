@@ -89,7 +89,7 @@ public class ConsolePdfConverter {
 	 * @param jobChangeListener listener used to notify the advance of the job
 	 */
 	protected void asyncConvert(IJobChangeListener jobChangeListener) {
-		Job readOutputJob = new Job("Compiling job") { //$NON-NLS-1$
+		Job readOutputJob = new Job(com.jaspersoft.studio.svgimporter.messages.Messages.Compilingjob) { //$NON-NLS-1$
 
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
@@ -105,7 +105,7 @@ public class ConsolePdfConverter {
 	 * Check if a string is an inkscape version number. An inkscape
 	 * version number are numbers separated by the dot charachter.
 	 * 
-	 * @param value the strign to check, must be not null
+	 * @param value the string to check, must be not null
 	 * @return true if the string is an inkscape version number, false otherwise
 	 */
 	private boolean isVersion(String value) {

@@ -30,6 +30,8 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
+import com.jaspersoft.studio.messages.Messages;
+
 import net.sf.jasperreports.eclipse.ui.util.UIUtils;
 import net.sf.jasperreports.eclipse.util.FileUtils;
 import net.sf.jasperreports.engine.JRException;
@@ -95,7 +97,7 @@ public class FontExtensionNewWizard extends Wizard implements INewWizard {
 
 	private void doFinish(IPath path, String fname, IProgressMonitor monitor) throws CoreException, JRException {
 		// create a sample file
-		monitor.beginTask("Creating fonts extension file: " + fname, 2);
+		monitor.beginTask(Messages.Creatingfontsextensionfile + ": " + fname, 2);
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		IFolder f = root.getFolder(path);
 		if (!f.exists())
@@ -112,7 +114,7 @@ public class FontExtensionNewWizard extends Wizard implements INewWizard {
 			UIUtils.showError(e);
 		}
 		monitor.worked(1);
-		monitor.setTaskName("Opening the editor");
+		monitor.setTaskName(Messages.Openingtheeditor);
 		getShell().getDisplay().asyncExec(() -> {
 			try {
 				IWorkbenchPage p = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();

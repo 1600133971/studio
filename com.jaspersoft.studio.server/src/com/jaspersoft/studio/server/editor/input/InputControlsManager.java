@@ -21,6 +21,7 @@ import com.jaspersoft.studio.editor.preview.input.ADataInput;
 import com.jaspersoft.studio.editor.preview.input.IDataInput;
 import com.jaspersoft.studio.server.editor.input.lov.ListOfValuesInput;
 import com.jaspersoft.studio.server.editor.input.query.QueryInput;
+import com.jaspersoft.studio.server.messages.Messages;
 import com.jaspersoft.studio.server.protocol.IConnection;
 
 import net.sf.jasperreports.eclipse.ui.util.UIUtils;
@@ -109,10 +110,10 @@ public class InputControlsManager {
 			started++;
 			if (ended) {
 				ended = false;
-				Job job = new Job("Update Cascading Input Controls") {
+				Job job = new Job(Messages.UpdateCascadingInputControls) {
 					@Override
 					protected IStatus run(IProgressMonitor monitor) {
-						monitor.beginTask("Update Controls", IProgressMonitor.UNKNOWN);
+						monitor.beginTask(Messages.UpdateControls, IProgressMonitor.UNKNOWN);
 
 						Map<IDataInput, Map<String, Object>> toUpd = new HashMap<>();
 						actionPerformed(control, toUpd);
