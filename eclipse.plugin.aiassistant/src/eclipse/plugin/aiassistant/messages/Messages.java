@@ -108,6 +108,8 @@ public class Messages extends NLS {
 	public static String Showorhidepassword;
 	
 	public static String Vieworedittheprompttemplates;
+	
+	public static String Thinking;
 
 	static {
 		// initialize resource bundle

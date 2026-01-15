@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 
+import eclipse.plugin.aiassistant.messages.Messages;
+
 /**
  * Utility class for converting Markdown text to HTML format.
  * This class supports advanced features such as code blocks with syntax highlighting,
@@ -212,7 +214,7 @@ public class MarkdownToHtmlConverter {
 	 * @return HTML markup string for opening a collapsible thinking block
 	 */
 	private static String getThinkingBlockOpeningHtml() {
-		return "<div class=\"thinking\"><details open><summary>Thinking...</summary>";
+		return "<div class=\"thinking\"><details open><summary>" + Messages.Thinking + "...</summary>";
 	}
 
 	/**

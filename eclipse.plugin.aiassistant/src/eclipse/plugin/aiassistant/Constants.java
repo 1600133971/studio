@@ -56,8 +56,8 @@ public final class Constants {
 
 	// Default bookmarked settings, showing 5 of the most common OpenAI compatible end-points.
 	public static final List<BookmarkedApiSettings> DEFAULT_BOOKMARKED_API_SETTINGS = new ArrayList<>(Arrays.asList(
-			new BookmarkedApiSettings("深度求索", "deepseek-chat", "https://api.deepseek.com/v1", "sk-...", "temperature = 0.0", "", true, false, true),
-			new BookmarkedApiSettings("深度思考", "deepseek-reasoner", "https://api.deepseek.com/v1", "sk-...", "temperature = 0.0", "", true, false, true),
+			new BookmarkedApiSettings("深度求索", "deepseek-chat", "https://api.deepseek.com/v1", "sk-...", "temperature = 0.0", "", true, true, false),
+			new BookmarkedApiSettings("深度思考", "deepseek-reasoner", "https://api.deepseek.com/v1", "sk-...", "temperature = 0.0", "", true, true, false),
 			new BookmarkedApiSettings("GPT4", "gpt-4-turbo", "https://api.openai.com/v1", "sk-...", "temperature = 0.0", "", true, false, true),
 			new BookmarkedApiSettings("O3", "o3", "https://api.openai.com/v1", "sk-...", "reasoning_effort = \"low\"", "", true, false, true),
 			new BookmarkedApiSettings("A/CS4", "anthropic/claude-sonnet-4", "https://openrouter.ai/api/v1", "sk-...", "", "", true, true, false),
